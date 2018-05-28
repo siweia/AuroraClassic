@@ -4,11 +4,11 @@
 ## Title-zhTW: |cff0080ffAuroraClassic|r 材質美化
 ## Notes: WoW UIs in Aurora Classic.
 ## Author: Haleth/Lightsword/Siweia
-## Version: 0.0.1
+## Version: 0.1.0
 ## SavedVariables: AuroraConfig
 
-aurora.lua
-gui.lua
+Aurora.lua
+GUI.lua
 
 AddOns\AddOns.xml
 FrameXML\FrameXML.xml
