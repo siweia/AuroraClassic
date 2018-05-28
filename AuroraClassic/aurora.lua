@@ -7,7 +7,6 @@ local LATEST_API_VERSION = "7.0"
 local AURORA_LOADED = false
 
 local addon, core = ...
-local _G = _G
 
 core[1] = {} -- F, functions
 core[2] = {} -- C, constants/config
@@ -32,6 +31,8 @@ C.media = {
 	["font"] = STANDARD_TEXT_FONT,
 	["gradient"] = mediaPath.."gradient",
 	["roleIcons"] = mediaPath.."UI-LFG-ICON-ROLES",
+	["bgTex"] = mediaPath.."bgTex",
+	["glowTex"] = mediaPath.."glowTex",
 }
 
 C.defaults = {
@@ -44,7 +45,7 @@ C.defaults = {
 	["enableFont"] = false,
 	["loot"] = true,
 	["useCustomColour"] = false,
-		["customColour"] = {r = 1, g = 1, b = 1},
+	["customColour"] = {r = 1, g = 1, b = 1},
 	["tooltips"] = false,
 	["mmb"] = false,
 	["shadow"] = true,
@@ -70,7 +71,7 @@ local CreateTex = function(f)
 	if f.Tex then return end
 	f.Tex = f:CreateTexture(nil, "BACKGROUND", nil, 1)
 	f.Tex:SetAllPoints()
-	f.Tex:SetTexture(mediaPath.."bgTex", true, true)
+	f.Tex:SetTexture(C.media.bgTex, true, true)
 	f.Tex:SetHorizTile(true)
 	f.Tex:SetVertTile(true)
 	f.Tex:SetBlendMode("ADD")
@@ -82,7 +83,7 @@ F.CreateSD = function(f)
 	f.Shadow = CreateFrame("Frame", nil, f)
 	f.Shadow:SetPoint("TOPLEFT", f, -2, 2)
 	f.Shadow:SetPoint("BOTTOMRIGHT", f, 2, -2)
-	f.Shadow:SetBackdrop({edgeFile = mediaPath.."glowTex", edgeSize = 3})
+	f.Shadow:SetBackdrop({edgeFile = C.media.glowTex, edgeSize = 3})
 	f.Shadow:SetBackdropBorderColor(0, 0, 0)
 	CreateTex(f)
 	return f.Shadow
@@ -726,6 +727,47 @@ end
 F.ReskinIcon = function(icon)
 	icon:SetTexCoord(.08, .92, .08, .92)
 	return F.CreateBG(icon)
+end
+
+function F:ReskinMinMax()
+	for _, name in next, {"MaximizeButton", "MinimizeButton"} do
+		local button = self[name]
+		if button then
+			button:SetSize(17, 17)
+			button:ClearAllPoints()
+			button:SetPoint("CENTER", -3, 0)
+			F.Reskin(button)
+
+			button.pixels = {}
+
+			for i = 1, 8 do
+				local tex = button:CreateTexture()
+				tex:SetColorTexture(1, 1, 1)
+				tex:SetSize(2, 2)
+				tex:SetPoint("BOTTOMLEFT", 3+i, 3+i)
+				tinsert(button.pixels, tex)
+			end
+			local hline = button:CreateTexture()
+			hline:SetColorTexture(1, 1, 1)
+			hline:SetSize(7, 2)
+			tinsert(button.pixels, hline)
+			local vline = button:CreateTexture()
+			vline:SetColorTexture(1, 1, 1)
+			vline:SetSize(2, 7)
+			tinsert(button.pixels, vline)
+
+			if name == "MaximizeButton" then
+				hline:SetPoint("TOP", 1, -4)
+				vline:SetPoint("RIGHT", -4, 1)
+			else
+				hline:SetPoint("BOTTOM", 1, 4)
+				vline:SetPoint("LEFT", 4, 1)
+			end
+
+			button:SetScript("OnEnter", colourClose)
+			button:SetScript("OnLeave", clearClose)
+		end
+	end
 end
 
 -- [[ Variable and module handling ]]
