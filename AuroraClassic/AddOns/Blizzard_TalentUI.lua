@@ -250,7 +250,7 @@ C.themes["Blizzard_TalentUI"] = function()
 
 	local function updatePVPTalent(self)
 		if not self.styled then
-			self.Icon:SetTexCoord(.1, .9, .1, .9)
+			self.Icon:SetTexCoord(.08, .92, .08, .92)
 			F.CreateBDFrame(self.Icon)
 			F.CreateBDFrame(self, .25)
 			self:GetRegions():SetAlpha(0)

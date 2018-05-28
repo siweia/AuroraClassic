@@ -52,9 +52,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	local RewardsFrame = DetailsFrame.RewardsFrame
 	local CompleteQuestFrame = DetailsFrame.CompleteQuestFrame
 
-	DetailsFrame:GetRegions():SetAlpha(0)
-	select(2, DetailsFrame:GetRegions()):SetAlpha(0)
-	select(3, DetailsFrame:GetRegions()):SetAlpha(0)
+	F.StripTextures(DetailsFrame)
 	select(6, DetailsFrame.ShareButton:GetRegions()):SetAlpha(0)
 	select(7, DetailsFrame.ShareButton:GetRegions()):SetAlpha(0)
 	DetailsFrame.SealMaterialBG:SetAlpha(0)
@@ -63,6 +61,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.Reskin(DetailsFrame.AbandonButton)
 	F.Reskin(DetailsFrame.ShareButton)
 	F.Reskin(DetailsFrame.TrackButton)
+	F.ReskinScroll(QuestMapDetailsScrollFrameScrollBar)
 
 	DetailsFrame.AbandonButton:ClearAllPoints()
 	DetailsFrame.AbandonButton:SetPoint("BOTTOMLEFT", DetailsFrame, -1, 0)
