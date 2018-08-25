@@ -49,6 +49,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	hooksecurefunc("GameTooltip_SetBackdropStyle", function(self)
+		if not self.auroraTip then return end
 		self:SetBackdrop(nil)
 	end)
 
@@ -64,6 +65,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		bg:SetBackdropBorderColor(0, 0, 0)
 		F.CreateSD(bg)
 
+		t.auroraTip = true
 		t.GetBackdrop = getBackdrop
 		t.GetBackdropColor = getBackdropColor
 		t.GetBackdropBorderColor = getBackdropBorderColor
@@ -83,8 +85,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	sep:SetTexture(C.media.backdrop)
 	sep:SetVertexColor(0, 0, 0)
 
-	F.CreateBD(FriendsTooltip)
-	F.CreateSD(FriendsTooltip)
 	IMECandidatesFrame.background:Hide()
 	F.CreateBD(IMECandidatesFrame)
 	F.CreateSD(IMECandidatesFrame)
