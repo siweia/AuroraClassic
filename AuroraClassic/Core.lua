@@ -564,7 +564,6 @@ function F:CleanInset()
 end
 
 function F:ReskinPortraitFrame(setBG)
-	local name = self:GetName()
 	local insetFrame = self.inset or self.Inset
 	if insetFrame then F.CleanInset(insetFrame) end
 	F.StripTextures(self)
