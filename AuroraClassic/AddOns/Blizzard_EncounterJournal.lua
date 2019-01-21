@@ -251,24 +251,10 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 	-- [[ Search results ]]
 
-	local function styleSearchButton(result)
-		F.StripTextures(result)
-		if result.icon then
-			F.ReskinIcon(result.icon)
-		end
-		F.CreateBD(result, .25)
-
-		result:SetHighlightTexture(C.media.backdrop)
-		local hl = result:GetHighlightTexture()
-		hl:SetVertexColor(r, g, b, .25)
-		hl:SetPoint("TOPLEFT", 1, -2)
-		hl:SetPoint("BOTTOMRIGHT", -1, 1)
-	end
-
 	for i = 1, 5 do
-		styleSearchButton(EncounterJournalSearchBox["sbutton"..i])
+		F.StyleSearchButton(EncounterJournalSearchBox["sbutton"..i])
 	end
-	styleSearchButton(EncounterJournalSearchBox.showAllResults)
+	F.StyleSearchButton(EncounterJournalSearchBox.showAllResults)
 	F.StripTextures(EncounterJournalSearchBox.searchPreviewContainer)
 
 	do
@@ -286,7 +272,6 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			F.ReskinIcon(bu.icon)
 			bu.icon.SetTexCoord = F.dummy
 			F.CreateBD(bu, .25)
-
 			bu:SetHighlightTexture(C.media.backdrop)
 			local hl = bu:GetHighlightTexture()
 			hl:SetVertexColor(r, g, b, .25)
