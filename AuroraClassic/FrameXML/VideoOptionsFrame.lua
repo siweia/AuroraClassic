@@ -62,7 +62,6 @@ tinsert(C.themes["AuroraClassic"], function()
 			"Graphics_ParticleDensityDropDown",
 			"Graphics_SSAODropDown",
 			"Graphics_DepthEffectsDropDown",
-			"Graphics_LightingQualityDropDown",
 			"Graphics_OutlineModeDropDown",
 			"RaidGraphics_TextureResolutionDropDown",
 			"RaidGraphics_FilteringDropDown",
@@ -73,7 +72,6 @@ tinsert(C.themes["AuroraClassic"], function()
 			"RaidGraphics_ParticleDensityDropDown",
 			"RaidGraphics_SSAODropDown",
 			"RaidGraphics_DepthEffectsDropDown",
-			"RaidGraphics_LightingQualityDropDown",
 			"RaidGraphics_OutlineModeDropDown",
 			"Advanced_BufferingDropDown",
 			"Advanced_MultisampleAntiAliasingDropDown",
@@ -123,6 +121,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			"AudioOptionsSoundPanelAmbienceVolume",
 			"AudioOptionsSoundPanelDialogVolume",
 			"AudioOptionsVoicePanelVoiceChatVolume",
+			"AudioOptionsVoicePanelVoiceChatDucking",
 			"AudioOptionsVoicePanelVoiceChatMicVolume",
 			"AudioOptionsVoicePanelVoiceChatMicSensitivity",
 		}
