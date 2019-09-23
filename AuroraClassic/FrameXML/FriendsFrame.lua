@@ -5,7 +5,6 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinTab(_G["FriendsFrameTab"..i])
 	end
 	FriendsFrameIcon:Hide()
-	F.StripTextures(FriendsFrameFriendsScrollFrame)
 	F.StripTextures(IgnoreListFrame)
 
 	for i = 1, FRIENDS_TO_DISPLAY do
