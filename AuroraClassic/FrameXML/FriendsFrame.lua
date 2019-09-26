@@ -82,12 +82,14 @@ tinsert(C.themes["AuroraClassic"], function()
 	end
 
 	hooksecurefunc(FriendsListFrameScrollFrame.invitePool, "Acquire", reskinInvites)
+
+	local INVITE_RESTRICTION_NONE = 9
 	hooksecurefunc("FriendsFrame_UpdateFriendButton", function(button)
 		if button.buttonType == FRIENDS_BUTTON_TYPE_INVITE then
 			reskinInvites(FriendsListFrameScrollFrame.invitePool)
 		elseif button.buttonType == FRIENDS_BUTTON_TYPE_BNET then
 			local nt = button.travelPassButton:GetNormalTexture()
-			if FriendsFrame_GetInviteRestriction(button.id) == 6 then
+			if FriendsFrame_GetInviteRestriction(button.id) == INVITE_RESTRICTION_NONE then
 				nt:SetVertexColor(1, 1, 1)
 			else
 				nt:SetVertexColor(.3, .3, .3)
