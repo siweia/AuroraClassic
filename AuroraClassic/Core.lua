@@ -333,6 +333,11 @@ function F:ReskinDropDown()
 	gradient:SetPoint("BOTTOMRIGHT", bg, -C.mult, C.mult)
 end
 
+function F:DisablePixelSnap()
+	self:SetTexelSnappingBias(0)
+	self:SetSnapToPixelGrid(false)
+end
+
 function F:ReskinClose(a1, p, a2, x, y)
 	self:SetSize(17, 17)
 
@@ -360,6 +365,7 @@ function F:ReskinClose(a1, p, a2, x, y)
 		tex:SetSize(11, 2)
 		tex:SetPoint("CENTER")
 		tex:SetRotation(math.rad((i-1/2)*90))
+		F.DisablePixelSnap(tex)
 		tinsert(self.pixels, tex)
 	end
 
@@ -733,14 +739,18 @@ function F:ReskinMinMax()
 			tex:SetPoint("CENTER")
 			tex:SetRotation(math.rad(45))
 			tinsert(button.pixels, tex)
+			F.DisablePixelSnap(tex)
 
 			local hline = button:CreateTexture()
 			hline:SetColorTexture(1, 1, 1)
 			hline:SetSize(7, 2)
+			F.DisablePixelSnap(hline)
 			tinsert(button.pixels, hline)
+
 			local vline = button:CreateTexture()
 			vline:SetColorTexture(1, 1, 1)
 			vline:SetSize(2, 7)
+			F.DisablePixelSnap(vline)
 			tinsert(button.pixels, vline)
 
 			if name == "MaximizeButton" then
