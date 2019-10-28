@@ -80,6 +80,8 @@ local function CreateTex(f)
 end
 
 function F:CreateSD()
+	CreateTex(self)
+
 	if not AuroraConfig.shadow then return end
 	if self.Shadow then return end
 	self.Shadow = CreateFrame("Frame", nil, self)
@@ -87,7 +89,6 @@ function F:CreateSD()
 	self.Shadow:SetPoint("BOTTOMRIGHT", 2, -2)
 	self.Shadow:SetBackdrop({edgeFile = C.media.glowTex, edgeSize = 3})
 	self.Shadow:SetBackdropBorderColor(0, 0, 0)
-	CreateTex(self)
 	return self.Shadow
 end
 
