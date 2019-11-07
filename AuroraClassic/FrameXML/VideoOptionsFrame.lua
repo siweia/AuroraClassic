@@ -4,9 +4,10 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(VideoOptionsFrameCategoryFrame)
 	F.StripTextures(VideoOptionsFramePanelContainer)
 
-	VideoOptionsFrameHeader:SetTexture("")
-	VideoOptionsFrameHeader:ClearAllPoints()
-	VideoOptionsFrameHeader:SetPoint("TOP", VideoOptionsFrame, 0, 0)
+	VideoOptionsFrame.Header = VideoOptionsFrame.Header or VideoOptionsFrameHeader -- deprecated in 8.3
+	F.StripTextures(VideoOptionsFrame.Header)
+	VideoOptionsFrame.Header:ClearAllPoints()
+	VideoOptionsFrame.Header:SetPoint("TOP", VideoOptionsFrame, 0, 0)
 
 	F.CreateBD(VideoOptionsFrame)
 	F.CreateSD(VideoOptionsFrame)
