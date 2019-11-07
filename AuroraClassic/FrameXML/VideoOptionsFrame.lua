@@ -5,7 +5,11 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(VideoOptionsFramePanelContainer)
 
 	VideoOptionsFrame.Header = VideoOptionsFrame.Header or VideoOptionsFrameHeader -- deprecated in 8.3
-	F.StripTextures(VideoOptionsFrame.Header)
+	if C.isNewPatch then
+		F.StripTextures(VideoOptionsFrame.Header)
+	else
+		VideoOptionsFrame.Header:SetTexture("")
+	end
 	VideoOptionsFrame.Header:ClearAllPoints()
 	VideoOptionsFrame.Header:SetPoint("TOP", VideoOptionsFrame, 0, 0)
 
