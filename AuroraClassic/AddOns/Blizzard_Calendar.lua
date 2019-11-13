@@ -28,9 +28,10 @@ C.themes["Blizzard_Calendar"] = function()
 	CalendarCreateEventIcon.SetTexCoord = F.dummy
 	F.CreateBDFrame(CalendarCreateEventIcon)
 	if not C.isNewPatch then
+		F.StripTextures(CalendarEventPickerFrame)
+		F.SetBD(CalendarEventPickerFrame)
 		F.StripTextures(CalendarEventPickerTitleFrame)
 	end
-	CalendarEventPickerFrameButtonBackground:Hide()
 	CalendarEventPickerCloseButtonBorder:Hide()
 	CalendarCreateEventRaidInviteButtonBorder:Hide()
 	CalendarMonthBackground:SetAlpha(0)
@@ -48,7 +49,6 @@ C.themes["Blizzard_Calendar"] = function()
 	F.CreateBD(CalendarViewEventDescriptionContainer, .25)
 	F.CreateBD(CalendarCreateEventInviteList, .25)
 	F.CreateBD(CalendarCreateEventDescriptionContainer, .25)
-	F.CreateBD(CalendarEventPickerFrame, .25)
 	if C.isNewPatch then
 		local function reskinCalendarPage(frame)
 			F.StripTextures(frame)
@@ -58,6 +58,7 @@ C.themes["Blizzard_Calendar"] = function()
 		reskinCalendarPage(CalendarViewHolidayFrame)
 		reskinCalendarPage(CalendarCreateEventFrame)
 		reskinCalendarPage(CalendarTexturePickerFrame)
+		reskinCalendarPage(CalendarEventPickerFrame)
 	end
 
 	local frames = {
