@@ -4,13 +4,24 @@ C.themes["Blizzard_Calendar"] = function()
 	local r, g, b = C.r, C.g, C.b
 
 	for i = 1, 42 do
-		_G["CalendarDayButton"..i.."DarkFrame"]:SetAlpha(.5)
-		local bu = _G["CalendarDayButton"..i]
+		local dayButtonName = "CalendarDayButton"..i
+		local bu = _G[dayButtonName]
 		bu:DisableDrawLayer("BACKGROUND")
 		bu:SetHighlightTexture(C.media.backdrop)
 		local hl = bu:GetHighlightTexture()
 		hl:SetVertexColor(r, g, b, .25)
 		hl.SetAlpha = F.dummy
+
+		_G[dayButtonName.."DarkFrame"]:SetAlpha(.5)
+
+		local eventButtonIndex = 1
+		local eventButton = _G[dayButtonName.."EventButton"..eventButtonIndex]
+		while eventButton do
+			eventButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+			eventButton.black:SetTexture(nil)
+			eventButtonIndex = eventButtonIndex + 1
+			eventButton = _G[dayButtonName.."EventButton"..eventButtonIndex]
+		end
 	end
 
 	for i = 1, 7 do
