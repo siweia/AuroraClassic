@@ -21,18 +21,15 @@ C.themes["Blizzard_Calendar"] = function()
 	CalendarCreateEventDivider:Hide()
 	CalendarViewEventInviteList:GetRegions():Hide()
 	CalendarViewEventDescriptionContainer:GetRegions():Hide()
-	select(5, CalendarCreateEventCloseButton:GetRegions()):Hide()
-	select(5, CalendarViewEventCloseButton:GetRegions()):Hide()
-	select(5, CalendarViewHolidayCloseButton:GetRegions()):Hide()
-	select(5, CalendarViewRaidCloseButton:GetRegions()):Hide()
-	select(5, CalendarMassInviteCloseButton:GetRegions()):Hide()
 	CalendarCreateEventFrameButtonBackground:Hide()
 	CalendarCreateEventMassInviteButtonBorder:Hide()
 	CalendarCreateEventCreateButtonBorder:Hide()
 	CalendarCreateEventIcon:SetTexCoord(.08, .92, .08, .92)
 	CalendarCreateEventIcon.SetTexCoord = F.dummy
 	F.CreateBDFrame(CalendarCreateEventIcon)
-	F.StripTextures(CalendarEventPickerTitleFrame)
+	if not C.isNewPatch then
+		F.StripTextures(CalendarEventPickerTitleFrame)
+	end
 	CalendarEventPickerFrameButtonBackground:Hide()
 	CalendarEventPickerCloseButtonBorder:Hide()
 	CalendarCreateEventRaidInviteButtonBorder:Hide()
@@ -52,6 +49,16 @@ C.themes["Blizzard_Calendar"] = function()
 	F.CreateBD(CalendarCreateEventInviteList, .25)
 	F.CreateBD(CalendarCreateEventDescriptionContainer, .25)
 	F.CreateBD(CalendarEventPickerFrame, .25)
+	if C.isNewPatch then
+		local function reskinCalendarPage(frame)
+			F.StripTextures(frame)
+			F.SetBD(frame)
+			F.StripTextures(frame.Header)
+		end
+		reskinCalendarPage(CalendarViewHolidayFrame)
+		reskinCalendarPage(CalendarCreateEventFrame)
+		reskinCalendarPage(CalendarTexturePickerFrame)
+	end
 
 	local frames = {
 		CalendarViewEventTitleFrame, CalendarViewHolidayTitleFrame, CalendarViewRaidTitleFrame, CalendarCreateEventTitleFrame, CalendarTexturePickerTitleFrame, CalendarMassInviteTitleFrame
@@ -118,10 +125,10 @@ C.themes["Blizzard_Calendar"] = function()
 		F.ReskinTooltip(CalendarInviteStatusContextMenu)
 	end
 
-	CalendarViewEventFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", -8, -24)
-	CalendarViewHolidayFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", -8, -24)
-	CalendarViewRaidFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", -8, -24)
-	CalendarCreateEventFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", -8, -24)
+	CalendarViewEventFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", -6, -24)
+	CalendarViewHolidayFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", -6, -24)
+	CalendarViewRaidFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", -6, -24)
+	CalendarCreateEventFrame:SetPoint("TOPLEFT", CalendarFrame, "TOPRIGHT", -6, -24)
 	CalendarCreateEventInviteButton:SetPoint("TOPLEFT", CalendarCreateEventInviteEdit, "TOPRIGHT", 1, 1)
 	CalendarClassButton1:SetPoint("TOPLEFT", CalendarClassButtonContainer, "TOPLEFT", 5, 0)
 
