@@ -231,26 +231,54 @@ local function clearButton(self)
 	self:SetBackdropBorderColor(0, 0, 0)
 end
 
+local blizzRegions = {
+	"Left",
+	"Middle",
+	"Right",
+	"Mid",
+	"LeftDisabled",
+	"MiddleDisabled",
+	"RightDisabled",
+	"TopLeft",
+	"TopRight",
+	"BottomLeft",
+	"BottomRight",
+	"TopMiddle",
+	"MiddleLeft",
+	"MiddleRight",
+	"BottomMiddle",
+	"MiddleMiddle",
+	"TabSpacer",
+	"TabSpacer1",
+	"TabSpacer2",
+	"_RightSeparator",
+	"_LeftSeparator",
+	"Cover",
+	"Border",
+	"Background",
+	"TopTex",
+	"TopLeftTex",
+	"TopRightTex",
+	"LeftTex",
+	"BottomTex",
+	"BottomLeftTex",
+	"BottomRightTex",
+	"RightTex",
+	"MiddleTex",
+}
 function F:Reskin(noHighlight)
 	if self.SetNormalTexture then self:SetNormalTexture("") end
 	if self.SetHighlightTexture then self:SetHighlightTexture("") end
 	if self.SetPushedTexture then self:SetPushedTexture("") end
 	if self.SetDisabledTexture then self:SetDisabledTexture("") end
 
-	if self.Left then self.Left:SetAlpha(0) end
-	if self.Middle then self.Middle:SetAlpha(0) end
-	if self.Right then self.Right:SetAlpha(0) end
-	if self.LeftSeparator then self.LeftSeparator:SetAlpha(0) end
-	if self.RightSeparator then self.RightSeparator:SetAlpha(0) end
-	if self.TopLeft then self.TopLeft:SetAlpha(0) end
-	if self.TopMiddle then self.TopMiddle:SetAlpha(0) end
-	if self.TopRight then self.TopRight:SetAlpha(0) end
-	if self.MiddleLeft then self.MiddleLeft:SetAlpha(0) end
-	if self.MiddleMiddle then self.MiddleMiddle:SetAlpha(0) end
-	if self.MiddleRight then self.MiddleRight:SetAlpha(0) end
-	if self.BottomLeft then self.BottomLeft:SetAlpha(0) end
-	if self.BottomMiddle then self.BottomMiddle:SetAlpha(0) end
-	if self.BottomRight then self.BottomRight:SetAlpha(0) end
+	local buttonName = self.GetName and self:GetName()
+	for _, region in pairs(blizzRegions) do
+		region = buttonName and _G[buttonName..region] or self[region]
+		if region then
+			region:SetAlpha(0)
+		end
+	end
 
 	F.CreateBD(self, .0)
 
@@ -302,106 +330,54 @@ end
 F.clearArrow = textureOnLeave
 
 local function scrollOnEnter(self)
-	local bu = (self.ThumbTexture or self.thumbTexture) or _G[self:GetName().."ThumbTexture"]
-	if not bu then return end
-	bu.bg:SetBackdropColor(r, g, b, .25)
-	bu.bg:SetBackdropBorderColor(r, g, b)
+	local thumb = self.thumb
+	if not thumb then return end
+	thumb.bg:SetBackdropColor(r, g, b, .25)
+	thumb.bg:SetBackdropBorderColor(r, g, b)
 end
 
 local function scrollOnLeave(self)
-	local bu = (self.ThumbTexture or self.thumbTexture) or _G[self:GetName().."ThumbTexture"]
-	if not bu then return end
-	bu.bg:SetBackdropColor(0, 0, 0, 0)
-	bu.bg:SetBackdropBorderColor(0, 0, 0)
+	local thumb = self.thumb
+	if not thumb then return end
+	thumb.bg:SetBackdropColor(0, 0, 0, 0)
+	thumb.bg:SetBackdropBorderColor(0, 0, 0)
 end
 
 function F:ReskinScroll()
-	local frame = self:GetName()
-	F.StripTextures(self:GetParent())
 	F.StripTextures(self)
 
-	local bu = (self.ThumbTexture or self.thumbTexture) or frame and _G[frame.."ThumbTexture"]
-	bu:SetAlpha(0)
-	bu:SetWidth(17)
+	local frameName = self.GetName and self:GetName()
+	local thumb = frameName and (_G[frameName.."ThumbTexture"] or _G[frameName.."thumbTexture"]) or self.GetThumbTexture and self:GetThumbTexture()
+	if thumb then
+		thumb:SetAlpha(0)
+		thumb:SetWidth(17)
+		self.thumb = thumb
 
-	bu.bg = F.CreateBDFrame(self, 0)
-	bu.bg:SetPoint("TOPLEFT", bu, 0, -2)
-	bu.bg:SetPoint("BOTTOMRIGHT", bu, 0, 4)
-	F.CreateGradient(bu.bg)
+		local bg = F.CreateBDFrame(self, 0)
+		bg:SetPoint("TOPLEFT", thumb, 0, -2)
+		bg:SetPoint("BOTTOMRIGHT", thumb, 0, 4)
+		F.CreateGradient(bg)
+		thumb.bg = bg
+	end
 
 	local up, down = self:GetChildren()
-	up:SetWidth(17)
-	down:SetWidth(17)
+	F.ReskinArrow(up, "up")
+	F.ReskinArrow(down, "down")
 
-	F.Reskin(up, true)
-	F.Reskin(down, true)
-
-	up:SetDisabledTexture(C.media.backdrop)
-	local dis1 = up:GetDisabledTexture()
-	dis1:SetVertexColor(0, 0, 0, .4)
-	dis1:SetDrawLayer("OVERLAY")
-
-	down:SetDisabledTexture(C.media.backdrop)
-	local dis2 = down:GetDisabledTexture()
-	dis2:SetVertexColor(0, 0, 0, .4)
-	dis2:SetDrawLayer("OVERLAY")
-
-	local uptex = up:CreateTexture(nil, "ARTWORK")
-	uptex:SetTexture(C.media.arrowUp)
-	uptex:SetSize(8, 8)
-	uptex:SetPoint("CENTER")
-	uptex:SetVertexColor(1, 1, 1)
-	up.bgTex = uptex
-
-	local downtex = down:CreateTexture(nil, "ARTWORK")
-	downtex:SetTexture(C.media.arrowDown)
-	downtex:SetSize(8, 8)
-	downtex:SetPoint("CENTER")
-	downtex:SetVertexColor(1, 1, 1)
-	down.bgTex = downtex
-
-	up:HookScript("OnEnter", textureOnEnter)
-	up:HookScript("OnLeave", textureOnLeave)
-	down:HookScript("OnEnter", textureOnEnter)
-	down:HookScript("OnLeave", textureOnLeave)
 	self:HookScript("OnEnter", scrollOnEnter)
 	self:HookScript("OnLeave", scrollOnLeave)
 end
 
 function F:ReskinDropDown()
-	local frame = self:GetName()
+	F.StripTextures(self)
 
-	local left = self.Left or _G[frame.."Left"]
-	local middle = self.Middle or _G[frame.."Middle"]
-	local right = self.Right or _G[frame.."Right"]
+	local frameName = self.GetName and self:GetName()
+	local down = self.Button or frameName and (_G[frameName.."Button"] or _G[frameName.."_Button"])
 
-	if left then left:SetAlpha(0) end
-	if middle then middle:SetAlpha(0) end
-	if right then right:SetAlpha(0) end
-
-	local down = self.Button or _G[frame.."Button"]
-
-	down:SetSize(20, 20)
 	down:ClearAllPoints()
 	down:SetPoint("RIGHT", -18, 2)
-
-	F.Reskin(down, true)
-
-	down:SetDisabledTexture(C.media.backdrop)
-	local dis = down:GetDisabledTexture()
-	dis:SetVertexColor(0, 0, 0, .4)
-	dis:SetDrawLayer("OVERLAY")
-	dis:SetAllPoints()
-
-	local tex = down:CreateTexture(nil, "ARTWORK")
-	tex:SetTexture(C.media.arrowDown)
-	tex:SetSize(8, 8)
-	tex:SetPoint("CENTER")
-	tex:SetVertexColor(1, 1, 1)
-	down.bgTex = tex
-
-	down:HookScript("OnEnter", textureOnEnter)
-	down:HookScript("OnLeave", textureOnLeave)
+	F.ReskinArrow(down, "down")
+	down:SetSize(20, 20)
 
 	local bg = F.CreateBDFrame(self, 0)
 	bg:SetPoint("TOPLEFT", 16, -4)
@@ -444,15 +420,13 @@ function F:ReskinClose(a1, p, a2, x, y)
 end
 
 function F:ReskinInput(height, width)
-	local frame = self:GetName()
-
-	local left = self.Left or _G[frame.."Left"]
-	local middle = self.Middle or _G[frame.."Middle"] or _G[frame.."Mid"]
-	local right = self.Right or _G[frame.."Right"]
-
-	left:Hide()
-	middle:Hide()
-	right:Hide()
+	local frameName = self.GetName and self:GetName()
+	for _, region in pairs(blizzRegions) do
+		region = frameName and _G[frameName..region] or self[region]
+		if region then
+			region:SetAlpha(0)
+		end
+	end
 
 	local bd = F.CreateBDFrame(self, 0)
 	bd:SetPoint("TOPLEFT", -2, 0)
@@ -464,13 +438,14 @@ function F:ReskinInput(height, width)
 end
 
 function F:ReskinArrow(direction)
-	self:SetSize(18, 18)
+	self:SetSize(17, 17)
 	F.Reskin(self, true)
 
 	self:SetDisabledTexture(C.media.backdrop)
 	local dis = self:GetDisabledTexture()
 	dis:SetVertexColor(0, 0, 0, .3)
 	dis:SetDrawLayer("OVERLAY")
+	dis:SetAllPoints()
 
 	local tex = self:CreateTexture(nil, "ARTWORK")
 	tex:SetTexture(mediaPath.."arrow-"..direction.."-active")
@@ -533,7 +508,7 @@ end
 
 function F:ReskinSlider(verticle)
 	self:SetBackdrop(nil)
-	self.SetBackdrop = F.dummy
+	F.StripTextures(self)
 
 	local bd = F.CreateBDFrame(self, 0)
 	bd:SetPoint("TOPLEFT", 14, -2)
@@ -541,15 +516,10 @@ function F:ReskinSlider(verticle)
 	bd:SetFrameStrata("BACKGROUND")
 	F.CreateGradient(bd)
 
-	for i = 1, self:GetNumRegions() do
-		local region = select(i, self:GetRegions())
-		if region:GetObjectType() == "Texture" then
-			region:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
-			region:SetBlendMode("ADD")
-			if verticle then region:SetRotation(math.rad(90)) end
-			return
-		end
-	end
+	local thumb = self:GetThumbTexture()
+	thumb:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
+	thumb:SetBlendMode("ADD")
+	if verticle then thumb:SetRotation(math.rad(90)) end
 end
 
 local function expandOnEnter(self)
@@ -632,20 +602,26 @@ local BlizzTextures = {
 	"LeftInset",
 	"RightInset",
 	"NineSlice",
+	"BG",
+	"border",
+	"Border",
 	"BorderFrame",
 	"bottomInset",
 	"BottomInset",
 	"bgLeft",
 	"bgRight",
 	"FilligreeOverlay",
-	"Border",
-	"BG",
+	"PortraitOverlay",
+	"ArtOverlayFrame",
+	"Portrait",
+	"portrait",
+	"ScrollFrameBorder",
 }
 
 function F:StripTextures(kill)
 	local frameName = self.GetName and self:GetName()
 	for _, texture in pairs(BlizzTextures) do
-		local blizzFrame = self[texture] or frameName and _G[frameName..texture]
+		local blizzFrame = self[texture] or (frameName and _G[frameName..texture])
 		if blizzFrame then
 			F.StripTextures(blizzFrame, kill)
 		end
@@ -678,7 +654,7 @@ function F:ReskinPortraitFrame()
 	local portrait = self.portrait or _G[frameName.."Portrait"]
 	portrait:SetAlpha(0)
 	local closeButton = self.CloseButton or _G[frameName.."CloseButton"]
-	F.ReskinClose(closeButton)
+	if closeButton then F.ReskinClose(closeButton) end
 	return bg
 end
 
@@ -696,30 +672,21 @@ function F:CreateBDFrame(a)
 end
 
 function F:ReskinColourSwatch()
-	local name = self:GetName()
+	local frameName = self.GetName and self:GetName()
 
 	self:SetNormalTexture(C.media.backdrop)
 	local nt = self:GetNormalTexture()
 	nt:SetPoint("TOPLEFT", 3, -3)
 	nt:SetPoint("BOTTOMRIGHT", -3, 3)
 
-	local bg = _G[name.."SwatchBg"]
+	local bg = _G[frameName.."SwatchBg"]
 	bg:SetColorTexture(0, 0, 0)
 	bg:SetPoint("TOPLEFT", 2, -2)
 	bg:SetPoint("BOTTOMRIGHT", -2, 2)
 end
 
 function F:ReskinFilterButton()
-	self.TopLeft:Hide()
-	self.TopRight:Hide()
-	self.BottomLeft:Hide()
-	self.BottomRight:Hide()
-	self.TopMiddle:Hide()
-	self.MiddleLeft:Hide()
-	self.MiddleRight:Hide()
-	self.BottomMiddle:Hide()
-	self.MiddleMiddle:Hide()
-
+	F.StripTextures(self)
 	F.Reskin(self)
 	self.Text:SetPoint("CENTER")
 	self.Icon:SetTexture(C.media.arrowRight)
