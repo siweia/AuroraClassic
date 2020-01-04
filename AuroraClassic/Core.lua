@@ -202,7 +202,8 @@ local buttonR, buttonG, buttonB, buttonA
 
 function F:CreateGradient()
 	local tex = self:CreateTexture(nil, "BORDER")
-	tex:SetAllPoints()
+	tex:SetPoint("TOPLEFT", self, C.mult, -C.mult)
+	tex:SetPoint("BOTTOMRIGHT", self, -C.mult, C.mult)
 	tex:SetTexture(useButtonGradientColour and C.media.gradient or C.media.backdrop)
 	tex:SetVertexColor(buttonR, buttonG, buttonB, buttonA)
 
@@ -280,7 +281,7 @@ function F:Reskin(noHighlight)
 		end
 	end
 
-	F.CreateBD(self, .0)
+	F.CreateBD(self, 0)
 
 	self.bgTex = F.CreateGradient(self)
 
