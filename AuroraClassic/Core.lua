@@ -344,6 +344,7 @@ local function scrollOnLeave(self)
 end
 
 function F:ReskinScroll()
+	F.StripTextures(self:GetParent())
 	F.StripTextures(self)
 
 	local frameName = self.GetName and self:GetName()
