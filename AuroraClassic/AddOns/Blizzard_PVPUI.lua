@@ -16,10 +16,9 @@ C.themes["Blizzard_PVPUI"] = function()
 		local cu = bu.CurrencyDisplay
 
 		bu.Ring:Hide()
-		bu.Background:SetAllPoints()
-		bu.Background:SetColorTexture(r, g, b, .25)
-		bu.Background:Hide()
 		F.Reskin(bu, true)
+		bu.Background:SetAllPoints(bu.bgTex)
+		bu.Background:SetColorTexture(r, g, b, .25)
 
 		icon:SetTexCoord(.08, .92, .08, .92)
 		icon:SetPoint("LEFT", bu, "LEFT")
@@ -50,14 +49,14 @@ C.themes["Blizzard_PVPUI"] = function()
 		for i = 1, 3 do
 			local bu = self["CategoryButton"..i]
 			if i == index then
-				bu.Background:Show()
+				bu.Background:SetAlpha(1)
 			else
-				bu.Background:Hide()
+				bu.Background:SetAlpha(0)
 			end
 		end
 	end)
 
-	PVPQueueFrame.CategoryButton1.Background:Show()
+	PVPQueueFrame.CategoryButton1.Background:SetAlpha(1)
 	F.StripTextures(PVPQueueFrame.HonorInset)
 
 	local popup = PVPQueueFrame.NewSeasonPopup
@@ -90,7 +89,7 @@ C.themes["Blizzard_PVPUI"] = function()
 		F.Reskin(bu, true)
 		bu.SelectedTexture:SetDrawLayer("BACKGROUND")
 		bu.SelectedTexture:SetColorTexture(r, g, b, .25)
-		bu.SelectedTexture:SetAllPoints()
+		bu.SelectedTexture:SetAllPoints(bu.bgTex)
 
 		local reward = bu.Reward
 		if reward then
@@ -177,7 +176,7 @@ C.themes["Blizzard_PVPUI"] = function()
 
 		bu.SelectedTexture:SetDrawLayer("BACKGROUND")
 		bu.SelectedTexture:SetColorTexture(r, g, b, .25)
-		bu.SelectedTexture:SetAllPoints()
+		bu.SelectedTexture:SetAllPoints(bu.bgTex)
 	end
 
 	ConquestFrame.Arena3v3:SetPoint("TOP", ConquestFrame.Arena2v2, "BOTTOM", 0, -1)

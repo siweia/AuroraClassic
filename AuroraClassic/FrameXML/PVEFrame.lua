@@ -19,10 +19,10 @@ tinsert(C.themes["AuroraClassic"], function()
 		local bu = GroupFinderFrame["groupButton"..i]
 
 		bu.ring:Hide()
+		F.Reskin(bu, true)
 		bu.bg:SetTexture(C.media.backdrop)
 		bu.bg:SetVertexColor(r, g, b, .2)
-		bu.bg:SetAllPoints()
-		F.Reskin(bu, true)
+		bu.bg:SetAllPoints(bu.bgTex)
 
 		bu.icon:SetTexCoord(.08, .92, .08, .92)
 		bu.icon:SetPoint("LEFT", bu, "LEFT")
