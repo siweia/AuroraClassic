@@ -7,14 +7,6 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	BackpackTokenFrame:GetRegions():Hide()
 
-	local function onEnter(self)
-		self.bg:SetBackdropBorderColor(r, g, b)
-	end
-
-	local function onLeave(self)
-		self.bg:SetBackdropBorderColor(0, 0, 0)
-	end
-
 	for i = 1, 12 do
 		local con = _G["ContainerFrame"..i]
 		local name = _G["ContainerFrame"..i.."Name"]
@@ -45,8 +37,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 
 			button.icon:SetTexCoord(.08, .92, .08, .92)
-
-			button.bg = F.CreateBDFrame(button, 0)
+			F.CreateBDFrame(button, .25)
 
 			-- easiest way to 'hide' it without breaking stuff
 			newItemTexture:SetDrawLayer("BACKGROUND")
@@ -58,9 +49,6 @@ tinsert(C.themes["AuroraClassic"], function()
 
 			searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)
 			searchOverlay:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
-
-			button:HookScript("OnEnter", onEnter)
-			button:HookScript("OnLeave", onLeave)
 		end
 
 		local f = F.CreateBDFrame(con)
