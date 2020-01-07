@@ -123,8 +123,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 				local hl = bossButton:GetHighlightTexture()
 				hl:SetColorTexture(r, g, b, .2)
-				hl:SetPoint("TOPLEFT", 2, -1)
-				hl:SetPoint("BOTTOMRIGHT", 0, 1)
+				hl:SetAllPoints(bossButton.bgTex)
 
 				bossButton.creature:SetPoint("TOPLEFT", 0, -4)
 
