@@ -55,6 +55,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			navButton.arrowDown:SetAlpha(0)
 			navButton.selected:SetDrawLayer("BACKGROUND", 1)
 			navButton.selected:SetColorTexture(r, g, b, .25)
+			navButton.selected:SetAllPoints(navButton.bgTex)
 
 			navButton:HookScript("OnClick", function()
 				moveNavButtons(self)
