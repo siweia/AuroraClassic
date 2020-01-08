@@ -443,11 +443,11 @@ C.themes["Blizzard_Collections"] = function()
 
 		if button.iconTexture:IsShown() then
 			button.name:SetTextColor(1, 1, 1)
-			button.bg:SetVertexColor(0, .8, 1)
+			button.bg:SetBackdropBorderColor(0, .8, 1)
 			button.newLevelBg:Show()
 		else
 			button.name:SetTextColor(.5, .5, .5)
-			button.bg:SetVertexColor(0, 0, 0)
+			button.bg:SetBackdropBorderColor(0, 0, 0)
 			button.newLevelBg:Hide()
 		end
 	end)
@@ -468,11 +468,11 @@ C.themes["Blizzard_Collections"] = function()
 
 			if button.iconTexture:IsShown() then
 				button.name:SetTextColor(1, 1, 1)
-				if button.bg then button.bg:SetVertexColor(0, .8, 1) end
+				if button.bg then button.bg:SetBackdropBorderColor(0, .8, 1) end
 				if button.newLevelBg then button.newLevelBg:Show() end
 			else
 				button.name:SetTextColor(.5, .5, .5)
-				if button.bg then button.bg:SetVertexColor(0, 0, 0) end
+				if button.bg then button.bg:SetBackdropBorderColor(0, 0, 0) end
 				if button.newLevelBg then button.newLevelBg:Hide() end
 			end
 		end
