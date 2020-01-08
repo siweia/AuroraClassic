@@ -93,7 +93,6 @@ tinsert(C.themes["AuroraClassic"], function()
 				lootItem.SpecRing:SetTexture("")
 				lootItem.SpecIcon:SetPoint("TOPLEFT", lootItem.Icon, -5, 5)
 				lootItem.SpecIcon.bg = F.ReskinIcon(lootItem.SpecIcon)
-				lootItem.SpecIcon.bg:SetDrawLayer("ARTWORK", 1)
 			end
 			frame.glow:SetTexture("")
 			frame.shine:SetTexture("")
@@ -364,7 +363,6 @@ tinsert(C.themes["AuroraClassic"], function()
 			lootItem.SpecRing:SetTexture("")
 			lootItem.SpecIcon:SetPoint("TOPLEFT", lootItem.Icon, -5, 5)
 			lootItem.SpecIcon.bg = F.ReskinIcon(lootItem.SpecIcon)
-			lootItem.SpecIcon.bg:SetDrawLayer("ARTWORK", 1)
 			lootItem.SpecIcon.bg:SetShown(lootItem.SpecIcon:IsShown() and lootItem.SpecIcon:GetTexture() ~= nil)
 		end
 

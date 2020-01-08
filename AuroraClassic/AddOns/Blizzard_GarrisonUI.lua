@@ -53,11 +53,9 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		F.CreateBD(self.RewardsFrame, .25)
 
 		local env = self.Stage.MissionEnvIcon
-		env.Texture:SetDrawLayer("BORDER", 1)
 		env.bg = F.ReskinIcon(env.Texture)
 
 		local item = self.RewardsFrame.OvermaxItem
-		item.Icon:SetDrawLayer("BORDER", 1)
 		F.ReskinIcon(item.Icon)
 
 		if self.CostFrame then
