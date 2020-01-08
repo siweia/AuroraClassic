@@ -445,7 +445,7 @@ function F:ReskinArrow(direction)
 	self:HookScript("OnLeave", textureOnLeave)
 end
 
-function F:ReskinCheck()
+function F:ReskinCheck(forceSaturation)
 	self:SetNormalTexture("")
 	self:SetPushedTexture("")
 	self:SetHighlightTexture(C.media.backdrop)
@@ -464,7 +464,21 @@ function F:ReskinCheck()
 	ch:SetTexCoord(0, 1, 0, 1)
 	ch:SetDesaturated(true)
 	ch:SetVertexColor(r, g, b)
+
+	self.forceSaturation = forceSaturation
 end
+
+hooksecurefunc("TriStateCheckbox_SetState", function(_, checkButton)
+	if checkButton.forceSaturation then
+		local tex = checkButton:GetCheckedTexture()
+		if checkButton.state == 2 then
+			tex:SetDesaturated(true)
+			tex:SetVertexColor(r, g, b)
+		elseif checkButton.state == 1 then
+			tex:SetVertexColor(1, .8, 0, .8)
+		end
+	end
+end)
 
 local function colourRadio(self)
 	self.bd:SetBackdropBorderColor(r, g, b)
