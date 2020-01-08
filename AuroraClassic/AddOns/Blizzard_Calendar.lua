@@ -103,7 +103,7 @@ C.themes["Blizzard_Calendar"] = function()
 	for i, class in ipairs(CLASS_SORT_ORDER) do
 		local bu = _G["CalendarClassButton"..i]
 		bu:GetRegions():Hide()
-		F.CreateBG(bu)
+		F.CreateBDFrame(bu)
 
 		local tcoords = CLASS_ICON_TCOORDS[class]
 		local ic = bu:GetNormalTexture()

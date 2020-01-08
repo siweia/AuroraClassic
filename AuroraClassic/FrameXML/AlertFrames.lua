@@ -338,11 +338,10 @@ tinsert(C.themes["AuroraClassic"], function()
 				local reward = frame.RewardFrames[i]
 				if not reward.bg then
 					select(2, reward:GetRegions()):SetTexture("")
-					reward.texture:SetTexCoord(.08, .92, .08, .92)
 					reward.texture:ClearAllPoints()
 					reward.texture:SetPoint("TOPLEFT", 6, -6)
 					reward.texture:SetPoint("BOTTOMRIGHT", -6, 6)
-					reward.bg = F.CreateBG(reward.texture)
+					reward.bg = F.ReskinIcon(reward.texture)
 				end
 			end
 		end

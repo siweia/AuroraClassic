@@ -65,10 +65,8 @@ tinsert(C.themes["AuroraClassic"], function()
 
 			frame.WinnerRoll:SetTextColor(.9, .9, .9)
 
-			frame.Icon:SetTexCoord(.08, .92, .08, .92)
-			frame.Icon:SetDrawLayer("ARTWORK")
-			frame.bg = F.CreateBG(frame.Icon)
-			frame.bg:SetVertexColor(frame.IconBorder:GetVertexColor())
+			frame.bg = F.ReskinIcon(frame.Icon)
+			frame.bg:SetBackdropBorderColor(frame.IconBorder:GetVertexColor())
 
 			F.ReskinExpandOrCollapse(frame.ToggleButton)
 			frame.ToggleButton:GetNormalTexture():SetAlpha(0)
