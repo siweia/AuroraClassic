@@ -189,18 +189,6 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.CreateBD(bu, .25)
 	end
 
-	F.StripTextures(PaperDollEquipmentManagerPane)
-	for _, button in pairs(PaperDollEquipmentManagerPane.buttons) do
-		button.BgTop:SetTexture("")
-		button.BgMiddle:SetTexture("")
-		button.BgBottom:SetTexture("")
-		button.HighlightBar:SetColorTexture(1, 1, 1, .25)
-		button.HighlightBar:SetDrawLayer("BACKGROUND")
-		button.SelectedBar:SetColorTexture(r, g, b, .25)
-		button.SelectedBar:SetDrawLayer("BACKGROUND")
-		F.ReskinIcon(button.icon)
-	end
-
 	for _, bu in pairs(PaperDollEquipmentManagerPane.buttons) do
 		F.HideObject(bu.Stripe)
 		bu.BgTop:SetTexture("")

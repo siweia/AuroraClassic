@@ -984,7 +984,8 @@ while object do
 	object = EnumerateFrames(object)
 end
 
--- Deprecated API, do update your addons ASAP
+-- Deprecated API, will be removed in 9.0
+
 function F:CreateBG()
 	local f = self
 	if self:GetObjectType() == "Texture" then f = self:GetParent() end

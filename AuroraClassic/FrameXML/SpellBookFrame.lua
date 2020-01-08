@@ -107,7 +107,18 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end
 
-	local professionbuttons = {"PrimaryProfession1SpellButtonTop", "PrimaryProfession1SpellButtonBottom", "PrimaryProfession2SpellButtonTop", "PrimaryProfession2SpellButtonBottom", "SecondaryProfession1SpellButtonLeft", "SecondaryProfession1SpellButtonRight", "SecondaryProfession2SpellButtonLeft", "SecondaryProfession2SpellButtonRight", "SecondaryProfession3SpellButtonLeft", "SecondaryProfession3SpellButtonRight"}
+	local professionbuttons = {
+		"PrimaryProfession1SpellButtonTop",
+		"PrimaryProfession1SpellButtonBottom",
+		"PrimaryProfession2SpellButtonTop",
+		"PrimaryProfession2SpellButtonBottom",
+		"SecondaryProfession1SpellButtonLeft",
+		"SecondaryProfession1SpellButtonRight",
+		"SecondaryProfession2SpellButtonLeft",
+		"SecondaryProfession2SpellButtonRight",
+		"SecondaryProfession3SpellButtonLeft",
+		"SecondaryProfession3SpellButtonRight",
+	}
 
 	for _, button in pairs(professionbuttons) do
 		local bu = _G[button]
