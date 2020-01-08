@@ -66,7 +66,6 @@ tinsert(C.themes["AuroraClassic"], function()
 			frame.WinnerRoll:SetTextColor(.9, .9, .9)
 
 			frame.bg = F.ReskinIcon(frame.Icon)
-			frame.bg:SetBackdropBorderColor(frame.IconBorder:GetVertexColor())
 
 			F.ReskinExpandOrCollapse(frame.ToggleButton)
 			frame.ToggleButton:GetNormalTexture():SetAlpha(0)
@@ -84,7 +83,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			end
 		end
 
-		frame.bg:SetVertexColor(frame.IconBorder:GetVertexColor())
+		frame.bg:SetBackdropBorderColor(frame.IconBorder:GetVertexColor())
 	end)
 
 	-- [[ Player frame ]]

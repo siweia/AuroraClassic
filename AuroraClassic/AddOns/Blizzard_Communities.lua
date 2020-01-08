@@ -313,9 +313,9 @@ C.themes["Blizzard_Communities"] = function()
 					end
 
 					if avatarButton.Selected:IsShown() then
-						avatarButton.bg:SetVertexColor(r, g, b)
+						avatarButton.bg:SetBackdropBorderColor(r, g, b)
 					else
-						avatarButton.bg:SetVertexColor(0, 0, 0)
+						avatarButton.bg:SetBackdropBorderColor(0, 0, 0)
 					end
 				end
 			end
