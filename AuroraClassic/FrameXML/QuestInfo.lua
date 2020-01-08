@@ -75,15 +75,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		_G[name.."SpellBorder"]:Hide()
 
 		icon:SetPoint("TOPLEFT", 3, -2)
-		icon:SetDrawLayer("ARTWORK")
-		icon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBG(icon)
+		F.ReskinIcon(icon)
 
-		local bg = CreateFrame("Frame", nil, bu)
+		local bg = F.CreateBDFrame(bu, .25)
 		bg:SetPoint("TOPLEFT", 2, -1)
 		bg:SetPoint("BOTTOMRIGHT", 0, 14)
-		bg:SetFrameLevel(0)
-		F.CreateBD(bg, .25)
 	end
 	restyleSpellButton(QuestInfoSpellObjectiveFrame)
 

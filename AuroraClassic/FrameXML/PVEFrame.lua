@@ -24,12 +24,9 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu.bg:SetVertexColor(r, g, b, .2)
 		bu.bg:SetAllPoints(bu.bgTex)
 
-		bu.icon:SetTexCoord(.08, .92, .08, .92)
 		bu.icon:SetPoint("LEFT", bu, "LEFT")
-		bu.icon:SetDrawLayer("OVERLAY")
 		bu.icon:SetSize(iconSize, iconSize)
-		bu.icon.bg = F.CreateBG(bu.icon)
-		bu.icon.bg:SetDrawLayer("ARTWORK")
+		F.ReskinIcon(bu.icon)
 	end
 
 	hooksecurefunc("GroupFinderFrame_SelectGroupButton", function(index)

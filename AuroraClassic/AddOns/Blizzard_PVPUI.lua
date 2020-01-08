@@ -20,12 +20,10 @@ C.themes["Blizzard_PVPUI"] = function()
 		bu.Background:SetAllPoints(bu.bgTex)
 		bu.Background:SetColorTexture(r, g, b, .25)
 
-		icon:SetTexCoord(.08, .92, .08, .92)
 		icon:SetPoint("LEFT", bu, "LEFT")
 		icon:SetDrawLayer("OVERLAY")
 		icon:SetSize(iconSize, iconSize)
-		icon.bg = F.CreateBG(icon)
-		icon.bg:SetDrawLayer("ARTWORK")
+		F.ReskinIcon(icon)
 
 		if cu then
 			local ic = cu.Icon
@@ -33,10 +31,7 @@ C.themes["Blizzard_PVPUI"] = function()
 			ic:SetSize(16, 16)
 			ic:SetPoint("TOPLEFT", bu.Name, "BOTTOMLEFT", 0, -8)
 			cu.Amount:SetPoint("LEFT", ic, "RIGHT", 4, 0)
-
-			ic:SetTexCoord(.08, .92, .08, .92)
-			ic.bg = F.CreateBG(ic)
-			ic.bg:SetDrawLayer("BACKGROUND", 1)
+			F.ReskinIcon(ic)
 		end
 	end
 
@@ -95,7 +90,7 @@ C.themes["Blizzard_PVPUI"] = function()
 		if reward then
 			reward.Border:Hide()
 			reward.CircleMask:Hide()
-			F.ReskinIcon(reward.Icon)
+			reward.Icon.bg = F.ReskinIcon(reward.Icon)
 		end
 	end
 
@@ -141,9 +136,7 @@ C.themes["Blizzard_PVPUI"] = function()
 		bu.SelectedTexture:SetColorTexture(r, g, b, .25)
 		bu.SelectedTexture:SetAllPoints(bu.tex)
 
-		bu.Icon:SetTexCoord(.08, .92, .08, .92)
-		bu.Icon.bg = F.CreateBG(bu.Icon)
-		bu.Icon.bg:SetDrawLayer("BACKGROUND", 1)
+		F.ReskinIcon(bu.Icon)
 		bu.Icon:SetPoint("TOPLEFT", 5, -3)
 	end
 
@@ -171,7 +164,7 @@ C.themes["Blizzard_PVPUI"] = function()
 		if reward then
 			reward.Border:Hide()
 			reward.CircleMask:Hide()
-			F.ReskinIcon(reward.Icon)
+			reward.Icon.bg = F.ReskinIcon(reward.Icon)
 		end
 
 		bu.SelectedTexture:SetDrawLayer("BACKGROUND")
@@ -181,6 +174,34 @@ C.themes["Blizzard_PVPUI"] = function()
 
 	ConquestFrame.Arena3v3:SetPoint("TOP", ConquestFrame.Arena2v2, "BOTTOM", 0, -1)
 	reskinConquestBar(ConquestFrame)
+
+	-- Item Borders for HonorFrame & ConquestFrame
+	hooksecurefunc("PVPUIFrame_ConfigureRewardFrame", function(rewardFrame, _, _, itemRewards, currencyRewards)
+		local rewardTexture, rewardQuaility = nil, 1
+
+		if currencyRewards then
+			for _, reward in ipairs(currencyRewards) do
+				local name, _, texture, _, _, _, _, quality = GetCurrencyInfo(reward.id)
+				if quality == _G.LE_ITEM_QUALITY_ARTIFACT then
+					_, rewardTexture, _, rewardQuaility = CurrencyContainerUtil.GetCurrencyContainerInfo(reward.id, reward.quantity, name, texture, quality)
+				end
+			end
+		end
+
+		local _
+		if not rewardTexture and itemRewards then
+			local reward = itemRewards[1]
+			if reward then
+				_, _, rewardQuaility, _, _, _, _, _, _, rewardTexture = GetItemInfo(reward.id)
+			end
+		end
+
+		if rewardTexture then
+			rewardFrame.Icon:SetTexture(rewardTexture)
+			local color = BAG_ITEM_QUALITY_COLORS[rewardQuaility]
+			rewardFrame.Icon.bg:SetBackdropBorderColor(color.r, color.g, color.b)
+		end
+	end)
 
 	-- Main style
 

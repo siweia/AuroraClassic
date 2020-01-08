@@ -76,7 +76,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	BankItemAutoSortButton:GetNormalTexture():SetTexCoord(.17, .83, .17, .83)
 	BankItemAutoSortButton:GetPushedTexture():SetTexCoord(.17, .83, .17, .83)
-	F.CreateBG(BankItemAutoSortButton)
+	F.CreateBDFrame(BankItemAutoSortButton)
 	local highlight = BankItemAutoSortButton:GetHighlightTexture()
 	highlight:SetColorTexture(1, 1, 1, .25)
 	highlight:SetAllPoints(BankItemAutoSortButton)

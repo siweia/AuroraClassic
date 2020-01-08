@@ -174,26 +174,12 @@ function F:PixelBorders(frame)
 		frame.pixelBorders = borders
 	end
 end
--- Custom SetBackdrop END
 
 function F:CreateBD(a)
 	self:SetBackdrop(nil)
 	F:PixelBorders(self)
 	F:SetBackdrop(self, a or AuroraConfig.alpha)
 	if not a then tinsert(C.frames, self) end
-end
-
-function F:CreateBG()
-	local f = self
-	if self:GetObjectType() == "Texture" then f = self:GetParent() end
-
-	local bg = f:CreateTexture(nil, "BACKGROUND")
-	bg:SetPoint("TOPLEFT", self, -C.mult, C.mult)
-	bg:SetPoint("BOTTOMRIGHT", self, C.mult, -C.mult)
-	bg:SetTexture(C.media.backdrop)
-	bg:SetVertexColor(0, 0, 0)
-
-	return bg
 end
 
 -- we assign these after loading variables for caching
@@ -748,7 +734,7 @@ end
 
 function F:ReskinIcon()
 	self:SetTexCoord(.08, .92, .08, .92)
-	return F.CreateBG(self)
+	return F.CreateBDFrame(self)
 end
 
 function F:ReskinMinMax()
@@ -996,4 +982,18 @@ while object do
 	end
 
 	object = EnumerateFrames(object)
+end
+
+-- Deprecated API, do update your addons ASAP
+function F:CreateBG()
+	local f = self
+	if self:GetObjectType() == "Texture" then f = self:GetParent() end
+
+	local bg = f:CreateTexture(nil, "BACKGROUND")
+	bg:SetPoint("TOPLEFT", self, -C.mult, C.mult)
+	bg:SetPoint("BOTTOMRIGHT", self, C.mult, -C.mult)
+	bg:SetTexture(C.media.backdrop)
+	bg:SetVertexColor(0, 0, 0)
+
+	return bg
 end

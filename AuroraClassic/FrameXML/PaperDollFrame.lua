@@ -189,31 +189,30 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.CreateBD(bu, .25)
 	end
 
-	local sets = false
-	PaperDollSidebarTab3:HookScript("OnClick", function()
-		if sets == false then
-			for i = 1, 9 do
-				local bu = _G["PaperDollEquipmentManagerPaneButton"..i]
-				local bd = _G["PaperDollEquipmentManagerPaneButton"..i.."Stripe"]
-				local ic = _G["PaperDollEquipmentManagerPaneButton"..i.."Icon"]
-				_G["PaperDollEquipmentManagerPaneButton"..i.."BgTop"]:SetAlpha(0)
-				_G["PaperDollEquipmentManagerPaneButton"..i.."BgMiddle"]:Hide()
-				_G["PaperDollEquipmentManagerPaneButton"..i.."BgBottom"]:SetAlpha(0)
+	F.StripTextures(PaperDollEquipmentManagerPane)
+	for _, button in pairs(PaperDollEquipmentManagerPane.buttons) do
+		button.BgTop:SetTexture("")
+		button.BgMiddle:SetTexture("")
+		button.BgBottom:SetTexture("")
+		button.HighlightBar:SetColorTexture(1, 1, 1, .25)
+		button.HighlightBar:SetDrawLayer("BACKGROUND")
+		button.SelectedBar:SetColorTexture(r, g, b, .25)
+		button.SelectedBar:SetDrawLayer("BACKGROUND")
+		F.ReskinIcon(button.icon)
+	end
 
-				bu.HighlightBar:SetColorTexture(1, 1, 1, .25)
-				bu.HighlightBar:SetDrawLayer("BACKGROUND")
-				bu.SelectedBar:SetColorTexture(r, g, b, .25)
-				bu.SelectedBar:SetDrawLayer("BACKGROUND")
+	for _, bu in pairs(PaperDollEquipmentManagerPane.buttons) do
+		F.HideObject(bu.Stripe)
+		bu.BgTop:SetTexture("")
+		bu.BgMiddle:SetTexture("")
+		bu.BgBottom:SetTexture("")
+		F.ReskinIcon(bu.icon)
 
-				bd:Hide()
-				bd.Show = F.dummy
-				ic:SetTexCoord(.08, .92, .08, .92)
-
-				F.CreateBG(ic)
-			end
-			sets = true
-		end
-	end)
+		bu.HighlightBar:SetColorTexture(1, 1, 1, .25)
+		bu.HighlightBar:SetDrawLayer("BACKGROUND")
+		bu.SelectedBar:SetColorTexture(r, g, b, .25)
+		bu.SelectedBar:SetDrawLayer("BACKGROUND")
+	end
 
 	local titles = false
 	hooksecurefunc("PaperDollTitlesPane_Update", function()

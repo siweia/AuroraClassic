@@ -61,8 +61,7 @@ C.themes["Blizzard_TalentUI"] = function()
 		local scrollChild = frame.spellsScroll.child
 
 		scrollChild.ring:Hide()
-		scrollChild.specIcon:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBG(scrollChild.specIcon)
+		F.ReskinIcon(scrollChild.specIcon)
 
 		local roleIcon = scrollChild.roleIcon
 		roleIcon:SetTexture(C.media.roleIcons)
@@ -102,8 +101,7 @@ C.themes["Blizzard_TalentUI"] = function()
 
 				if not frame.styled then
 					frame.ring:Hide()
-					frame.icon:SetTexCoord(.08, .92, .08, .92)
-					F.CreateBG(frame.icon)
+					F.ReskinIcon(frame.icon)
 
 					frame.styled = true
 				end
@@ -141,12 +139,10 @@ C.themes["Blizzard_TalentUI"] = function()
 			bu.selectedTex:SetDrawLayer("BACKGROUND")
 			bu.selectedTex:SetAllPoints()
 
-			bu.specIcon:SetTexCoord(.08, .92, .08, .92)
 			bu.specIcon:SetSize(58, 58)
 			bu.specIcon:SetPoint("LEFT", bu, "LEFT")
 			bu.specIcon:SetDrawLayer("OVERLAY")
-			local bg = F.CreateBG(bu.specIcon)
-			bg:SetDrawLayer("BORDER")
+			F.ReskinIcon(bu.specIcon)
 
 			local roleIcon = bu.roleIcon
 			roleIcon:SetTexture(C.media.roleIcons)
@@ -177,9 +173,7 @@ C.themes["Blizzard_TalentUI"] = function()
 			bu.Slot:SetAlpha(0)
 			bu.knownSelection:SetAlpha(0)
 
-			ic:SetDrawLayer("ARTWORK")
-			ic:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBG(ic)
+			F.ReskinIcon(ic)
 
 			bu.bg = F.CreateBDFrame(bu, .25)
 			bu.bg:SetPoint("TOPLEFT", 10, 0)

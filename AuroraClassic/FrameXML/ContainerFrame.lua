@@ -61,9 +61,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	for i = 1, 3 do
 		local ic = _G["BackpackTokenFrameToken"..i.."Icon"]
-		ic:SetDrawLayer("OVERLAY")
-		ic:SetTexCoord(.08, .92, .08, .92)
-		F.CreateBG(ic)
+		F.ReskinIcon(ic)
 	end
 
 	F.ReskinInput(BagItemSearchBox)
@@ -91,7 +89,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	BagItemAutoSortButton:GetNormalTexture():SetTexCoord(.17, .83, .17, .83)
 	BagItemAutoSortButton:GetPushedTexture():SetTexCoord(.17, .83, .17, .83)
-	F.CreateBG(BagItemAutoSortButton)
+	F.CreateBDFrame(BagItemAutoSortButton)
 
 	local highlight = BagItemAutoSortButton:GetHighlightTexture()
 	highlight:SetColorTexture(1, 1, 1, .25)

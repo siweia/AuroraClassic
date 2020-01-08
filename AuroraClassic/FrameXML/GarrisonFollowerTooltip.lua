@@ -30,10 +30,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local abilities = tooltipFrame.Abilities
 		local ability = abilities[numAbilitiesStyled]
 		while ability do
-			local icon = ability.Icon
-
-			icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBG(icon)
+			F.ReskinIcon(ability.Icon)
 
 			numAbilitiesStyled = numAbilitiesStyled + 1
 			ability = abilities[numAbilitiesStyled]
@@ -50,10 +47,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local traits = tooltipFrame.Traits
 		local trait = traits[numTraitsStyled]
 		while trait do
-			local icon = trait.Icon
-
-			icon:SetTexCoord(.08, .92, .08, .92)
-			F.CreateBG(icon)
+			F.ReskinIcon(trait.Icon)
 
 			numTraitsStyled = numTraitsStyled + 1
 			trait = traits[numTraitsStyled]
