@@ -95,26 +95,49 @@ end
 -- ls, Azil, and Simpy made this to replace Blizzard's SetBackdrop API while the textures can't snap
 local PIXEL_BORDERS = {"TOPLEFT", "TOPRIGHT", "BOTTOMLEFT", "BOTTOMRIGHT", "TOP", "BOTTOM", "LEFT", "RIGHT"}
 
-function F:SetBackdropColor(r, g, b, a)
-	if self.pixelBorders then
-		self.pixelBorders.CENTER:SetVertexColor(r, g, b, a)
+function F:SetBackdrop(frame, a)
+	local borders = frame.pixelBorders
+	if not borders then return end
+
+	local size = C.mult
+
+	borders.CENTER:SetPoint("TOPLEFT", frame)
+	borders.CENTER:SetPoint("BOTTOMRIGHT", frame)
+
+	borders.TOPLEFT:SetSize(size, size)
+	borders.TOPRIGHT:SetSize(size, size)
+	borders.BOTTOMLEFT:SetSize(size, size)
+	borders.BOTTOMRIGHT:SetSize(size, size)
+
+	borders.TOP:SetHeight(size)
+	borders.BOTTOM:SetHeight(size)
+	borders.LEFT:SetWidth(size)
+	borders.RIGHT:SetWidth(size)
+
+	F:SetBackdropColor(frame, 0, 0, 0, a)
+	F:SetBackdropBorderColor(frame, 0, 0, 0)
+end
+
+function F:SetBackdropColor(frame, r, g, b, a)
+	if frame.pixelBorders then
+		frame.pixelBorders.CENTER:SetVertexColor(r, g, b, a)
 	end
 end
 
-function F:SetBackdropBorderColor(r, g, b, a)
-	if self.pixelBorders then
+function F:SetBackdropBorderColor(frame, r, g, b, a)
+	if frame.pixelBorders then
 		for _, v in pairs(PIXEL_BORDERS) do
-			self.pixelBorders[v]:SetVertexColor(r or 0, g or 0, b or 0, a or 1)
+			frame.pixelBorders[v]:SetVertexColor(r or 0, g or 0, b or 0, a or 1)
 		end
 	end
 end
 
 function F:SetBackdropColor_Hook(r, g, b, a)
-	F.SetBackdropColor(self, r, g, b, a)
+	F:SetBackdropColor(self, r, g, b, a)
 end
 
 function F:SetBackdropBorderColor_Hook(r, g, b, a)
-	F.SetBackdropBorderColor(self, r, g, b, a)
+	F:SetBackdropBorderColor(self, r, g, b, a)
 end
 
 function F:PixelBorders(frame)
@@ -150,29 +173,6 @@ function F:PixelBorders(frame)
 
 		frame.pixelBorders = borders
 	end
-end
-
-function F:SetBackdrop(frame, a)
-	local borders = frame.pixelBorders
-	if not borders then return end
-
-	local size = C.mult
-
-	borders.CENTER:SetPoint("TOPLEFT", frame)
-	borders.CENTER:SetPoint("BOTTOMRIGHT", frame)
-
-	borders.TOPLEFT:SetSize(size, size)
-	borders.TOPRIGHT:SetSize(size, size)
-	borders.BOTTOMLEFT:SetSize(size, size)
-	borders.BOTTOMRIGHT:SetSize(size, size)
-
-	borders.TOP:SetHeight(size)
-	borders.BOTTOM:SetHeight(size)
-	borders.LEFT:SetWidth(size)
-	borders.RIGHT:SetWidth(size)
-
-	F.SetBackdropColor(frame, 0, 0, 0, a)
-	F.SetBackdropBorderColor(frame, 0, 0, 0)
 end
 -- Custom SetBackdrop END
 
