@@ -100,8 +100,9 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				local rareOverlay = button.RareOverlay
 				local rareText = button.RareText
 
+				button.LocBG:SetDrawLayer("BACKGROUND")
 				F.StripTextures(button)
-				F.CreateBD(button, .25)
+				F.CreateBDFrame(button, .25)
 
 				rareText:ClearAllPoints()
 				rareText:SetPoint("BOTTOMLEFT", button, 20, 10)
