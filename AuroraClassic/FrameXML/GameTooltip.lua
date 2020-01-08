@@ -7,7 +7,13 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	if not AuroraConfig.tooltips then return end
 
-	local function getBackdrop(self) return self.bg:GetBackdrop() end
+	local fakeBg = CreateFrame("Frame")
+	fakeBg:SetBackdrop({
+		bgFile = C.media.backdrop,
+		edgeFile = C.media.backdrop,
+		edgeSize = C.mult,
+	})
+	local function getBackdrop(self) return fakeBg:GetBackdrop() end
 	local function getBackdropColor() return 0, 0, 0, .7 end
 	local function getBackdropBorderColor() return 0, 0, 0 end
 
