@@ -21,7 +21,6 @@ C.themes["Blizzard_PVPUI"] = function()
 		bu.Background:SetColorTexture(r, g, b, .25)
 
 		icon:SetPoint("LEFT", bu, "LEFT")
-		icon:SetDrawLayer("OVERLAY")
 		icon:SetSize(iconSize, iconSize)
 		F.ReskinIcon(icon)
 

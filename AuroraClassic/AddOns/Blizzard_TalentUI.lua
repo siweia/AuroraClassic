@@ -141,7 +141,6 @@ C.themes["Blizzard_TalentUI"] = function()
 
 			bu.specIcon:SetSize(58, 58)
 			bu.specIcon:SetPoint("LEFT", bu, "LEFT")
-			bu.specIcon:SetDrawLayer("OVERLAY")
 			F.ReskinIcon(bu.specIcon)
 
 			local roleIcon = bu.roleIcon
