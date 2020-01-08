@@ -81,7 +81,6 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			bu:SetNormalTexture("")
 			bu:SetHighlightTexture("")
 			bu:SetPushedTexture("")
-			bu.bgImage:SetDrawLayer("BACKGROUND", 1)
 
 			local bg = F.CreateBDFrame(bu.bgImage)
 			bg:SetPoint("TOPLEFT", 3, -3)

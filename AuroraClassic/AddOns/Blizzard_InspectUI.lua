@@ -50,7 +50,6 @@ C.themes["Blizzard_InspectUI"] = function()
 			local bu = row["talent"..j]
 			bu.Slot:Hide()
 			bu.border:SetTexture("")
-			bu.icon:SetDrawLayer("ARTWORK")
 			F.ReskinIcon(bu.icon)
 		end
 	end

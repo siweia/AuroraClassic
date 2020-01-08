@@ -593,7 +593,6 @@ C.themes["Blizzard_Collections"] = function()
 		local slot = modelScene[slots[i].."Button"]
 		if slot then
 			slot.Border:Hide()
-			slot.Icon:SetDrawLayer("BACKGROUND", 1)
 			F.ReskinIcon(slot.Icon)
 			slot:SetHighlightTexture(C.media.backdrop)
 			local hl = slot:GetHighlightTexture()
