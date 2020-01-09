@@ -7,14 +7,14 @@ tinsert(C.themes["AuroraClassic"], function()
 			frame = frame:GetParent()
 		end
 		if frame.bg then
-			frame.bg:SetBackdropColor(0, 0, 0, AuroraConfig.alpha)
+			frame.bg:SetBackdropColor(0, 0, 0, AuroraClassicDB.Alpha)
 		end
 	end
 
 	local function fixParentbg(frame)
 		frame = frame:GetParent():GetParent()
 		if frame.bg then
-			frame.bg:SetBackdropColor(0, 0, 0, AuroraConfig.alpha)
+			frame.bg:SetBackdropColor(0, 0, 0, AuroraClassicDB.Alpha)
 		end
 	end
 

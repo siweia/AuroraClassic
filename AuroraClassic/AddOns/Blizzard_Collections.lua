@@ -170,7 +170,7 @@ C.themes["Blizzard_Collections"] = function()
 
 	reskinToolButton(PetJournalHealPetButton)
 
-	if AuroraConfig.tooltips then
+	if AuroraClassicDB.Tooltips then
 		F.ReskinTooltip(PetJournalPrimaryAbilityTooltip)
 		F.ReskinTooltip(PetJournalSecondaryAbilityTooltip)
 	end

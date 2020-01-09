@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 C.themes["Blizzard_WarboardUI"] = function()
-	local reskinFont = AuroraConfig.reskinFont
+	local reskinFont = AuroraClassicDB.FontOutline
 
 	local function forceProgressText(self)
 		if not reskinFont then return end

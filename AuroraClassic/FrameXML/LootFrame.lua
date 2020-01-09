@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	if not AuroraConfig.loot then return end
+	if not AuroraClassicDB.Loot then return end
 
 	LootFramePortraitOverlay:Hide()
 

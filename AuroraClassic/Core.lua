@@ -1,70 +1,5 @@
--- [[ Core ]]
-local addonName, ns = ...
-
-ns[1] = {} -- F, functions
-ns[2] = {} -- C, constants/config
-_G[addonName] = ns
-
-AuroraConfig = {}
-
-local F, C = unpack(ns)
-
--- [[ Constants and settings ]]
-
-local mediaPath = "Interface\\AddOns\\AuroraClassic\\media\\"
-
-C.media = {
-	["arrowUp"] = mediaPath.."arrow-up-active",
-	["arrowDown"] = mediaPath.."arrow-down-active",
-	["arrowLeft"] = mediaPath.."arrow-left-active",
-	["arrowRight"] = mediaPath.."arrow-right-active",
-	["backdrop"] = "Interface\\ChatFrame\\ChatFrameBackground",
-	["checked"] = mediaPath.."CheckButtonHilight",
-	["font"] = STANDARD_TEXT_FONT,
-	["gradient"] = mediaPath.."gradient",
-	["roleIcons"] = mediaPath.."UI-LFG-ICON-ROLES",
-	["bgTex"] = mediaPath.."bgTex",
-	["glowTex"] = mediaPath.."glowTex",
-}
-
-C.defaults = {
-	["alpha"] = 0.5,
-	["bags"] = false,
-	["buttonGradientColour"] = {.3, .3, .3, .3},
-	["buttonSolidColour"] = {.2, .2, .2, .6},
-	["useButtonGradientColour"] = true,
-	["chatBubbles"] = true,
-	["bubbleColor"] = false,
-	["reskinFont"] = true,
-	["loot"] = true,
-	["useCustomColour"] = false,
-	["customColour"] = {r = 1, g = 1, b = 1},
-	["tooltips"] = false,
-	["shadow"] = true,
-	["fontScale"] = 1,
-	["objectiveTracker"] = true,
-	["uiScale"] = 0,
-}
-
-C.frames = {}
-C.isNewPatch = GetBuildInfo() == "8.3.0"
-
--- [[ Functions ]]
-
-local useButtonGradientColour
-local _, class = UnitClass("player")
-C.classcolours = CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS
-local r, g, b = C.classcolours[class].r, C.classcolours[class].g, C.classcolours[class].b
-
-local function SetupPixelFix()
-	local screenHeight = select(2, GetPhysicalScreenSize())
-	local bestScale = max(.4, min(1.15, 768 / screenHeight))
-	local pixelScale = 768 / screenHeight
-	local scale = UIParent:GetScale()
-	local uiScale = AuroraConfig.uiScale
-	if uiScale and uiScale > 0 then scale = uiScale end
-	C.mult = (bestScale / scale) - ((bestScale - pixelScale) / scale)
-end
+local _, ns = ...
+local F, C, L = unpack(ns)
 
 function F:dummy()
 end
@@ -82,7 +17,8 @@ end
 function F:CreateSD()
 	CreateTex(self)
 
-	if not AuroraConfig.shadow then return end
+	if not AuroraClassicDB.Shadow then return end
+
 	if self.Shadow then return end
 	self.Shadow = CreateFrame("Frame", nil, self)
 	self.Shadow:SetPoint("TOPLEFT", -2, 2)
@@ -178,20 +114,16 @@ end
 function F:CreateBD(a)
 	self:SetBackdrop(nil)
 	F:PixelBorders(self)
-	F:SetBackdrop(self, a or AuroraConfig.alpha)
+	F:SetBackdrop(self, a or AuroraClassicDB.Alpha)
 	if not a then tinsert(C.frames, self) end
 end
-
--- we assign these after loading variables for caching
--- otherwise we call an extra unpack() every time
-local buttonR, buttonG, buttonB, buttonA
 
 function F:CreateGradient()
 	local tex = self:CreateTexture(nil, "BORDER")
 	tex:SetPoint("TOPLEFT", self, C.mult, -C.mult)
 	tex:SetPoint("BOTTOMRIGHT", self, -C.mult, C.mult)
-	tex:SetTexture(useButtonGradientColour and C.media.gradient or C.media.backdrop)
-	tex:SetVertexColor(buttonR, buttonG, buttonB, buttonA)
+	tex:SetTexture(AuroraClassicDB.FlatMode and C.media.backdrop or C.media.gradient)
+	tex:SetVertexColor(C.buttonR, C.buttonG, C.buttonB, C.buttonA)
 
 	return tex
 end
@@ -199,20 +131,20 @@ end
 local function colourButton(self)
 	if not self:IsEnabled() then return end
 
-	if useButtonGradientColour then
-		self:SetBackdropColor(r, g, b, .25)
+	if AuroraClassicDB.GradientColor then
+		self:SetBackdropColor(C.r, C.g, C.b, .25)
 	else
 		self.bgTex:SetVertexColor(r / 4, g / 4, b / 4)
 	end
 
-	self:SetBackdropBorderColor(r, g, b)
+	self:SetBackdropBorderColor(C.r, C.g, C.b)
 end
 
 local function clearButton(self)
-	if useButtonGradientColour then
+	if AuroraClassicDB.GradientColor then
 		self:SetBackdropColor(0, 0, 0, 0)
 	else
-		self.bgTex:SetVertexColor(buttonR, buttonG, buttonB, buttonA)
+		self.bgTex:SetVertexColor(C.buttonR, C.buttonG, C.buttonB, C.buttonA)
 	end
 
 	self:SetBackdropBorderColor(0, 0, 0)
@@ -289,17 +221,26 @@ function F:ReskinTab()
 	hl:ClearAllPoints()
 	hl:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
 	hl:SetPoint("BOTTOMRIGHT", bg, -C.mult, C.mult)
-	hl:SetVertexColor(r, g, b, .25)
+	hl:SetVertexColor(C.r, C.g, C.b, .25)
 end
+
+local function resetTabAnchor(tab)
+	local text = tab.Text or _G[tab:GetName().."Text"]
+	if text then
+		text:SetPoint("CENTER", tab)
+	end
+end
+hooksecurefunc("PanelTemplates_DeselectTab", resetTabAnchor)
+hooksecurefunc("PanelTemplates_SelectTab", resetTabAnchor)
 
 local function textureOnEnter(self)
 	if self:IsEnabled() then
 		if self.pixels then
 			for _, pixel in pairs(self.pixels) do
-				pixel:SetVertexColor(r, g, b)
+				pixel:SetVertexColor(C.r, C.g, C.b)
 			end
 		else
-			self.bgTex:SetVertexColor(r, g, b)
+			self.bgTex:SetVertexColor(C.r, C.g, C.b)
 		end
 	end
 end
@@ -319,8 +260,8 @@ F.clearArrow = textureOnLeave
 local function scrollOnEnter(self)
 	local thumb = self.thumb
 	if not thumb then return end
-	thumb.bg:SetBackdropColor(r, g, b, .25)
-	thumb.bg:SetBackdropBorderColor(r, g, b)
+	thumb.bg:SetBackdropColor(C.r, C.g, C.b, .25)
+	thumb.bg:SetBackdropBorderColor(C.r, C.g, C.b)
 end
 
 local function scrollOnLeave(self)
@@ -425,6 +366,12 @@ function F:ReskinInput(height, width)
 	if width then self:SetWidth(width) end
 end
 
+local direcIndex = {
+	["up"] = C.media.arrowUp,
+	["down"] = C.media.arrowDown,
+	["left"] = C.media.arrowLeft,
+	["right"] = C.media.arrowRight,
+}
 function F:ReskinArrow(direction)
 	self:SetSize(17, 17)
 	F.Reskin(self, true)
@@ -436,7 +383,7 @@ function F:ReskinArrow(direction)
 	dis:SetAllPoints()
 
 	local tex = self:CreateTexture(nil, "ARTWORK")
-	tex:SetTexture(mediaPath.."arrow-"..direction.."-active")
+	tex:SetTexture(direcIndex[direction])
 	tex:SetSize(8, 8)
 	tex:SetPoint("CENTER")
 	self.bgTex = tex
@@ -452,7 +399,7 @@ function F:ReskinCheck(forceSaturation)
 	local hl = self:GetHighlightTexture()
 	hl:SetPoint("TOPLEFT", 5, -5)
 	hl:SetPoint("BOTTOMRIGHT", -5, 5)
-	hl:SetVertexColor(r, g, b, .25)
+	hl:SetVertexColor(C.r, C.g, C.b, .25)
 
 	local bd = F.CreateBDFrame(self, 0)
 	bd:SetPoint("TOPLEFT", 4, -4)
@@ -463,7 +410,7 @@ function F:ReskinCheck(forceSaturation)
 	ch:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
 	ch:SetTexCoord(0, 1, 0, 1)
 	ch:SetDesaturated(true)
-	ch:SetVertexColor(r, g, b)
+	ch:SetVertexColor(C.r, C.g, C.b)
 
 	self.forceSaturation = forceSaturation
 end
@@ -473,7 +420,7 @@ hooksecurefunc("TriStateCheckbox_SetState", function(_, checkButton)
 		local tex = checkButton:GetCheckedTexture()
 		if checkButton.state == 2 then
 			tex:SetDesaturated(true)
-			tex:SetVertexColor(r, g, b)
+			tex:SetVertexColor(C.r, C.g, C.b)
 		elseif checkButton.state == 1 then
 			tex:SetVertexColor(1, .8, 0, .8)
 		end
@@ -481,7 +428,7 @@ hooksecurefunc("TriStateCheckbox_SetState", function(_, checkButton)
 end)
 
 local function colourRadio(self)
-	self.bd:SetBackdropBorderColor(r, g, b)
+	self.bd:SetBackdropBorderColor(C.r, C.g, C.b)
 end
 
 local function clearRadio(self)
@@ -496,7 +443,7 @@ function F:ReskinRadio()
 	local ch = self:GetCheckedTexture()
 	ch:SetPoint("TOPLEFT", 4, -4)
 	ch:SetPoint("BOTTOMRIGHT", -4, 4)
-	ch:SetVertexColor(r, g, b, .6)
+	ch:SetVertexColor(C.r, C.g, C.b, .6)
 
 	local bd = F.CreateBDFrame(self, 0)
 	bd:SetPoint("TOPLEFT", 3, -3)
@@ -526,7 +473,7 @@ end
 
 local function expandOnEnter(self)
 	if self:IsEnabled() then
-		self.bg:SetBackdropColor(r, g, b, .25)
+		self.bg:SetBackdropColor(C.r, C.g, C.b, .25)
 	end
 end
 
@@ -819,7 +766,7 @@ function F:StyleSearchButton()
 
 	self:SetHighlightTexture(C.media.backdrop)
 	local hl = self:GetHighlightTexture()
-	hl:SetVertexColor(r, g, b, .25)
+	hl:SetVertexColor(C.r, C.g, C.b, .25)
 	hl:SetPoint("TOPLEFT", C.mult, -C.mult)
 	hl:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
 end
@@ -871,78 +818,6 @@ function F:ReskinRole(role)
 		icon.border:SetTexture("")
 	end
 end
-
--- [[ Variable and module handling ]]
-
-C.themes = {}
-C.themes["AuroraClassic"] = {}
-
--- [[ Initialize addon ]]
-
-local Skin = CreateFrame("Frame")
-Skin:RegisterEvent("ADDON_LOADED")
-Skin:RegisterEvent("PLAYER_LOGOUT")
-Skin:SetScript("OnEvent", function(_, event, addon)
-	if event == "ADDON_LOADED" then
-		if addon == "AuroraClassic" then
-			SetupPixelFix()
-
-			-- [[ Load Variables ]]
-
-			-- remove deprecated or corrupt variables
-			for key in pairs(AuroraConfig) do
-				if C.defaults[key] == nil then
-					AuroraConfig[key] = nil
-				end
-			end
-
-			-- load or init variables
-			for key, value in pairs(C.defaults) do
-				if AuroraConfig[key] == nil then
-					if type(value) == "table" then
-						AuroraConfig[key] = {}
-						for k in pairs(value) do
-							AuroraConfig[key][k] = value[k]
-						end
-					else
-						AuroraConfig[key] = value
-					end
-				end
-			end
-
-			useButtonGradientColour = AuroraConfig.useButtonGradientColour
-
-			if useButtonGradientColour then
-				buttonR, buttonG, buttonB, buttonA = unpack(C.defaults.buttonGradientColour)
-			else
-				buttonR, buttonG, buttonB, buttonA = unpack(C.defaults.buttonSolidColour)
-			end
-
-			if AuroraConfig.useCustomColour then
-				r, g, b = AuroraConfig.customColour.r, AuroraConfig.customColour.g, AuroraConfig.customColour.b
-			end
-
-			-- for modules
-			C.r, C.g, C.b = r, g, b
-		end
-
-		-- [[ Load modules ]]
-
-		-- check if the addon loaded is supported by Aurora, and if it is, execute its module
-		local addonModule = C.themes[addon]
-		if addonModule then
-			if type(addonModule) == "function" then
-				addonModule()
-			else
-				for _, moduleFunc in pairs(addonModule) do
-					moduleFunc()
-				end
-			end
-		end
-	else
-		AuroraConfig.uiScale = UIParent:GetScale()
-	end
-end)
 
 -- Add APIs
 local function WatchPixelSnap(frame, snap)

@@ -145,7 +145,7 @@ C.themes["Blizzard_PVPUI"] = function()
 	ConquestFrame.RatedBGTexture:Hide()
 	ConquestFrame.ShadowOverlay:Hide()
 
-	if AuroraConfig.tooltips then
+	if AuroraClassicDB.Tooltips then
 		F.ReskinTooltip(ConquestTooltip)
 	end
 
