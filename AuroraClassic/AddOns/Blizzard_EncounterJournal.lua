@@ -261,7 +261,7 @@ C.themes["Blizzard_EncounterJournal"] = function()
 
 	-- Tooltip
 
-	if AuroraConfig.tooltips then
+	if AuroraClassicDB.Tooltips then
 		F.ReskinTooltip(EncounterJournalTooltip)
 		F.ReskinIcon(EncounterJournalTooltip.Item1.icon)
 		F.ReskinIcon(EncounterJournalTooltip.Item2.icon)

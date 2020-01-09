@@ -1,7 +1,7 @@
 local F, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	if not AuroraConfig.objectiveTracker then return end
+	if not AuroraClassicDB.ObjectiveTracker then return end
 
 	local r, g, b = C.r, C.g, C.b
 

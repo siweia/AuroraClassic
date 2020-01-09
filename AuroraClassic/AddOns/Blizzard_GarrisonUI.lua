@@ -4,7 +4,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	local r, g, b = C.r, C.g, C.b
 
 	-- tooltips
-	if AuroraConfig.tooltips then
+	if AuroraClassicDB.Tooltips then
 		F.ReskinTooltip(GarrisonMissionMechanicTooltip)
 		F.ReskinTooltip(GarrisonMissionMechanicFollowerCounterTooltip)
 		F.ReskinTooltip(GarrisonShipyardMapMissionTooltip)

@@ -5,7 +5,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.ReskinClose(FloatingBattlePetTooltip.CloseButton)
 	F.ReskinClose(FloatingPetBattleAbilityTooltip.CloseButton)
 
-	if not AuroraConfig.tooltips then return end
+	if not AuroraClassicDB.Tooltips then return end
 
 	local fakeBg = CreateFrame("Frame")
 	fakeBg:SetBackdrop({

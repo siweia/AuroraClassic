@@ -1,12 +1,12 @@
 local _, C = unpack(select(2, ...))
 
 tinsert(C.themes["AuroraClassic"], function()
-	if not AuroraConfig.reskinFont then return end
+	if not AuroraClassicDB.FontOutline then return end
 
 	local function ReskinFont(font, size, white)
 		local oldSize = select(2, font:GetFont())
 		size = size or oldSize
-		local fontSize = floor(size*AuroraConfig.fontScale + .5) -- round number
+		local fontSize = floor(size*AuroraClassicDB.FontScale + .5) -- round number
 		font:SetFont(C.media.font, fontSize, white and "" or "OUTLINE")
 		font:SetShadowColor(0, 0, 0, 0)
 	end

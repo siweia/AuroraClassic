@@ -132,7 +132,7 @@ C.themes["Blizzard_Calendar"] = function()
 		F.CreateBD(hline)
 	end
 
-	if AuroraConfig.tooltips then
+	if AuroraClassicDB.Tooltips then
 		F.ReskinTooltip(CalendarContextMenu)
 		F.ReskinTooltip(CalendarInviteStatusContextMenu)
 	end

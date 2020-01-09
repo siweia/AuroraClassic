@@ -9,7 +9,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		if self.Icon then F.ReskinIcon(self.Icon) end
 		if self.CloseButton then F.ReskinClose(self.CloseButton) end
 
-		if AuroraConfig.tooltips then F.ReskinTooltip(self) end
+		if AuroraClassicDB.Tooltips then F.ReskinTooltip(self) end
 	end
 
 	F.ReskinGarrisonTooltip(FloatingGarrisonMissionTooltip)

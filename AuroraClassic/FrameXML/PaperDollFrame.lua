@@ -215,8 +215,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("PaperDollFrame_SetLevel", function()
 		local primaryTalentTree = GetSpecialization()
 		local classDisplayName, class = UnitClass("player")
-		local classColor = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or C.classcolours[class]
-		local classColorString = format("ff%.2x%.2x%.2x", classColor.r * 255, classColor.g * 255, classColor.b * 255)
+		local classColor = C.ClassColors[class]
+		local classColorString = classColor.colorStr
 		local specName, _
 
 		if primaryTalentTree then
