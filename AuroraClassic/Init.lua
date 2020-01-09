@@ -30,9 +30,7 @@ function F:LoadSkins(event, addon)
 	elseif event == "PLAYER_LOGOUT" then
 		AuroraClassicDB.UIScale = GetCurrentScale()
 	else
-		if not C.mult then
-			F:SetupPixelFix()
-		end
+		if not C.mult then F:SetupPixelFix() end
 
 		if addon == "AuroraClassic" then
 			local color = AuroraClassicDB.FlatMode and C.options.FlatColor or C.options.GradientColor

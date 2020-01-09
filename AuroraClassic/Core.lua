@@ -4,6 +4,11 @@ local F, C, L = unpack(ns)
 function F:dummy()
 end
 
+function F:Scale(x)
+	local mult = C.mult
+	return mult * floor(x / mult + .5)
+end
+
 local function CreateTex(f)
 	if f.Tex then return end
 	f.Tex = f:CreateTexture(nil, "BACKGROUND", nil, 1)
@@ -23,7 +28,7 @@ function F:CreateSD()
 	self.Shadow = CreateFrame("Frame", nil, self)
 	self.Shadow:SetPoint("TOPLEFT", -2, 2)
 	self.Shadow:SetPoint("BOTTOMRIGHT", 2, -2)
-	self.Shadow:SetBackdrop({edgeFile = C.media.glowTex, edgeSize = 3})
+	self.Shadow:SetBackdrop({edgeFile = C.media.glowTex, edgeSize = F:Scale(3)})
 	self.Shadow:SetBackdropBorderColor(0, 0, 0)
 	return self.Shadow
 end
