@@ -133,7 +133,7 @@ function F:CreateGradient()
 	return tex
 end
 
-local function colourButton(self)
+local function Button_OnEnter(self)
 	if not self:IsEnabled() then return end
 
 	if AuroraClassicDB.GradientColor then
@@ -145,7 +145,7 @@ local function colourButton(self)
 	self:SetBackdropBorderColor(C.r, C.g, C.b)
 end
 
-local function clearButton(self)
+local function Button_OnLeave(self)
 	if AuroraClassicDB.GradientColor then
 		self:SetBackdropColor(0, 0, 0, 0)
 	else
@@ -209,8 +209,8 @@ function F:Reskin(noHighlight)
 	self.bgTex = F.CreateGradient(self)
 
 	if not noHighlight then
-		self:HookScript("OnEnter", colourButton)
- 		self:HookScript("OnLeave", clearButton)
+		self:HookScript("OnEnter", Button_OnEnter)
+ 		self:HookScript("OnLeave", Button_OnLeave)
 	end
 end
 
@@ -238,38 +238,40 @@ end
 hooksecurefunc("PanelTemplates_DeselectTab", resetTabAnchor)
 hooksecurefunc("PanelTemplates_SelectTab", resetTabAnchor)
 
-local function textureOnEnter(self)
-	if self:IsEnabled() then
-		if self.pixels then
-			for _, pixel in pairs(self.pixels) do
-				pixel:SetVertexColor(C.r, C.g, C.b)
-			end
-		else
-			self.bgTex:SetVertexColor(C.r, C.g, C.b)
+function F:Texture_OnEnter()
+	if not self:IsEnabled() then return end
+
+	if self.pixels then
+		for _, pixel in pairs(self.pixels) do
+			pixel:SetVertexColor(C.r, C.g, C.b)
 		end
+	elseif self.bd then
+		self.bd:SetBackdropBorderColor(C.r, C.g, C.b)
+	else
+		self.bgTex:SetVertexColor(C.r, C.g, C.b)
 	end
 end
-F.colourArrow = textureOnEnter
 
-local function textureOnLeave(self)
+function F:Texture_OnLeave()
 	if self.pixels then
 		for _, pixel in pairs(self.pixels) do
 			pixel:SetVertexColor(1, 1, 1)
 		end
+	elseif self.bd then
+		self.bd:SetBackdropBorderColor(0, 0, 0)
 	else
 		self.bgTex:SetVertexColor(1, 1, 1)
 	end
 end
-F.clearArrow = textureOnLeave
 
-local function scrollOnEnter(self)
+local function Scroll_OnEnter(self)
 	local thumb = self.thumb
 	if not thumb then return end
 	thumb.bg:SetBackdropColor(C.r, C.g, C.b, .25)
 	thumb.bg:SetBackdropBorderColor(C.r, C.g, C.b)
 end
 
-local function scrollOnLeave(self)
+local function Scroll_OnLeave(self)
 	local thumb = self.thumb
 	if not thumb then return end
 	thumb.bg:SetBackdropColor(0, 0, 0, 0)
@@ -298,8 +300,8 @@ function F:ReskinScroll()
 	F.ReskinArrow(up, "up")
 	F.ReskinArrow(down, "down")
 
-	self:HookScript("OnEnter", scrollOnEnter)
-	self:HookScript("OnLeave", scrollOnLeave)
+	self:HookScript("OnEnter", Scroll_OnEnter)
+	self:HookScript("OnLeave", Scroll_OnLeave)
 end
 
 function F:ReskinDropDown()
@@ -349,8 +351,8 @@ function F:ReskinClose(a1, p, a2, x, y)
 		tinsert(self.pixels, tex)
 	end
 
-	self:HookScript("OnEnter", textureOnEnter)
- 	self:HookScript("OnLeave", textureOnLeave)
+	self:HookScript("OnEnter", F.Texture_OnEnter)
+ 	self:HookScript("OnLeave", F.Texture_OnLeave)
 end
 
 function F:ReskinInput(height, width)
@@ -393,8 +395,8 @@ function F:ReskinArrow(direction)
 	tex:SetPoint("CENTER")
 	self.bgTex = tex
 
-	self:HookScript("OnEnter", textureOnEnter)
-	self:HookScript("OnLeave", textureOnLeave)
+	self:HookScript("OnEnter", F.Texture_OnEnter)
+	self:HookScript("OnLeave", F.Texture_OnLeave)
 end
 
 function F:ReskinCheck(forceSaturation)
@@ -432,14 +434,6 @@ hooksecurefunc("TriStateCheckbox_SetState", function(_, checkButton)
 	end
 end)
 
-local function colourRadio(self)
-	self.bd:SetBackdropBorderColor(C.r, C.g, C.b)
-end
-
-local function clearRadio(self)
-	self.bd:SetBackdropBorderColor(0, 0, 0)
-end
-
 function F:ReskinRadio()
 	self:SetNormalTexture("")
 	self:SetHighlightTexture("")
@@ -456,8 +450,8 @@ function F:ReskinRadio()
 	F.CreateGradient(bd)
 	self.bd = bd
 
-	self:HookScript("OnEnter", colourRadio)
-	self:HookScript("OnLeave", clearRadio)
+	self:HookScript("OnEnter", F.Texture_OnEnter)
+	self:HookScript("OnLeave", F.Texture_OnLeave)
 end
 
 function F:ReskinSlider(verticle)
@@ -476,13 +470,13 @@ function F:ReskinSlider(verticle)
 	if verticle then thumb:SetRotation(math.rad(90)) end
 end
 
-local function expandOnEnter(self)
+local function Expand_OnEnter(self)
 	if self:IsEnabled() then
 		self.bg:SetBackdropColor(C.r, C.g, C.b, .25)
 	end
 end
 
-local function expandOnLeave(self)
+local function Expand_OnLeave(self)
 	self.bg:SetBackdropColor(0, 0, 0, .25)
 end
 
@@ -520,8 +514,8 @@ function F:ReskinExpandOrCollapse()
 	self.expTex:SetPoint("CENTER")
 	self.expTex:SetTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
 
-	self:HookScript("OnEnter", expandOnEnter)
-	self:HookScript("OnLeave", expandOnLeave)
+	self:HookScript("OnEnter", Expand_OnEnter)
+	self:HookScript("OnLeave", Expand_OnLeave)
 	hooksecurefunc(self, "SetNormalTexture", SetupTexture)
 end
 
@@ -666,8 +660,8 @@ function F:ReskinNavBar()
 	tex:SetPoint("CENTER")
 	overflowButton.bgTex = tex
 
-	overflowButton:HookScript("OnEnter", textureOnEnter)
-	overflowButton:HookScript("OnLeave", textureOnLeave)
+	overflowButton:HookScript("OnEnter", F.Texture_OnEnter)
+	overflowButton:HookScript("OnLeave", F.Texture_OnLeave)
 
 	self.navBarStyled = true
 end
@@ -738,8 +732,8 @@ function F:ReskinMinMax()
 				vline:SetPoint("BOTTOMLEFT", 4, 4)
 			end
 
-			button:SetScript("OnEnter", textureOnEnter)
-			button:SetScript("OnLeave", textureOnLeave)
+			button:SetScript("OnEnter", F.Texture_OnEnter)
+			button:SetScript("OnLeave", F.Texture_OnLeave)
 		end
 	end
 end
