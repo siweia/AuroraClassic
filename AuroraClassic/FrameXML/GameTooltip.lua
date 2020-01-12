@@ -110,7 +110,8 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local function reskinRewardIcon(self)
 		self.Icon:SetTexCoord(.08, .92, .08, .92)
-		self.bg = F.CreateBDFrame(self.Icon)
+		self.bg = F.CreateBDFrame(self, 0)
+		self.bg:SetOutside(self.Icon)
 
 		local iconBorder = self.IconBorder
 		iconBorder:SetAlpha(0)
