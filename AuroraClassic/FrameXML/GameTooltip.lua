@@ -13,7 +13,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		edgeFile = C.media.backdrop,
 		edgeSize = C.mult,
 	})
-	local function getBackdrop(self) return fakeBg:GetBackdrop() end
+	local function getBackdrop() return fakeBg:GetBackdrop() end
 	local function getBackdropColor() return 0, 0, 0, .7 end
 	local function getBackdropBorderColor() return 0, 0, 0 end
 

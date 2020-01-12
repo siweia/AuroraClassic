@@ -139,7 +139,7 @@ local function Button_OnEnter(self)
 	if AuroraClassicDB.GradientColor then
 		self:SetBackdropColor(C.r, C.g, C.b, .25)
 	else
-		self.bgTex:SetVertexColor(r / 4, g / 4, b / 4)
+		self.bgTex:SetVertexColor(C.r / 4, C.g / 4, C.b / 4)
 	end
 
 	self:SetBackdropBorderColor(C.r, C.g, C.b)
@@ -248,7 +248,7 @@ function F:Texture_OnEnter()
 	elseif self.bd then
 		self.bd:SetBackdropBorderColor(C.r, C.g, C.b)
 	elseif self.bg then
-		self.bg:SetBackdropColor(cr, cg, cb, .25)
+		self.bg:SetBackdropColor(C.r, C.g, C.b, .25)
 	else
 		self.bgTex:SetVertexColor(C.r, C.g, C.b)
 	end
