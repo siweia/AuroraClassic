@@ -247,6 +247,8 @@ function F:Texture_OnEnter()
 		end
 	elseif self.bd then
 		self.bd:SetBackdropBorderColor(C.r, C.g, C.b)
+	elseif self.bg then
+		self.bg:SetBackdropColor(cr, cg, cb, .25)
 	else
 		self.bgTex:SetVertexColor(C.r, C.g, C.b)
 	end
@@ -259,6 +261,8 @@ function F:Texture_OnLeave()
 		end
 	elseif self.bd then
 		self.bd:SetBackdropBorderColor(0, 0, 0)
+	elseif self.bg then
+		self.bg:SetBackdropColor(0, 0, 0, .25)
 	else
 		self.bgTex:SetVertexColor(1, 1, 1)
 	end
@@ -470,16 +474,6 @@ function F:ReskinSlider(verticle)
 	if verticle then thumb:SetRotation(math.rad(90)) end
 end
 
-local function Expand_OnEnter(self)
-	if self:IsEnabled() then
-		self.bg:SetBackdropColor(C.r, C.g, C.b, .25)
-	end
-end
-
-local function Expand_OnLeave(self)
-	self.bg:SetBackdropColor(0, 0, 0, .25)
-end
-
 local function SetupTexture(self, texture)
 	if self.settingTexture then return end
 	self.settingTexture = true
@@ -514,8 +508,8 @@ function F:ReskinExpandOrCollapse()
 	self.expTex:SetPoint("CENTER")
 	self.expTex:SetTexture("Interface\\Buttons\\UI-PlusMinus-Buttons")
 
-	self:HookScript("OnEnter", Expand_OnEnter)
-	self:HookScript("OnLeave", Expand_OnLeave)
+	self:HookScript("OnEnter", F.Texture_OnEnter)
+	self:HookScript("OnLeave", F.Texture_OnLeave)
 	hooksecurefunc(self, "SetNormalTexture", SetupTexture)
 end
 
