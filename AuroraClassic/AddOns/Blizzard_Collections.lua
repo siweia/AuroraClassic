@@ -85,14 +85,14 @@ C.themes["Blizzard_Collections"] = function()
 			if bu.DragButton then
 				bu.DragButton.ActiveTexture:SetTexture(C.media.checked)
 				bu.DragButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-				bu.DragButton:GetHighlightTexture():SetAllPoints(ic)
+				bu.DragButton:GetHighlightTexture():SetAllPoints(icon)
 			else
 				bu.dragButton.ActiveTexture:SetTexture(C.media.checked)
 				bu.dragButton.levelBG:SetAlpha(0)
 				bu.dragButton.level:SetFontObject(GameFontNormal)
 				bu.dragButton.level:SetTextColor(1, 1, 1)
 				bu.dragButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-				bu.dragButton:GetHighlightTexture():SetAllPoints(ic)
+				bu.dragButton:GetHighlightTexture():SetAllPoints(icon)
 			end
 		end
 	end
