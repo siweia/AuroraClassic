@@ -3,8 +3,6 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	if not AuroraClassicDB.Bags then return end
 
-	local r, g, b = C.r, C.g, C.b
-
 	BackpackTokenFrame:GetRegions():Hide()
 
 	for i = 1, 12 do

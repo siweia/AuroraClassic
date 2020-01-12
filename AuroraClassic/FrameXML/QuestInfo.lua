@@ -39,6 +39,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		local questID = QuestInfo_GetQuestID()
 		local objectivesTable = QuestInfoObjectivesFrame.Objectives
 		local numVisibleObjectives = 0
+		local objective
 
 		local waypointText = C_QuestLog.GetNextWaypointText(questID);
 		if waypointText then
@@ -52,7 +53,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 			if (type ~= "spell" and type ~= "log" and numVisibleObjectives < MAX_OBJECTIVES) then
 				numVisibleObjectives = numVisibleObjectives + 1
-				local objective = objectivesTable[numVisibleObjectives]
+				objective = objectivesTable[numVisibleObjectives]
 
 				if objective then
 					if finished then
