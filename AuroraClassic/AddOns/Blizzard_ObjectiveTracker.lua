@@ -122,7 +122,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		if not block.bg then
 			block.bg = F.CreateBDFrame(block.GlowTexture)
 			block.bg:SetPoint("TOPLEFT", block.GlowTexture, 4, -2)
-			block.bg:SetPoint("BOTTOMRIGHT", block.GlowTexture, -4, 0)
+			block.bg:SetPoint("BOTTOMRIGHT", block.GlowTexture, -4, 2)
 			F.CreateSD(block.bg)
 		end
 	end)

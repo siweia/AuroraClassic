@@ -516,8 +516,8 @@ end
 function F:SetBD(x, y, x2, y2)
 	local bg = F.CreateBDFrame(self)
 	if x then
-		bg:SetPoint("TOPLEFT", x, y)
-		bg:SetPoint("BOTTOMRIGHT", x2, y2)
+		bg:SetPoint("TOPLEFT", self, x, y)
+		bg:SetPoint("BOTTOMRIGHT", self, x2, y2)
 	end
 	F.CreateSD(bg)
 
