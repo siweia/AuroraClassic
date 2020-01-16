@@ -5,17 +5,12 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.CreateBD(RaidInfoFrame)
 	F.CreateSD(RaidInfoFrame)
 	F.ReskinCheck(RaidFrameAllAssistCheckButton)
+	F.StripTextures(RaidInfoFrame.Header)
 
 	RaidInfoFrame:SetPoint("TOPLEFT", RaidFrame, "TOPRIGHT", 1, -28)
 	RaidInfoDetailFooter:Hide()
 	RaidInfoDetailHeader:Hide()
 	RaidInfoDetailCorner:Hide()
-	RaidInfoFrame.Header = RaidInfoFrame.Header or RaidInfoFrameHeader -- deprecated in 8.3
-	if C.isNewPatch then
-		F.StripTextures(RaidInfoFrame.Header)
-	else
-		RaidInfoFrame.Header:Hide()
-	end
 
 	F.Reskin(RaidFrameRaidInfoButton)
 	F.Reskin(RaidFrameConvertToRaidButton)

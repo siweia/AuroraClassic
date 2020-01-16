@@ -39,7 +39,7 @@ C.options = {
 C.frames = {}
 C.themes = {}
 C.themes["AuroraClassic"] = {}
-C.isNewPatch = GetBuildInfo() == "8.3.0"
+C.isNewPatch = GetBuildInfo() == "8.3.0" -- keep it for future purpose
 C.MyClass = select(2, UnitClass("player"))
 C.ClassColors = {}
 

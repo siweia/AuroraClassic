@@ -5,12 +5,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	F.CreateBD(ChatConfigFrame)
 	F.CreateSD(ChatConfigFrame)
 
-	ChatConfigFrame.Header = ChatConfigFrame.Header or ChatConfigFrameHeader -- deprecated in 8.3
-	if C.isNewPatch then
-		F.StripTextures(ChatConfigFrame.Header)
-	else
-		ChatConfigFrame.Header:SetAlpha(0)
-	end
+	F.StripTextures(ChatConfigFrame.Header)
 	ChatConfigFrame.Header:SetPoint("TOP", ChatConfigFrame, 0, 0)
 
 	hooksecurefunc("ChatConfig_CreateCheckboxes", function(frame, checkBoxTable)

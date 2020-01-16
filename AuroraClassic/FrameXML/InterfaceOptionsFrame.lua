@@ -16,12 +16,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.CreateSD(InterfaceOptionsFrame)
 		InterfaceOptionsFrame.Border:Hide()
 
-		InterfaceOptionsFrame.Header = InterfaceOptionsFrame.Header or InterfaceOptionsFrameHeader -- deprecated in 8.3
-		if C.isNewPatch then
-			F.StripTextures(InterfaceOptionsFrame.Header)
-		else
-			InterfaceOptionsFrame.Header:SetTexture("")
-		end
+		F.StripTextures(InterfaceOptionsFrame.Header)
 		InterfaceOptionsFrame.Header:ClearAllPoints()
 		InterfaceOptionsFrame.Header:SetPoint("TOP", InterfaceOptionsFrame, 0, 0)
 
