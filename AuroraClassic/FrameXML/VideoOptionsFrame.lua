@@ -3,13 +3,7 @@ local F, C = unpack(select(2, ...))
 tinsert(C.themes["AuroraClassic"], function()
 	F.StripTextures(VideoOptionsFrameCategoryFrame)
 	F.StripTextures(VideoOptionsFramePanelContainer)
-
-	VideoOptionsFrame.Header = VideoOptionsFrame.Header or VideoOptionsFrameHeader -- deprecated in 8.3
-	if C.isNewPatch then
-		F.StripTextures(VideoOptionsFrame.Header)
-	else
-		VideoOptionsFrame.Header:SetTexture("")
-	end
+	F.StripTextures(VideoOptionsFrame.Header)
 	VideoOptionsFrame.Header:ClearAllPoints()
 	VideoOptionsFrame.Header:SetPoint("TOP", VideoOptionsFrame, 0, 0)
 
