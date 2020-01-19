@@ -8,6 +8,9 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 		if frame.bg then
 			frame.bg:SetBackdropColor(0, 0, 0, AuroraClassicDB.Alpha)
+			if frame.bg.Shadow then
+				frame.bg.Shadow:SetBackdropBorderColor(0, 0, 0, .4)
+			end
 		end
 	end
 
@@ -15,6 +18,9 @@ tinsert(C.themes["AuroraClassic"], function()
 		frame = frame:GetParent():GetParent()
 		if frame.bg then
 			frame.bg:SetBackdropColor(0, 0, 0, AuroraClassicDB.Alpha)
+			if frame.bg.Shadow then
+				frame.bg.Shadow:SetBackdropBorderColor(0, 0, 0, .4)
+			end
 		end
 	end
 
