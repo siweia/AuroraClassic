@@ -36,7 +36,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 		F.ReskinDropDown(frame.DurationDropDown.DropDown)
 		F.Reskin(frame.PostButton)
 		if frame.BuyoutModeCheckButton then
-			B.ReskinCheck(frame.BuyoutModeCheckButton)
+			F.ReskinCheck(frame.BuyoutModeCheckButton)
 			frame.BuyoutModeCheckButton:SetSize(28, 28)
 		end
 	end
