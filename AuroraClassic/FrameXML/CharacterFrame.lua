@@ -76,6 +76,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		slot:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 		slot.SetHighlightTexture = F.dummy
 		slot.ignoreTexture:SetTexture("Interface\\PaperDollInfoFrame\\UI-GearManager-LeaveItem-Transparent")
+		slot.CorruptedHighlightTexture:SetAtlas("Nzoth-charactersheet-item-glow")
 
 		border:SetAlpha(0)
 		hooksecurefunc(border, "SetVertexColor", function(_, r, g, b) slot:SetBackdropBorderColor(r, g, b) end)
@@ -116,6 +117,8 @@ tinsert(C.themes["AuroraClassic"], function()
 
 	local pane = CharacterStatsPane
 	pane.ClassBackground:Hide()
+	pane.ItemLevelFrame.Corruption:SetPoint("RIGHT", 22, -8)
+
 	local categories = {pane.ItemLevelCategory, pane.AttributesCategory, pane.EnhancementsCategory}
 	for _, category in pairs(categories) do
 		category.Background:Hide()
