@@ -54,6 +54,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		self.AzeriteTexture:SetDrawLayer("BORDER", 1)
 	end
 
+	local function UpdateCorruption(self)
+		local itemLink = GetInventoryItemLink("player", self:GetID())
+		self.IconOverlay:SetShown(itemLink and IsCorruptedItem(itemLink))
+	end
+
 	local slots = {
 		"Head", "Neck", "Shoulder", "Shirt", "Chest", "Waist", "Legs", "Feet", "Wrist",
 		"Hands", "Finger0", "Finger1", "Trinket0", "Trinket1", "Back", "MainHand",
@@ -77,6 +82,11 @@ tinsert(C.themes["AuroraClassic"], function()
 		slot.SetHighlightTexture = F.dummy
 		slot.ignoreTexture:SetTexture("Interface\\PaperDollInfoFrame\\UI-GearManager-LeaveItem-Transparent")
 		slot.CorruptedHighlightTexture:SetAtlas("Nzoth-charactersheet-item-glow")
+
+		slot.IconOverlay:SetAtlas("Nzoth-inventory-icon")
+		slot.IconOverlay:SetInside()
+		slot:HookScript("OnShow", UpdateCorruption)
+		slot:HookScript("OnEvent", UpdateCorruption)
 
 		border:SetAlpha(0)
 		hooksecurefunc(border, "SetVertexColor", function(_, r, g, b) slot:SetBackdropBorderColor(r, g, b) end)
