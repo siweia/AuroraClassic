@@ -55,8 +55,9 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		local env = self.Stage.MissionEnvIcon
 		env.bg = F.ReskinIcon(env.Texture)
 
-		local item = self.RewardsFrame.OvermaxItem
-		F.ReskinIcon(item.Icon)
+		local overmaxItem = self.RewardsFrame.OvermaxItem
+		overmaxItem.IconBorder:SetAlpha(0)
+		F.ReskinIcon(overmaxItem.Icon)
 
 		if self.CostFrame then
 			self.CostFrame.CostIcon:SetTexCoord(.08, .92, .08, .92)
