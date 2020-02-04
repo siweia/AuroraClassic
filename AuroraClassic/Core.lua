@@ -29,6 +29,7 @@ function F:CreateSD()
 	self.Shadow:SetOutside(self, 4, 4)
 	self.Shadow:SetBackdrop({edgeFile = C.media.glowTex, edgeSize = F:Scale(5)})
 	self.Shadow:SetBackdropBorderColor(0, 0, 0, .4)
+	self.Shadow:SetFrameLevel(1)
 
 	return self.Shadow
 end
