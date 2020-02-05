@@ -162,7 +162,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.StripTextures(_G["WhoFrameColumnHeader"..i])
 	end
 
-	WhoFrameListInset:Hide()
+	F.StripTextures(WhoFrameListInset)
 	WhoFrameEditBoxInset:Hide()
 	local whoBg = F.CreateBDFrame(WhoFrameEditBox, 0)
 	whoBg:SetPoint("TOPLEFT", WhoFrameEditBoxInset)
