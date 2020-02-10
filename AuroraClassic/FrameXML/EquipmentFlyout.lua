@@ -74,8 +74,19 @@ tinsert(C.themes["AuroraClassic"], function()
 		UpdateCorruption(button, location)
 	end)
 
-	F.CreateBD(EquipmentFlyoutFrame.NavigationFrame)
-	F.CreateSD(EquipmentFlyoutFrame.NavigationFrame)
-	F.ReskinArrow(EquipmentFlyoutFrame.NavigationFrame.PrevButton, "left")
-	F.ReskinArrow(EquipmentFlyoutFrame.NavigationFrame.NextButton, "right")
+	local function reskinButtonFrame()
+		local frame = EquipmentFlyoutFrame.buttonFrame
+		if not frame.bg then
+			frame.bg = F.SetBD(EquipmentFlyoutFrame.buttonFrame)
+		end
+		frame:SetWidth(frame:GetWidth()+3)
+	end
+	hooksecurefunc("EquipmentFlyout_UpdateItems", reskinButtonFrame)
+
+	local navigationFrame = EquipmentFlyoutFrame.NavigationFrame
+	F.SetBD(navigationFrame)
+	navigationFrame:SetPoint("TOPLEFT", EquipmentFlyoutFrameButtons, "BOTTOMLEFT", 0, -3)
+	navigationFrame:SetPoint("TOPRIGHT", EquipmentFlyoutFrameButtons, "BOTTOMRIGHT", 0, -3)
+	F.ReskinArrow(navigationFrame.PrevButton, "left")
+	F.ReskinArrow(navigationFrame.NextButton, "right")
 end)
