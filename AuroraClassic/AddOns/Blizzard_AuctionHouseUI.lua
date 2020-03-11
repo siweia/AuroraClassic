@@ -235,7 +235,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 	F.SetBD(multisellFrame)
 	local progressBar = multisellFrame.ProgressBar
 	F.StripTextures(progressBar)
-	progressBar:SetStatusBarTexture(DB.normTex)
+	progressBar:SetStatusBarTexture(C.media.backdrop)
 	F.CreateBDFrame(progressBar, .25)
 	F.ReskinClose(multisellFrame.CancelButton, "LEFT", progressBar, "RIGHT", 3, 0)
 end
