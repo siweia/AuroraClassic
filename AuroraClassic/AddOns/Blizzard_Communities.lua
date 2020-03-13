@@ -377,9 +377,9 @@ C.themes["Blizzard_Communities"] = function()
 
 	local factionFrameBar = CommunitiesFrame.GuildBenefitsFrame.FactionFrame.Bar
 	F.StripTextures(factionFrameBar)
-	F.CreateBDFrame(factionFrameBar, .25)
+	local bg = F.CreateBDFrame(factionFrameBar, .25)
 	factionFrameBar.Progress:SetTexture(C.media.backdrop)
-	factionFrameBar.Progress:SetAllPoints()
+	bg:SetOutside(factionFrameBar.Progress)
 
 	hooksecurefunc("CommunitiesGuildPerks_Update", function(self)
 		local buttons = self.Container.buttons
