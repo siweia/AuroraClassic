@@ -497,10 +497,10 @@ C.themes["Blizzard_Communities"] = function()
 
 	-- ApplicantList
 	local applicantList = CommunitiesFrame.ApplicantList
-	B.StripTextures(applicantList)
-	B.StripTextures(applicantList.columnDisplay)
-	B.ReskinScroll(applicantList.ListScrollFrame.scrollBar)
-	local listBG = B.CreateBDFrame(applicantList, .25)
+	F.StripTextures(applicantList)
+	F.StripTextures(applicantList.columnDisplay)
+	F.ReskinScroll(applicantList.ListScrollFrame.scrollBar)
+	local listBG = F.CreateBDFrame(applicantList, .25)
 	listBG:SetPoint("TOPLEFT", 0, 0)
 	listBG:SetPoint("BOTTOMRIGHT", -15, 0)
 
@@ -509,7 +509,7 @@ C.themes["Blizzard_Communities"] = function()
 
 		local class = self.Class
 		if not class.bg then
-			class.bg = B.CreateBDFrame(class)
+			class.bg = F.CreateBDFrame(class)
 		end
 
 		local classTag = select(2, GetClassInfo(info.classID))
@@ -524,13 +524,13 @@ C.themes["Blizzard_Communities"] = function()
 		for i = 1, columnDisplay:GetNumChildren() do
 			local child = select(i, columnDisplay:GetChildren())
 			if not child.styled then
-				B.StripTextures(child)
+				F.StripTextures(child)
 
-				local bg = B.CreateBDFrame(child, .25)
+				local bg = F.CreateBDFrame(child, .25)
 				bg:SetPoint("TOPLEFT", 4, -2)
 				bg:SetPoint("BOTTOMRIGHT", 0, 2)
 
-				child:SetHighlightTexture(DB.bdTex)
+				child:SetHighlightTexture(C.media.backdrop)
 				local hl = child:GetHighlightTexture()
 				hl:SetVertexColor(r, g, b, .25)
 				hl:SetInside(bg)
@@ -545,13 +545,13 @@ C.themes["Blizzard_Communities"] = function()
 			if not button.styled then
 				button:SetPoint("LEFT", listBG, C.mult, 0)
 				button:SetPoint("RIGHT", listBG, -C.mult, 0)
-				button:SetHighlightTexture(DB.bdTex)
+				button:SetHighlightTexture(C.media.backdrop)
 				button:GetHighlightTexture():SetVertexColor(r, g, b, .25)
 				button.InviteButton:SetSize(66, 18)
 				button.CancelInvitationButton:SetSize(20, 18)
 
-				B.ReskinButton(button.InviteButton)
-				B.ReskinButton(button.CancelInvitationButton)
+				F.ReskinButton(button.InviteButton)
+				F.ReskinButton(button.CancelInvitationButton)
 				hooksecurefunc(button, "UpdateMemberInfo", updateMemberName)
 
 				button.styled = true
