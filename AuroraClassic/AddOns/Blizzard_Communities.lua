@@ -551,8 +551,8 @@ C.themes["Blizzard_Communities"] = function()
 				button.InviteButton:SetSize(66, 18)
 				button.CancelInvitationButton:SetSize(20, 18)
 
-				F.ReskinButton(button.InviteButton)
-				F.ReskinButton(button.CancelInvitationButton)
+				F.Reskin(button.InviteButton)
+				F.Reskin(button.CancelInvitationButton)
 				hooksecurefunc(button, "UpdateMemberInfo", updateMemberName)
 
 				button.styled = true
