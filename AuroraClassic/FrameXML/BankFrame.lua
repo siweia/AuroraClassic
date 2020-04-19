@@ -30,12 +30,9 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		border:SetTexture(C.media.backdrop)
 		border.SetTexture = F.dummy
-		border:SetPoint("TOPLEFT", -C.mult, C.mult)
-		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+		border:SetOutside()
 		border:SetDrawLayer("BACKGROUND", 1)
-
-		searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)
-		searchOverlay:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+		searchOverlay:SetOutside()
 
 		bu:SetNormalTexture("")
 		bu:SetPushedTexture("")
@@ -61,12 +58,9 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		border:SetTexture(C.media.backdrop)
 		border.SetTexture = F.dummy
-		border:SetPoint("TOPLEFT", -C.mult, C.mult)
-		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+		border:SetOutside()
 		border:SetDrawLayer("BACKGROUND", 1)
-
-		searchOverlay:SetPoint("TOPLEFT", -C.mult, C.mult)
-		searchOverlay:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+		searchOverlay:SetOutside()
 
 		bag.icon:SetTexCoord(.08, .92, .08, .92)
 		F.CreateBDFrame(bag, .25)

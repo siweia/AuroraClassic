@@ -91,8 +91,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		bu:GetRegions():Hide()
 		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 
-		border:SetPoint("TOPLEFT", -C.mult, C.mult)
-		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+		border:SetOutside()
 		border:SetDrawLayer("BACKGROUND")
 		F.CreateBDFrame(bu, .25)
 	end
@@ -121,8 +120,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		border:SetTexture(C.media.backdrop)
 		border.SetTexture = F.dummy
-		border:SetPoint("TOPLEFT", -C.mult, C.mult)
-		border:SetPoint("BOTTOMRIGHT", C.mult, -C.mult)
+		border:SetOutside()
 		border:SetDrawLayer("BACKGROUND")
 		F.CreateBDFrame(bu, .25)
 	end

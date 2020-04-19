@@ -126,8 +126,7 @@ end
 
 function F:CreateGradient()
 	local tex = self:CreateTexture(nil, "BORDER")
-	tex:SetPoint("TOPLEFT", self, C.mult, -C.mult)
-	tex:SetPoint("BOTTOMRIGHT", self, -C.mult, C.mult)
+	tex:SetInside()
 	tex:SetTexture(AuroraClassicDB.FlatMode and C.media.backdrop or C.media.gradient)
 	tex:SetVertexColor(C.buttonR, C.buttonG, C.buttonB, C.buttonA)
 
@@ -225,8 +224,7 @@ function F:ReskinTab()
 	self:SetHighlightTexture(C.media.backdrop)
 	local hl = self:GetHighlightTexture()
 	hl:ClearAllPoints()
-	hl:SetPoint("TOPLEFT", bg, C.mult, -C.mult)
-	hl:SetPoint("BOTTOMRIGHT", bg, -C.mult, C.mult)
+	hl:SetInside(bg)
 	hl:SetVertexColor(C.r, C.g, C.b, .25)
 end
 
@@ -760,8 +758,7 @@ function F:StyleSearchButton()
 	self:SetHighlightTexture(C.media.backdrop)
 	local hl = self:GetHighlightTexture()
 	hl:SetVertexColor(C.r, C.g, C.b, .25)
-	hl:SetPoint("TOPLEFT", C.mult, -C.mult)
-	hl:SetPoint("BOTTOMRIGHT", -C.mult, C.mult)
+	hl:SetInside()
 end
 
 function F:GetRoleTexCoord()
@@ -909,8 +906,7 @@ function F:CreateBG()
 	if self:GetObjectType() == "Texture" then f = self:GetParent() end
 
 	local bg = f:CreateTexture(nil, "BACKGROUND")
-	bg:SetPoint("TOPLEFT", self, -C.mult, C.mult)
-	bg:SetPoint("BOTTOMRIGHT", self, C.mult, -C.mult)
+	bg:SetOutside(self)
 	bg:SetTexture(C.media.backdrop)
 	bg:SetVertexColor(0, 0, 0)
 
