@@ -43,31 +43,31 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
-	hooksecurefunc(_G.UIWidgetTemplateCaptureBarMixin, "Setup", function(widgetInfo)
-		widgetInfo.LeftLine:SetAlpha(0)
-		widgetInfo.RightLine:SetAlpha(0)
-		widgetInfo.BarBackground:SetAlpha(0)
-		widgetInfo.Glow1:SetAlpha(0)
-		widgetInfo.Glow2:SetAlpha(0)
-		widgetInfo.Glow3:SetAlpha(0)
+	hooksecurefunc(_G.UIWidgetTemplateCaptureBarMixin, "Setup", function(self)
+		self.LeftLine:SetAlpha(0)
+		self.RightLine:SetAlpha(0)
+		self.BarBackground:SetAlpha(0)
+		self.Glow1:SetAlpha(0)
+		self.Glow2:SetAlpha(0)
+		self.Glow3:SetAlpha(0)
 
-		widgetInfo.LeftBar:SetTexture(C.media.backdrop)
-		widgetInfo.NeutralBar:SetTexture(C.media.backdrop)
-		widgetInfo.RightBar:SetTexture(C.media.backdrop)
+		self.LeftBar:SetTexture(C.media.backdrop)
+		self.NeutralBar:SetTexture(C.media.backdrop)
+		self.RightBar:SetTexture(C.media.backdrop)
 
-		widgetInfo.LeftBar:SetVertexColor(.2, .6, 1)
-		widgetInfo.NeutralBar:SetVertexColor(.8, .8, .8)
-		widgetInfo.RightBar:SetVertexColor(.9, .2, .2)
+		self.LeftBar:SetVertexColor(.2, .6, 1)
+		self.NeutralBar:SetVertexColor(.8, .8, .8)
+		self.RightBar:SetVertexColor(.9, .2, .2)
 
-		if not widgetInfo.bg then
-			widgetInfo.bg = F.SetBD(widgetInfo)
-			widgetInfo.bg:Point("TOPLEFT", widgetInfo.LeftBar, -2, 2)
-			widgetInfo.bg:Point("BOTTOMRIGHT", widgetInfo.RightBar, 2, -2)
+		if not self.bg then
+			self.bg = F.SetBD(self)
+			self.bg:Point("TOPLEFT", self.LeftBar, -2, 2)
+			self.bg:Point("BOTTOMRIGHT", self.RightBar, 2, -2)
 		end
 	end)
 
-	hooksecurefunc(_G.UIWidgetTemplateStatusBarMixin, "Setup", function(widgetInfo)
-		local bar = widgetInfo.Bar
+	hooksecurefunc(_G.UIWidgetTemplateStatusBarMixin, "Setup", function(self)
+		local bar = self.Bar
 		local atlas = bar:GetStatusBarAtlas()
 		updateBarTexture(bar, atlas)
 
@@ -85,7 +85,18 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end)
 
-	hooksecurefunc(_G.UIWidgetTemplateScenarioHeaderCurrenciesAndBackgroundMixin, "Setup", function(widgetInfo)
-		widgetInfo.Frame:SetAlpha(0)
+	hooksecurefunc(_G.UIWidgetTemplateScenarioHeaderCurrenciesAndBackgroundMixin, "Setup", function(self)
+		self.Frame:SetAlpha(0)
+	end)
+
+	hooksecurefunc(_G.UIWidgetTemplateSpellDisplayMixin, "Setup", function(self)
+		local spellFrame = self.Spell
+
+		if spellFrame and not spellFrame.styled then
+			spellFrame.DebuffBorder:SetTexture(nil)
+			F.ReskinIcon(spellFrame.Icon)
+
+			spellFrame.styled = true
+		end
 	end)
 end)
