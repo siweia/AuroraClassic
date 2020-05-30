@@ -17,15 +17,17 @@ tinsert(C.themes["AuroraClassic"], function()
 		end
 	end
 
-	local doubleBarType = _G.Enum.UIWidgetVisualizationType.DoubleStatusBar
+	local Type_DoubleStatusBar = _G.Enum.UIWidgetVisualizationType.DoubleStatusBar
+	local Type_SpellDisplay = _G.Enum.UIWidgetVisualizationType.SpellDisplay
+
 	local frame = CreateFrame("Frame")
 	frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 	frame:RegisterEvent("UPDATE_ALL_UI_WIDGETS")
 	frame:SetScript("OnEvent", function()
 		for _, widgetFrame in pairs(_G.UIWidgetTopCenterContainerFrame.widgetFrames) do
-			if widgetFrame.widgetType == doubleBarType then
-				for _, bar in pairs({widgetFrame.LeftBar, widgetFrame.RightBar}) do
-					if not bar.styled then
+			if widgetFrame.widgetType == Type_DoubleStatusBar then
+				if not widgetFrame.styled then
+					for _, bar in pairs({widgetFrame.LeftBar, widgetFrame.RightBar}) do
 						bar.BG:SetAlpha(0)
 						bar.BorderLeft:SetAlpha(0)
 						bar.BorderRight:SetAlpha(0)
@@ -35,9 +37,19 @@ tinsert(C.themes["AuroraClassic"], function()
 						bar.BorderGlow:SetAlpha(0)
 						F.SetBD(bar)
 						hooksecurefunc(bar, "SetStatusBarAtlas", updateBarTexture)
-
-						bar.styled = true
 					end
+
+					widgetFrame.styled = true
+				end
+			elseif widgetFrame.widgetType == Type_SpellDisplay then
+				if not widgetFrame.styled then
+					local widgetSpell = widgetFrame.Spell
+					widgetSpell.IconMask:Hide()
+					widgetSpell.Border:SetTexture(nil)
+					widgetSpell.DebuffBorder:SetTexture(nil)
+					F.ReskinIcon(widgetSpell.Icon)
+
+					widgetFrame.styled = true
 				end
 			end
 		end
@@ -82,21 +94,6 @@ tinsert(C.themes["AuroraClassic"], function()
 			F.CreateBDFrame(bar, .25)
 
 			bar.styled = true
-		end
-	end)
-
-	hooksecurefunc(_G.UIWidgetTemplateScenarioHeaderCurrenciesAndBackgroundMixin, "Setup", function(self)
-		self.Frame:SetAlpha(0)
-	end)
-
-	hooksecurefunc(_G.UIWidgetTemplateSpellDisplayMixin, "Setup", function(self)
-		local spellFrame = self.Spell
-
-		if spellFrame and not spellFrame.styled then
-			spellFrame.DebuffBorder:SetTexture(nil)
-			F.ReskinIcon(spellFrame.Icon)
-
-			spellFrame.styled = true
 		end
 	end)
 end)
