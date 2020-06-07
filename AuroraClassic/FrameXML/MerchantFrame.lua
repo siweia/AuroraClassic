@@ -34,7 +34,6 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		_G["MerchantItem"..i.."SlotTexture"]:Hide()
 		_G["MerchantItem"..i.."NameFrame"]:Hide()
-		_G["MerchantItem"..i.."Name"]:SetHeight(20)
 
 		local a1, p, a2= bu:GetPoint()
 		bu:SetPoint(a1, p, a2, -2, -2)
