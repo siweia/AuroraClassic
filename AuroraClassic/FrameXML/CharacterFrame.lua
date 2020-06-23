@@ -145,7 +145,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		if i == 1 then
 			for i = 1, 4 do
 				local region = select(i, tab:GetRegions())
-				region:SetTexCoord(0.16, 0.86, 0.16, 0.86)
+				region:SetTexCoord(.16, .86, .16, .86)
 				region.SetTexCoord = F.dummy
 			end
 		end
