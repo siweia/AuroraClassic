@@ -111,7 +111,7 @@ C.themes["Blizzard_GuildBankUI"] = function()
 			local button = _G["GuildBankPopupButton"..i]
 			local icon = _G["GuildBankPopupButton"..i.."Icon"]
 			if not button.styled then
-				button:SetCheckedTexture(C.media.checked
+				button:SetCheckedTexture(C.media.checked)
 				select(2, button:GetRegions()):Hide()
 				F.ReskinIcon(icon)
 				local hl = button:GetHighlightTexture()
