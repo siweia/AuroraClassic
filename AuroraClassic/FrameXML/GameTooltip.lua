@@ -100,14 +100,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	FloatingBattlePetTooltip.Delimiter:SetHeight(1)
 
 	-- Tooltip rewards icon
-	local function updateBackdropColor(self, r, g, b)
-		self:GetParent().bg:SetBackdropBorderColor(r, g, b)
-	end
-
-	local function resetBackdropColor(self)
-		self:GetParent().bg:SetBackdropBorderColor(0, 0, 0)
-	end
-
 	local function reskinRewardIcon(self)
 		self.Icon:SetTexCoord(.08, .92, .08, .92)
 		self.bg = F.CreateBDFrame(self, 0)
@@ -115,8 +107,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local iconBorder = self.IconBorder
 		iconBorder:SetAlpha(0)
-		hooksecurefunc(iconBorder, "SetVertexColor", updateBackdropColor)
-		hooksecurefunc(iconBorder, "Hide", resetBackdropColor)
+		F.HookIconBorderColor(iconBorder)
 	end
 
 	reskinRewardIcon(GameTooltip.ItemTooltip)

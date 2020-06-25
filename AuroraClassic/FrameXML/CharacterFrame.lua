@@ -76,7 +76,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.StripTextures(slot)
 		slot.icon:SetTexCoord(.08, .92, .08, .92)
 		slot.icon:SetInside()
-		F.CreateBD(slot, .25)
+		slot.bg = F.CreateBDFrame(slot.icon, .25)
 		cooldown:SetInside()
 
 		slot.ignoreTexture:SetTexture("Interface\\PaperDollInfoFrame\\UI-GearManager-LeaveItem-Transparent")
@@ -85,8 +85,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		slot.IconOverlay:SetInside()
 
 		border:SetAlpha(0)
-		hooksecurefunc(border, "SetVertexColor", function(_, r, g, b) slot:SetBackdropBorderColor(r, g, b) end)
-		hooksecurefunc(border, "Hide", function() slot:SetBackdropBorderColor(0, 0, 0) end)
+		F.HookIconBorderColor(border)
 
 		local popout = slot.popoutButton
 		popout:SetNormalTexture("")

@@ -78,18 +78,14 @@ tinsert(C.themes["AuroraClassic"], function()
 		button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 		button.IconBorder:SetAlpha(0)
 		button.bg = F.CreateBDFrame(button, .25)
+		F.HookIconBorderColor(button.IconBorder)
 	end
 
 	hooksecurefunc("SendMailFrame_Update", function()
 		for i = 1, ATTACHMENTS_MAX_SEND do
 			local button = SendMailFrame.SendMailAttachments[i]
 			if HasSendMailItem(i) then
-				local quality = select(5, GetSendMailItem(i))
-				local color = C.QualityColors[quality or 1]
-				button.bg:SetBackdropBorderColor(color.r, color.g, color.b)
 				button:GetNormalTexture():SetTexCoord(.08, .92, .08, .92)
-			else
-				button.bg:SetBackdropBorderColor(0, 0, 0)
 			end
 		end
 	end)
@@ -101,22 +97,8 @@ tinsert(C.themes["AuroraClassic"], function()
 		button.icon:SetTexCoord(.08, .92, .08, .92)
 		button.IconBorder:SetAlpha(0)
 		button.bg = F.CreateBDFrame(button, .25)
+		F.HookIconBorderColor(button.IconBorder)
 	end
-
-	hooksecurefunc("OpenMailFrame_UpdateButtonPositions", function()
-		for i = 1, ATTACHMENTS_MAX_RECEIVE do
-			local button = OpenMailFrame.OpenMailAttachments[i]
-			button.bg:SetBackdropBorderColor(0, 0, 0)
-
-			if HasInboxItem(InboxFrame.openMailID, i) then
-				local name, _, _, _, quality = GetInboxItem(InboxFrame.openMailID, i)
-				if name then
-					local color = C.QualityColors[quality or 1]
-					button.bg:SetBackdropBorderColor(color.r, color.g, color.b)
-				end
-			end
-		end
-	end)
 
 	MailFont_Large:SetTextColor(1, 1, 1)
 	MailFont_Large:SetShadowColor(0, 0, 0, 0)
