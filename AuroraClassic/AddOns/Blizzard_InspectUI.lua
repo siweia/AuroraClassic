@@ -29,7 +29,7 @@ C.themes["Blizzard_InspectUI"] = function()
 		F.StripTextures(slot)
 		slot.icon:SetTexCoord(.08, .92, .08, .92)
 		slot.icon:SetInside()
-		F.CreateBD(slot, .25)
+		slot.bg = F.CreateBDFrame(slot.icon, .25)
 		slot:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 
 		if not slot.Eye then
@@ -39,8 +39,7 @@ C.themes["Blizzard_InspectUI"] = function()
 		end
 
 		border:SetAlpha(0)
-		hooksecurefunc(border, "SetVertexColor", function(_, r, g, b) slot:SetBackdropBorderColor(r, g, b) end)
-		hooksecurefunc(border, "Hide", function() slot:SetBackdropBorderColor(0, 0, 0) end)
+		F.HookIconBorderColor(border)
 	end
 
 	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)

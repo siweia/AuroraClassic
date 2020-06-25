@@ -7,14 +7,6 @@ C.themes["Blizzard_ScrappingMachineUI"] = function()
 	local ItemSlots = ScrappingMachineFrame.ItemSlots
 	F.StripTextures(ItemSlots)
 
-	local function icon_SetColor(self, r, g, b)
-		self:GetParent().bg:SetBackdropBorderColor(r, g, b)
-	end
-
-	local function icon_ResetColor(self)
-		self:GetParent().bg:SetBackdropBorderColor(0, 0, 0)
-	end
-
 	for button in pairs(ItemSlots.scrapButtons.activeObjects) do
 		F.StripTextures(button)
 		button.IconBorder:SetAlpha(0)
@@ -23,7 +15,6 @@ C.themes["Blizzard_ScrappingMachineUI"] = function()
 		local hl = button:GetHighlightTexture()
 		hl:SetColorTexture(1, 1, 1, .25)
 		hl:SetAllPoints(button.Icon)
-		hooksecurefunc(button.IconBorder, "SetVertexColor", icon_SetColor)
-		hooksecurefunc(button.IconBorder, "Hide", icon_ResetColor)
+		F.HookIconBorderColor(button.IconBorder)
 	end
 end
