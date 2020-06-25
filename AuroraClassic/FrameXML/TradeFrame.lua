@@ -43,4 +43,17 @@ tinsert(C.themes["AuroraClassic"], function()
 		reskinButton(_G["TradePlayerItem"..i.."ItemButton"])
 		reskinButton(_G["TradeRecipientItem"..i.."ItemButton"])
 	end
+
+	local tradeHighlights = {
+		TradeHighlightPlayer,
+		TradeHighlightPlayerEnchant,
+		TradeHighlightRecipient,
+		TradeHighlightRecipientEnchant,
+	}
+	for _, highlight in pairs(tradeHighlights) do
+		F.StripTextures(highlight)
+		highlight:SetFrameStrata("HIGH")
+		local bg = F.CreateBDFrame(highlight, .25)
+		bg:SetBackdropColor(0, 1, 0, .15)
+	end
 end)
