@@ -677,6 +677,20 @@ function F:ReskinIcon()
 	return F.CreateBDFrame(self)
 end
 
+local function updateIconBorderColor(self, r, g, b)
+	if r == .65882 then r, g, b = 0, 0, 0 end
+	self.__owner.bg:SetBackdropBorderColor(r, g, b)
+end
+local function resetIconBorderColor(self)
+	self.__owner.bg:SetBackdropBorderColor(0, 0, 0)
+end
+function F:HookIconBorderColor()
+	self.__owner = self:GetParent()
+	if not self.__owner.bg then return end
+	hooksecurefunc(self, "SetVertexColor", updateIconBorderColor)
+	hooksecurefunc(self, "Hide", resetIconBorderColor)
+end
+
 function F:ReskinMinMax()
 	for _, name in next, {"MaximizeButton", "MinimizeButton"} do
 		local button = self[name]
