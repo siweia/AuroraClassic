@@ -24,22 +24,18 @@ C.themes["Blizzard_InspectUI"] = function()
 
 	for i = 1, #slots do
 		local slot = _G["Inspect"..slots[i].."Slot"]
-		local border = slot.IconBorder
-
 		F.StripTextures(slot)
 		slot.icon:SetTexCoord(.08, .92, .08, .92)
 		slot.icon:SetInside()
 		slot.bg = F.CreateBDFrame(slot.icon, .25)
 		slot:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+		F.HookIconBorderColor(slot.IconBorder)
 
 		if not slot.Eye then
 			slot.Eye = slot:CreateTexture()
 			slot.Eye:SetAtlas("Nzoth-inventory-icon")
 			slot.Eye:SetInside()
 		end
-
-		border:SetAlpha(0)
-		F.HookIconBorderColor(border)
 	end
 
 	hooksecurefunc("InspectPaperDollItemSlotButton_Update", function(button)

@@ -20,20 +20,18 @@ tinsert(C.themes["AuroraClassic"], function()
 	hooksecurefunc("EquipmentFlyout_CreateButton", function()
 		local button = EquipmentFlyoutFrame.buttons[#EquipmentFlyoutFrame.buttons]
 
-		button.IconBorder:SetAlpha(0)
 		button.icon:SetTexCoord(.08, .92, .08, .92)
 		button:SetNormalTexture("")
 		button:SetPushedTexture("")
 		button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 		button.bg = F.CreateBDFrame(button)
+		F.HookIconBorderColor(button.IconBorder)
 
 		if not button.Eye then
 			button.Eye = button:CreateTexture()
 			button.Eye:SetAtlas("Nzoth-inventory-icon")
 			button.Eye:SetInside()
 		end
-
-		F.HookIconBorderColor(button.IconBorder)
 	end)
 
 	local function UpdateCorruption(button, location)
