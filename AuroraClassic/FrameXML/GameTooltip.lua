@@ -113,12 +113,12 @@ tinsert(C.themes["AuroraClassic"], function()
 	local listener = CreateFrame("Frame")
 	listener:RegisterEvent("ADDON_LOADED")
 	listener:SetScript("OnEvent", function(_, _, addon)
-		if addon == "MethodDungeonTools" then
+		if addon == "MythicDungeonTools" then
 			local styledMDT
-			hooksecurefunc(MethodDungeonTools, "ShowInterface", function()
+			hooksecurefunc(MDT, "ShowInterface", function()
 				if not styledMDT then
-					F.ReskinTooltip(MethodDungeonTools.tooltip)
-					F.ReskinTooltip(MethodDungeonTools.pullTooltip)
+					F.ReskinTooltip(MDT.tooltip)
+					F.ReskinTooltip(MDT.pullTooltip)
 					styledMDT = true
 				end
 			end)
