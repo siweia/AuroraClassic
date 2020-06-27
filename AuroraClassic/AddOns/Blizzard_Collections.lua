@@ -554,10 +554,9 @@ C.themes["Blizzard_Collections"] = function()
 		local ic = itemFrame.Icon
 		if not ic.bg then
 			ic:SetTexCoord(.08, .92, .08, .92)
-			itemFrame.IconBorder:Hide()
-			itemFrame.IconBorder.Show = F.dummy
 			ic.bg = F.CreateBDFrame(ic)
 		end
+		itemFrame.IconBorder:SetTexture("")
 
 		if itemFrame.collected then
 			local quality = C_TransmogCollection.GetSourceInfo(itemFrame.sourceID).quality

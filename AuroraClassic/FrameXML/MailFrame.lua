@@ -76,7 +76,6 @@ tinsert(C.themes["AuroraClassic"], function()
 		local button = _G["SendMailAttachment"..i]
 		F.StripTextures(button)
 		button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		button.IconBorder:SetAlpha(0)
 		button.bg = F.CreateBDFrame(button, .25)
 		F.HookIconBorderColor(button.IconBorder)
 	end
@@ -95,7 +94,6 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.StripTextures(button)
 		button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 		button.icon:SetTexCoord(.08, .92, .08, .92)
-		button.IconBorder:SetAlpha(0)
 		button.bg = F.CreateBDFrame(button, .25)
 		F.HookIconBorderColor(button.IconBorder)
 	end

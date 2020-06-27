@@ -102,12 +102,8 @@ tinsert(C.themes["AuroraClassic"], function()
 	-- Tooltip rewards icon
 	local function reskinRewardIcon(self)
 		self.Icon:SetTexCoord(.08, .92, .08, .92)
-		self.bg = F.CreateBDFrame(self, 0)
-		self.bg:SetOutside(self.Icon)
-
-		local iconBorder = self.IconBorder
-		iconBorder:SetAlpha(0)
-		F.HookIconBorderColor(iconBorder)
+		self.bg = F.CreateBDFrame(self.Icon, 0)
+		F.HookIconBorderColor(self.IconBorder)
 	end
 
 	reskinRewardIcon(GameTooltip.ItemTooltip)

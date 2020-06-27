@@ -71,7 +71,6 @@ tinsert(C.themes["AuroraClassic"], function()
 	for i = 1, #slots do
 		local slot = _G["Character"..slots[i].."Slot"]
 		local cooldown = _G["Character"..slots[i].."SlotCooldown"]
-		local border = slot.IconBorder
 
 		F.StripTextures(slot)
 		slot.icon:SetTexCoord(.08, .92, .08, .92)
@@ -83,9 +82,7 @@ tinsert(C.themes["AuroraClassic"], function()
 		slot.CorruptedHighlightTexture:SetAtlas("Nzoth-charactersheet-item-glow")
 		slot.IconOverlay:SetAtlas("Nzoth-inventory-icon")
 		slot.IconOverlay:SetInside()
-
-		border:SetAlpha(0)
-		F.HookIconBorderColor(border)
+		F.HookIconBorderColor(slot.IconBorder)
 
 		local popout = slot.popoutButton
 		popout:SetNormalTexture("")

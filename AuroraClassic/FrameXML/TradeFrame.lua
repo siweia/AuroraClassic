@@ -53,7 +53,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	for _, highlight in pairs(tradeHighlights) do
 		F.StripTextures(highlight)
 		highlight:SetFrameStrata("HIGH")
-		local bg = F.CreateBDFrame(highlight, .25)
+		local bg = F.CreateBDFrame(highlight, 1)
 		bg:SetBackdropColor(0, 1, 0, .15)
 	end
 end)

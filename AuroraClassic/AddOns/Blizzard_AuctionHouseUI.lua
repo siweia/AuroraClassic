@@ -21,7 +21,6 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 		itemButton.Highlight:SetAllPoints(itemButton.Icon)
 		itemButton.Icon:SetTexCoord(.08, .92, .08, .92)
 		itemButton.bg = F.CreateBDFrame(itemButton.Icon)
-		itemButton.IconBorder:SetAlpha(0)
 		F.HookIconBorderColor(itemButton.IconBorder)
 
 		F.ReskinInput(frame.QuantityInput.InputBox)

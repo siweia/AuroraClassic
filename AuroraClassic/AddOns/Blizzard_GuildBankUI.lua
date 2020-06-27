@@ -64,7 +64,6 @@ C.themes["Blizzard_GuildBankUI"] = function()
 			button.bg = F.CreateBDFrame(button, .3)
 			button.bg:SetBackdropColor(.3, .3, .3, .3)
 			button.searchOverlay:SetOutside()
-			button.IconBorder:SetAlpha(0)
 			F.HookIconBorderColor(button.IconBorder)
 		end
 	end
