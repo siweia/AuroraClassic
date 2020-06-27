@@ -685,6 +685,7 @@ local function resetIconBorderColor(self)
 	self.__owner.bg:SetBackdropBorderColor(0, 0, 0)
 end
 function F:HookIconBorderColor()
+	self:SetAlpha(0)
 	self.__owner = self:GetParent()
 	if not self.__owner.bg then return end
 	hooksecurefunc(self, "SetVertexColor", updateIconBorderColor)
