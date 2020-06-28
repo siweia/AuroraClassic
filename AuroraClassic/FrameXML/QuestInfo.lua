@@ -6,7 +6,7 @@ tinsert(C.themes["AuroraClassic"], function()
 	-- Item reward highlight
 	local function clearHighlight()
 		for _, button in pairs(QuestInfoRewardsFrame.RewardButtons) do
-			button.bg:SetBackdropColor(0, 0, 0, .25)
+			button.textBg:SetBackdropColor(0, 0, 0, .25)
 		end
 	end
 
@@ -15,7 +15,7 @@ tinsert(C.themes["AuroraClassic"], function()
 
 		local _, point = self:GetPoint()
 		if point then
-			point.bg:SetBackdropColor(r, g, b, .2)
+			point.textBg:SetBackdropColor(r, g, b, .25)
 		end
 	end
 
