@@ -35,7 +35,7 @@ function F:CreateSD()
 end
 
 -- ls, Azil, and Simpy made this to replace Blizzard's SetBackdrop API while the textures can't snap
-local PIXEL_BORDERS = {"TOPLEFT", "TOPRIGHT", "BOTTOMLEFT", "BOTTOMRIGHT", "TOP", "BOTTOM", "LEFT", "RIGHT"}
+local PIXEL_BORDERS = {"TOP", "BOTTOM", "LEFT", "RIGHT"}
 
 function F:SetBackdrop(frame, a)
 	local borders = frame.pixelBorders
@@ -45,11 +45,6 @@ function F:SetBackdrop(frame, a)
 
 	borders.CENTER:SetPoint("TOPLEFT", frame)
 	borders.CENTER:SetPoint("BOTTOMRIGHT", frame)
-
-	borders.TOPLEFT:SetSize(size, size)
-	borders.TOPRIGHT:SetSize(size, size)
-	borders.BOTTOMLEFT:SetSize(size, size)
-	borders.BOTTOMRIGHT:SetSize(size, size)
 
 	borders.TOP:SetHeight(size)
 	borders.BOTTOM:SetHeight(size)
@@ -91,24 +86,19 @@ function F:PixelBorders(frame)
 		end
 
 		borders.CENTER = frame:CreateTexture(nil, "BACKGROUND", nil, -1)
-		borders.CENTER:SetTexture(C.media.backdrop)
+		borders.CENTER:SetTexture(C.media.backdrop))
 
-		borders.TOPLEFT:Point("BOTTOMRIGHT", borders.CENTER, "TOPLEFT", C.mult, -C.mult)
-		borders.TOPRIGHT:Point("BOTTOMLEFT", borders.CENTER, "TOPRIGHT", -C.mult, -C.mult)
-		borders.BOTTOMLEFT:Point("TOPRIGHT", borders.CENTER, "BOTTOMLEFT", C.mult, C.mult)
-		borders.BOTTOMRIGHT:Point("TOPLEFT", borders.CENTER, "BOTTOMRIGHT", -C.mult, C.mult)
+		borders.TOP:Point("BOTTOMLEFT", borders.CENTER, "TOPLEFT", C.mult, -C.mult)
+		borders.TOP:Point("BOTTOMRIGHT", borders.CENTER, "TOPRIGHT", -C.mult, -C.mult)
 
-		borders.TOP:Point("TOPLEFT", borders.TOPLEFT, "TOPRIGHT", 0, 0)
-		borders.TOP:Point("TOPRIGHT", borders.TOPRIGHT, "TOPLEFT", 0, 0)
+		borders.BOTTOM:Point("TOPLEFT", borders.CENTER, "BOTTOMLEFT", C.mult, C.mult)
+		borders.BOTTOM:Point("TOPRIGHT", borders.CENTER, "BOTTOMRIGHT", -C.mult, C.mult)
 
-		borders.BOTTOM:Point("BOTTOMLEFT", borders.BOTTOMLEFT, "BOTTOMRIGHT", 0, 0)
-		borders.BOTTOM:Point("BOTTOMRIGHT", borders.BOTTOMRIGHT, "BOTTOMLEFT", 0, 0)
+		borders.LEFT:Point("TOPRIGHT", borders.TOP, "TOPLEFT", 0, 0)
+		borders.LEFT:Point("BOTTOMRIGHT", borders.BOTTOM, "BOTTOMLEFT", 0, 0)
 
-		borders.LEFT:Point("TOPLEFT", borders.TOPLEFT, "BOTTOMLEFT", 0, 0)
-		borders.LEFT:Point("BOTTOMLEFT", borders.BOTTOMLEFT, "TOPLEFT", 0, 0)
-
-		borders.RIGHT:Point("TOPRIGHT", borders.TOPRIGHT, "BOTTOMRIGHT", 0, 0)
-		borders.RIGHT:Point("BOTTOMRIGHT", borders.BOTTOMRIGHT, "TOPRIGHT", 0, 0)
+		borders.RIGHT:Point("TOPLEFT", borders.TOP, "TOPRIGHT", 0, 0)
+		borders.RIGHT:Point("BOTTOMLEFT", borders.BOTTOM, "BOTTOMRIGHT", 0, 0)
 
 		hooksecurefunc(frame, "SetBackdropColor", F.SetBackdropColor_Hook)
 		hooksecurefunc(frame, "SetBackdropBorderColor", F.SetBackdropBorderColor_Hook)
