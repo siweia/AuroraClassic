@@ -22,55 +22,46 @@ tinsert(C.themes["AuroraClassic"], function()
 		F.ReskinTab(_G["MerchantFrameTab"..i])
 	end
 
-	for i = 1, BUYBACK_ITEMS_PER_PAGE do
-		local item = _G["MerchantItem"..i]
+	local function reskinMerchantItem(item)
 		local name = item.Name
 		local button = item.ItemButton
 		local icon = button.icon
-		local moneyFrame = _G["MerchantItem"..i.."MoneyFrame"]
+		local moneyFrame = _G[item:GetName().."MoneyFrame"]
 
 		F.StripTextures(item)
 		F.CreateBDFrame(item, .25)
 
 		F.StripTextures(button)
-		button.IconBorder:SetAlpha(0)
 		button:ClearAllPoints()
 		button:SetPoint("LEFT", item, 4, 0)
 		local hl = button:GetHighlightTexture()
 		hl:SetColorTexture(1, 1, 1, .25)
 		hl:SetInside()
 
-		F.ReskinIcon(icon)
 		icon:SetInside()
+		button.bg = F.ReskinIcon(icon)
+		F.HookIconBorderColor(button.IconBorder)
+		button.IconOverlay:SetInside()
+
 		name:SetFontObject(Number12Font)
 		name:SetPoint("LEFT", button, "RIGHT", 2, 9)
-
 		moneyFrame:SetPoint("BOTTOMLEFT", button, "BOTTOMRIGHT", 3, 0)
+	end
+
+	for i = 1, BUYBACK_ITEMS_PER_PAGE do
+		local item = _G["MerchantItem"..i]
+		reskinMerchantItem(item)
+
 		for j = 1, 3 do
 			local currency = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j]
 			local texture = _G["MerchantItem"..i.."AltCurrencyFrameItem"..j.."Texture"]
-			currency:SetPoint("BOTTOMLEFT", button, "BOTTOMRIGHT", 3, 0)
+			currency:SetPoint("BOTTOMLEFT", item.ItemButton, "BOTTOMRIGHT", 3, 0)
 			F.ReskinIcon(texture)
 		end
 	end
 
-	MerchantBuyBackItemSlotTexture:SetAlpha(0)
-	MerchantBuyBackItemNameFrame:Hide()
-	MerchantBuyBackItemItemButton:SetNormalTexture("")
-	MerchantBuyBackItemItemButton:SetPushedTexture("")
-	MerchantBuyBackItemItemButton:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-	MerchantBuyBackItemItemButton:GetHighlightTexture():SetAllPoints(MerchantBuyBackItemItemButtonIconTexture)
-	MerchantBuyBackItemItemButton.IconBorder:SetAlpha(0)
-
-	F.CreateBD(MerchantBuyBackItemItemButton, 0)
-	F.CreateBD(MerchantBuyBackItem, .25)
-
-	MerchantBuyBackItemItemButtonIconTexture:SetTexCoord(.08, .92, .08, .92)
-	MerchantBuyBackItemItemButtonIconTexture:SetInside()
-
-	MerchantBuyBackItemName:SetHeight(25)
-	MerchantBuyBackItemName:ClearAllPoints()
-	MerchantBuyBackItemName:SetPoint("LEFT", MerchantBuyBackItemSlotTexture, "RIGHT", -5, 8)
+	MerchantBuyBackItem:SetHeight(44)
+	reskinMerchantItem(MerchantBuyBackItem)
 
 	local function reskinMerchantInteract(button)
 		button:SetPushedTexture("")
