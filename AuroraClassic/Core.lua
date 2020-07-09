@@ -86,7 +86,7 @@ function F:PixelBorders(frame)
 		end
 
 		borders.CENTER = frame:CreateTexture(nil, "BACKGROUND", nil, -1)
-		borders.CENTER:SetTexture(C.media.backdrop))
+		borders.CENTER:SetTexture(C.media.backdrop)
 
 		borders.TOP:Point("BOTTOMLEFT", borders.CENTER, "TOPLEFT", C.mult, -C.mult)
 		borders.TOP:Point("BOTTOMRIGHT", borders.CENTER, "TOPRIGHT", -C.mult, -C.mult)
