@@ -91,7 +91,7 @@ tinsert(C.themes["AuroraClassic"], function()
 			bar.BorderRight:SetAlpha(0)
 			bar.BorderCenter:SetAlpha(0)
 			bar.Spark:SetAlpha(0)
-			F.CreateBDFrame(bar, .25)
+			F.SetBD(bar)
 
 			bar.styled = true
 		end
