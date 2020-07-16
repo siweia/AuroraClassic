@@ -28,10 +28,14 @@ tinsert(C.themes["AuroraClassic"], function()
 	local function reskinButton(bu)
 		bu:SetNormalTexture("")
 		bu:SetPushedTexture("")
+		local hl = bu:GetHighlightTexture()
+		hl:SetColorTexture(1, 1, 1, .25)
+		hl:SetInside()
 		bu.icon:SetTexCoord(.08, .92, .08, .92)
-		bu.IconBorder:SetAlpha(0)
-		bu:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-		F.CreateBDFrame(bu, .25)
+		bu.icon:SetInside()
+		bu.IconOverlay:SetInside()
+		bu.bg = F.CreateBDFrame(bu.icon, .25)
+		F.HookIconBorderColor(bu.IconBorder)
 	end
 
 	for i = 1, MAX_TRADE_ITEMS do
