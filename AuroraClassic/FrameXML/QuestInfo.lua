@@ -152,7 +152,7 @@ tinsert(C.themes["AuroraClassic"], function()
 				local portrait = reward.PortraitFrame
 				if not reward.textBg then
 					F.ReskinGarrisonPortrait(portrait)
-					reward.textBg:Hide()
+					reward.BG:Hide()
 					reward.textBg = F.CreateBDFrame(reward, .25)
 				end
 
