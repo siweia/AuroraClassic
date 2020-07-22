@@ -7,7 +7,6 @@ tinsert(C.themes["AuroraClassic"], function()
 			self.Icon:SetTexCoord(.08, .92, .08, .92)
 			local bg = F.CreateBDFrame(self.Icon)
 			F.CreateSD(bg)
-			self.Cooldown:SetInside()
 
 			styled = true
 		end
