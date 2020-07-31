@@ -640,7 +640,6 @@ end
 function F:ReskinGarrisonPortrait()
 	self.Portrait:ClearAllPoints()
 	self.Portrait:SetPoint("TOPLEFT", 4, -4)
-	self.Portrait:SetMask("Interface\\Buttons\\WHITE8X8")
 	self.PortraitRing:Hide()
 	self.PortraitRingQuality:SetTexture("")
 	if self.Highlight then self.Highlight:Hide() end
@@ -730,11 +729,11 @@ function F:ReskinMinMax()
 			tinsert(button.pixels, vline)
 
 			if name == "MaximizeButton" then
-				hline:SetPoint("TOPRIGHT", -4, -4)
-				vline:SetPoint("TOPRIGHT", -4, -4)
+				hline:Point("TOPRIGHT", -4, -4)
+				vline:Point("TOPRIGHT", -4, -4)
 			else
-				hline:SetPoint("BOTTOMLEFT", 4, 4)
-				vline:SetPoint("BOTTOMLEFT", 4, 4)
+				hline:Point("BOTTOMLEFT", 4, 4)
+				vline:Point("BOTTOMLEFT", 4, 4)
 			end
 
 			button:SetScript("OnEnter", F.Texture_OnEnter)
