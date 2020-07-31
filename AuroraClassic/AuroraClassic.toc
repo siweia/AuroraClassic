@@ -5,7 +5,7 @@
 ## Notes: Classical UI Style for WoW UIs.
 ## Author: Siweia
 ## X-Credits: Haleth, Gethe
-## Version: 4.5.11
+## Version: 4.6.0
 ## X-Website: https://github.com/siweia/AuroraClassic
 ## SavedVariables: AuroraClassicDB
 
