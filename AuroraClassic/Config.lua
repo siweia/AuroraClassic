@@ -11,10 +11,8 @@ C.media = {
 	gradient = mediaPath.."gradient",
 	checked = mediaPath.."CheckButtonHilight",
 	roleIcons = mediaPath.."RoleIcons",
-	arrowUp = mediaPath.."arrow-up-active",
-	arrowDown = mediaPath.."arrow-down-active",
-	arrowLeft = mediaPath.."arrow-left-active",
-	arrowRight = mediaPath.."arrow-right-active",
+	arrowUp = mediaPath.."arrow",
+	closeTex = mediaPath.."close",
 	backdrop = "Interface\\ChatFrame\\ChatFrameBackground",
 }
 
