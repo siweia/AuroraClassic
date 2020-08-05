@@ -230,11 +230,7 @@ hooksecurefunc("PanelTemplates_SelectTab", resetTabAnchor)
 function F:Texture_OnEnter()
 	if not self:IsEnabled() then return end
 
-	if self.pixels then
-		for _, pixel in pairs(self.pixels) do
-			pixel:SetVertexColor(C.r, C.g, C.b)
-		end
-	elseif self.bd then
+	if self.bd then
 		self.bd:SetBackdropBorderColor(C.r, C.g, C.b)
 	elseif self.bg then
 		self.bg:SetBackdropColor(C.r, C.g, C.b, .25)
@@ -244,11 +240,7 @@ function F:Texture_OnEnter()
 end
 
 function F:Texture_OnLeave()
-	if self.pixels then
-		for _, pixel in pairs(self.pixels) do
-			pixel:SetVertexColor(1, 1, 1)
-		end
-	elseif self.bd then
+	if self.bd then
 		self.bd:SetBackdropBorderColor(0, 0, 0)
 	elseif self.bg then
 		self.bg:SetBackdropColor(0, 0, 0, .25)
@@ -424,8 +416,7 @@ function F:ReskinRadio()
 	ch:SetVertexColor(C.r, C.g, C.b, .6)
 
 	local bd = F.CreateBDFrame(self, 0)
-	bd:SetPoint("TOPLEFT", 3, -3)
-	bd:SetPoint("BOTTOMRIGHT", -3, 3)
+	bd:SetInside(self, 3, 3)
 	F.CreateGradient(bd)
 	self.bd = bd
 
