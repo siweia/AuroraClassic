@@ -27,4 +27,10 @@ C.themes["Blizzard_Contribution"] = function()
 			self.styled = true
 		end
 	end)
+
+	if F.ReskinTooltip then
+		F.ReskinTooltip(ContributionBuffTooltip)
+		ContributionBuffTooltip.Icon:SetTexCoord(unpack(C.TexCoord))
+		ContributionBuffTooltip.Border:SetAlpha(0)
+	end
 end

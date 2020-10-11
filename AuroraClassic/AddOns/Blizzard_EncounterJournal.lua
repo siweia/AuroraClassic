@@ -361,4 +361,12 @@ C.themes["Blizzard_EncounterJournal"] = function()
 			end
 		end
 	end)
+
+	if F.ReskinTooltip then
+		F.ReskinTooltip(EncounterJournalTooltip)
+		EncounterJournalTooltip.Item1.icon:SetTexCoord(unpack(C.TexCoord))
+		EncounterJournalTooltip.Item1.IconBorder:SetAlpha(0)
+		EncounterJournalTooltip.Item2.icon:SetTexCoord(unpack(C.TexCoord))
+		EncounterJournalTooltip.Item2.IconBorder:SetAlpha(0)
+	end
 end

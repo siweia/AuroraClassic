@@ -17,9 +17,18 @@ local function isCheckTexture(check)
 end
 
 tinsert(C.defaultThemes, function()
+	local tooltipsEnabled = AuroraClassicDB.Tooltips
+
 	hooksecurefunc("UIDropDownMenu_CreateFrames", function()
 		for _, name in next, {"DropDownList", "L_DropDownList", "Lib_DropDownList"} do
 			for i = 1, UIDROPDOWNMENU_MAXLEVELS do
+				local menu = _G[name..i.."MenuBackdrop"]
+				if tooltipsEnabled then
+					if menu and not menu.styled then
+						F.ReskinTooltip(menu)
+						menu.styled = true
+					end
+				end
 				local backdrop = _G[name..i.."Backdrop"]
 				if backdrop and not backdrop.styled then
 					F.StripTextures(backdrop)
