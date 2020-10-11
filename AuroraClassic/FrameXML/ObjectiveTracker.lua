@@ -98,6 +98,28 @@ local function reskinMinimizeButton(button)
 	hooksecurefunc(button, "SetCollapsed", updateMinimizeButton)
 end
 
+local atlasToQuality = {
+	["jailerstower-animapowerlist-powerborder-white"] = LE_ITEM_QUALITY_COMMON,
+	["jailerstower-animapowerlist-powerborder-green"] = LE_ITEM_QUALITY_UNCOMMON,
+	["jailerstower-animapowerlist-powerborder-blue"] = LE_ITEM_QUALITY_RARE,
+	["jailerstower-animapowerlist-powerborder-purple"] = LE_ITEM_QUALITY_EPIC,
+}
+
+local function updateMawBuffQuality(button, spellID)
+	if not spellID then return end
+
+	local atlas = C_Spell.GetMawPowerBorderAtlasBySpellID(spellID)
+	local quality = atlasToQuality[atlas]
+	local color = DB.QualityColors[quality or 1]
+	if button.bg then
+		button.bg:SetBackdropBorderColor(color.r, color.g, color.b)
+	end
+end
+
+local function updateMawBuffInfo(button, buffInfo)
+	updateMawBuffQuality(button, buffInfo.spellID)
+end
+
 tinsert(C.defaultThemes, function()
 	if not AuroraClassicDB.ObjectiveTracker then return end
 
@@ -186,6 +208,9 @@ tinsert(C.defaultThemes, function()
 				mawBuff.CountRing:SetAlpha(0)
 				mawBuff.HighlightBorder:SetColorTexture(1, 1, 1, .25)
 				mawBuff.bg = F.ReskinIcon(mawBuff.Icon)
+
+				updateMawBuffQuality(mawBuff, mawBuff.spellID)
+				hooksecurefunc(mawBuff, "SetBuffInfo", updateMawBuffInfo)
 			end
 		end
 	end)
