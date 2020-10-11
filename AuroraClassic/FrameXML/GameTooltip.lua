@@ -25,6 +25,12 @@ tinsert(C.defaultThemes, function()
 			self.bg:SetFrameLevel(self:GetFrameLevel())
 			if self.StatusBar then ReskinStatusBar(self) end
 
+			if self.GetBackdrop then
+				self.GetBackdrop = self.bg.GetBackdrop
+				self.GetBackdropColor = self.bg.GetBackdropColor
+				self.GetBackdropBorderColor = self.bg.GetBackdropBorderColor
+			end
+
 			self.auroraTip = true
 		end
 	end
