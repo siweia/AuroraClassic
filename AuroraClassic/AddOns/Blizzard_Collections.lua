@@ -628,6 +628,15 @@ C.themes["Blizzard_Collections"] = function()
 	F.Reskin(WardrobeOutfitEditFrame.CancelButton)
 	F.Reskin(WardrobeOutfitEditFrame.DeleteButton)
 
+	if F.ReskinTooltip then
+		F.ReskinTooltip(PetJournalPrimaryAbilityTooltip)
+		F.ReskinTooltip(PetJournalSecondaryAbilityTooltip)
+		PetJournalPrimaryAbilityTooltip.Delimiter1:SetHeight(1)
+		PetJournalPrimaryAbilityTooltip.Delimiter1:SetColorTexture(0, 0, 0)
+		PetJournalPrimaryAbilityTooltip.Delimiter2:SetHeight(1)
+		PetJournalPrimaryAbilityTooltip.Delimiter2:SetColorTexture(0, 0, 0)
+	end
+
 	-- HPetBattleAny
 	local reskinHPet
 	CollectionsJournal:HookScript("OnShow", function()

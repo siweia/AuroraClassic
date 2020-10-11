@@ -47,4 +47,13 @@ C.themes["Blizzard_DebugTools"] = function()
 	-- Table Attribute Display
 	reskinTableAttribute(TableAttributeDisplay)
 	hooksecurefunc(TableInspectorMixin, "InspectTable", reskinTableAttribute)
+
+	-- Tooltips
+	if F.ReskinTooltip then
+		F.ReskinTooltip(FrameStackTooltip)
+		F.ReskinTooltip(EventTraceTooltip)
+		FrameStackTooltip:SetScale(UIParent:GetScale())
+		EventTraceTooltip:SetParent(UIParent)
+		EventTraceTooltip:SetFrameStrata("TOOLTIP")
+	end
 end

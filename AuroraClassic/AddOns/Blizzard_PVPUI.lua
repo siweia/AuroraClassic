@@ -142,6 +142,8 @@ C.themes["Blizzard_PVPUI"] = function()
 	ConquestFrame.RatedBGTexture:Hide()
 	ConquestFrame.ShadowOverlay:Hide()
 
+	if F.ReskinTooltip then F.ReskinTooltip(ConquestTooltip) end
+
 	local function ConquestFrameButton_OnEnter(self)
 		ConquestTooltip:ClearAllPoints()
 		ConquestTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT", 1, 0)

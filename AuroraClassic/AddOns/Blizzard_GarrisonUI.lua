@@ -956,6 +956,22 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	CovenantMissionFrame.MissionTab.MissionPage.Board:HookScript("OnShow", ReskinMissionBoards)
 	CovenantMissionFrame.MissionComplete.Board:HookScript("OnShow", ReskinMissionBoards)
 
+	-- Gametooltips
+	if F.ReskinTooltip then
+		local gt = {
+			GarrisonMissionMechanicTooltip,
+			GarrisonMissionMechanicFollowerCounterTooltip,
+			GarrisonShipyardMapMissionTooltip,
+			GarrisonBonusAreaTooltip,
+			GarrisonBuildingFrame.BuildingLevelTooltip,
+			GarrisonFollowerAbilityWithoutCountersTooltip,
+			GarrisonFollowerMissionAbilityWithoutCountersTooltip
+		}
+		for _, f in pairs(gt) do
+			F.ReskinTooltip(f)
+		end
+	end
+
 	-- Addon supports
 
 	local function buttonOnUpdate(MissionList)

@@ -204,4 +204,9 @@ C.themes["Blizzard_Calendar"] = function()
 	F.ReskinCheck(CalendarCreateEventLockEventCheck)
 
 	CalendarCreateEventDifficultyOptionDropDown:SetWidth(150)
+
+	if F.ReskinTooltip then
+		F.ReskinTooltip(CalendarContextMenu)
+		F.ReskinTooltip(CalendarInviteStatusContextMenu)
+	end
 end
