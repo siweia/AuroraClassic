@@ -40,6 +40,34 @@ tinsert(C.defaultThemes, function()
 		self:SetBackdrop(nil)
 	end)
 
+	hooksecurefunc("GameTooltip_ShowStatusBar", function(self)
+		if not self or self:IsForbidden() then return end
+		if not self.statusBarPool then return end
+	
+		local bar = self.statusBarPool:GetNextActive()
+		if bar and not bar.styled then
+			F.StripTextures(bar)
+			F.CreateBDFrame(bar, .25)
+			bar:SetStatusBarTexture(C.normTex)
+	
+			bar.styled = true
+		end
+	end)
+
+	hooksecurefunc("GameTooltip_ShowProgressBar", function(self)
+		if not self or self:IsForbidden() then return end
+		if not self.progressBarPool then return end
+	
+		local bar = self.progressBarPool:GetNextActive()
+		if bar and not bar.styled then
+			F.StripTextures(bar.Bar)
+			F.CreateBDFrame(bar.Bar, .25)
+			bar.Bar:SetStatusBarTexture(C.normTex)
+	
+			bar.styled = true
+		end
+	end)
+
 	local tooltips = {
 		ChatMenu,
 		EmoteMenu,
