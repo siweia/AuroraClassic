@@ -4,13 +4,13 @@ local F, C, L = unpack(ns)
 -- Default settings
 C.options = {
 	Alpha = .5,
-	Bags = false,
+	Bags = true,
 	FlatMode = false,
 	ChatBubbles = true,
 	FontOutline = true,
 	FontScale = 1,
 	Loot = true,
-	Tooltips = false,
+	Tooltips = true,
 	Shadow = true,
 	ObjectiveTracker = true,
 	UIScale = 0,
