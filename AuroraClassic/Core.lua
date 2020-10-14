@@ -283,6 +283,7 @@ do
 		end
 
 		self.__bg = F.CreateBDFrame(self, 0, true)
+		self.__bg:SetFrameLevel(self:GetFrameLevel())
 		self.__bg:SetAllPoints()
 
 		if not noHighlight then
