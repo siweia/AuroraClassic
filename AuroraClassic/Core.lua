@@ -320,6 +320,7 @@ do
 		local bg = F.CreateBDFrame(self)
 		bg:SetPoint("TOPLEFT", 8, -3)
 		bg:SetPoint("BOTTOMRIGHT", -8, 0)
+		self.bg = bg
 
 		self:SetHighlightTexture(C.bdTex)
 		local hl = self:GetHighlightTexture()
