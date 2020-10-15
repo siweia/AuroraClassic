@@ -33,7 +33,7 @@ C.Font = {STANDARD_TEXT_FONT, 12, "OUTLINE"}
 
 C.defaultThemes = {}
 C.themes = {}
-C.isNewPatch = GetBuildInfo() == "8.3.0" -- keep it for future purpose
+C.isNewPatch = select(4, GetBuildInfo()) > 90001 -- beta
 C.MyClass = select(2, UnitClass("player"))
 C.ClassColors = {}
 
