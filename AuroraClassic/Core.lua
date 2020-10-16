@@ -82,17 +82,19 @@ end
 -- UI widgets
 do
 	function F:CreateTex()
-		if self.Tex then return end
+		if self.__bgTex then return end
 
 		local frame = self
 		if self:GetObjectType() == "Texture" then frame = self:GetParent() end
 
-		self.Tex = frame:CreateTexture(nil, "BACKGROUND", nil, 1)
-		self.Tex:SetAllPoints(self)
-		self.Tex:SetTexture(C.bgTex, true, true)
-		self.Tex:SetHorizTile(true)
-		self.Tex:SetVertTile(true)
-		self.Tex:SetBlendMode("ADD")
+		local tex = frame:CreateTexture(nil, "BACKGROUND", nil, 1)
+		tex:SetAllPoints(self)
+		tex:SetTexture(C.bgTex, true, true)
+		tex:SetHorizTile(true)
+		tex:SetVertTile(true)
+		tex:SetBlendMode("ADD")
+
+		self.__bgTex = tex
 	end
 
 	local shadowBackdrop = {edgeFile = C.glowTex}
