@@ -49,7 +49,6 @@ local function reskinBarTemplate(bar)
 	bar:SetStatusBarTexture(C.normTex)
 	bar:SetStatusBarColor(r, g, b)
 	bar.bg = F.SetBD(bar)
-	F:SmoothBar(bar)
 end
 
 local function reskinProgressbar(_, _, line)
