@@ -117,7 +117,7 @@ local function updateMawBuffQuality(button, spellID)
 
 	local atlas = C_Spell.GetMawPowerBorderAtlasBySpellID(spellID)
 	local quality = atlasToQuality[atlas]
-	local color = DB.QualityColors[quality or 1]
+	local color = C.QualityColors[quality or 1]
 	if button.bg then
 		button.bg:SetBackdropBorderColor(color.r, color.g, color.b)
 	end
