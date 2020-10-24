@@ -660,7 +660,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		if not frame.bg then
 			frame:GetRegions():Hide()
 			frame.bg = F.ReskinIcon(frame.Icon)
-			F.ReskinIconBorder(frame.IconBorder)
+			F.ReskinIconBorder(frame.IconBorder, true)
 		end
 	end)
 
