@@ -204,7 +204,7 @@ do
 	local function resetIconBorderColor(self)
 		self.__owner.bg:SetBackdropBorderColor(0, 0, 0)
 	end
-	function F:ReskinIconBorder()
+	function F:ReskinIconBorder(needInit)
 		self:SetAlpha(0)
 		self.__owner = self:GetParent()
 		if not self.__owner.bg then return end
@@ -212,6 +212,9 @@ do
 			hooksecurefunc(self, "SetAtlas", updateIconBorderColorByAtlas)
 		else
 			hooksecurefunc(self, "SetVertexColor", updateIconBorderColor)
+			if needInit then
+				self:SetVertexColor(self:GetVertexColor()) -- for border with color before hook
+			end
 		end
 		hooksecurefunc(self, "Hide", resetIconBorderColor)
 	end
