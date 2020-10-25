@@ -50,7 +50,7 @@ C.themes["Blizzard_AnimaDiversionUI"] = function()
 					currency.bg = F.ReskinIcon(currency.CurrencyIcon)
 				end
 			end
-		end
+		end)
 	end
 
 	F.Reskin(frame.ReinforceInfoFrame.AnimaNodeReinforceButton)
