@@ -72,7 +72,6 @@ local function reskinProgressbarWithIcon(_, _, line)
 	if not bar.bg then
 		bar:SetPoint("LEFT", 22, 0)
 		reskinBarTemplate(bar)
-		BonusObjectiveTrackerProgressBar_PlayFlareAnim = F.Dummy
 
 		icon:SetMask(nil)
 		icon.bg = F.ReskinIcon(icon, true)
