@@ -939,6 +939,10 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	end
 	CovenantMissionFrameMissions.RaisedFrameEdges:SetAlpha(0)
 
+	hooksecurefunc(CovenantMissionFrame, "SetupTabs", function(self)
+		self.MapTab:SetShown(not self.Tab2:IsShown())
+	end)
+
 	CombatLog:DisableDrawLayer("BACKGROUND")
 	CombatLog.ElevatedFrame:SetAlpha(0)
 	F.StripTextures(CombatLog.CombatLogMessageFrame)
