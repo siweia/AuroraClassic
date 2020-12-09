@@ -106,6 +106,15 @@ local function reskinMinimizeButton(button)
 	hooksecurefunc(button, "SetCollapsed", updateMinimizeButton)
 end
 
+local function GetMawBuffsAnchor(frame)
+	local center = frame:GetCenter()
+	if center and center < DB.ScreenWidth/2 then
+		return "LEFT"
+	else
+		return "RIGHT"
+	end
+end
+
 tinsert(C.defaultThemes, function()
 	if not AuroraClassicDB.ObjectiveTracker then return end
 
@@ -199,4 +208,18 @@ tinsert(C.defaultThemes, function()
 			reskinMinimizeButton(minimize)
 		end
 	end
+
+	-- Maw buffs block
+	ScenarioBlocksFrame.MawBuffsBlock.Container:HookScript("OnClick", function(container)
+		local direc = GetMawBuffsAnchor(container)
+		if not container.lastDirec or container.lastDirec ~= direc then
+			container.List:ClearAllPoints()
+			if direc == "LEFT" then
+				container.List:SetPoint("TOPLEFT", container, "TOPRIGHT", 15, 1)
+			else
+				container.List:SetPoint("TOPRIGHT", container, "TOPLEFT", 15, 1)
+			end
+			container.lastDirec = direc
+		end
+	end)
 end)
