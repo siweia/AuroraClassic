@@ -47,10 +47,14 @@ end
 local function reskinBarTemplate(bar)
 	if bar.bg then return end
 
-	F.StripTextures(bar)
-	bar:SetStatusBarTexture(C.normTex)
-	bar:SetStatusBarColor(r, g, b)
-	bar.bg = F.SetBD(bar)
+	if not bar.styled then
+		F.StripTextures(bar)
+		bar:SetStatusBarTexture(C.normTex)
+		bar:SetStatusBarColor(r, g, b)
+		bar.bg = F.SetBD(bar)
+
+		bar.styled = true
+	end
 end
 
 local function reskinProgressbar(_, _, line)
