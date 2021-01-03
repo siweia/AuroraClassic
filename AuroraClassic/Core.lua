@@ -339,14 +339,14 @@ do
 		hl:SetVertexColor(cr, cg, cb, .25)
 	end
 
-	local function resetTabAnchor(tab)
+	function F:ResetTabAnchor()
 		local text = tab.Text or _G[tab:GetName().."Text"]
 		if text then
 			text:SetPoint("CENTER", tab)
 		end
 	end
-	hooksecurefunc("PanelTemplates_DeselectTab", resetTabAnchor)
-	hooksecurefunc("PanelTemplates_SelectTab", resetTabAnchor)
+	hooksecurefunc("PanelTemplates_SelectTab", F.ResetTabAnchor)
+	hooksecurefunc("PanelTemplates_DeselectTab", F.ResetTabAnchor)
 
 	-- Handle scrollframe
 	local function Scroll_OnEnter(self)

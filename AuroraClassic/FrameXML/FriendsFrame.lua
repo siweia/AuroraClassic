@@ -3,7 +3,11 @@ local F, C = unpack(ns)
 
 tinsert(C.defaultThemes, function()
 	for i = 1, 4 do
-		F.ReskinTab(_G["FriendsFrameTab"..i])
+		local tab = _G["FriendsFrameTab"..i]
+		if tab then
+			F.ReskinTab(tab)
+			F.ResetTabAnchor(tab)
+		end
 	end
 	FriendsFrameIcon:Hide()
 	F.StripTextures(IgnoreListFrame)
