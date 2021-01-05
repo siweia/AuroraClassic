@@ -340,9 +340,9 @@ do
 	end
 
 	function F:ResetTabAnchor()
-		local text = tab.Text or _G[tab:GetName().."Text"]
+		local text = self.Text or (self.GetName and _G[self:GetName().."Text"])
 		if text then
-			text:SetPoint("CENTER", tab)
+			text:SetPoint("CENTER", self)
 		end
 	end
 	hooksecurefunc("PanelTemplates_SelectTab", F.ResetTabAnchor)
