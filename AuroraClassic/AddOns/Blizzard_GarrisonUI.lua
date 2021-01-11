@@ -1019,8 +1019,9 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 	local function reskinWidgetFont(font, r, g, b)
 		if not AuroraClassicDB.FontOutline then return end
-		if not font then return end
-		font:SetTextColor(r, g, b)
+		if font and font.SetTextColor then
+			font:SetTextColor(r, g, b)
+		end
 	end
 
 	-- WarPlan
@@ -1083,7 +1084,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				local mission = missions[i]
 				if not mission.styled then
 					reskinWidgetFont(mission.Description, .8, .8, .8)
-					reskinWidgetFont(mission.CDTDisplay, 1, .8, 0)
+					if mission.CDTDisplay.GetFontString then
+						reskinWidgetFont(mission.CDTDisplay:GetFontString(), 1, .8, 0)
+					else
+						reskinWidgetFont(mission.CDTDisplay, 1, .8, 0)
+					end
 					F.Reskin(mission.ViewButton)
 
 					for j = 1, mission.statLine:GetNumRegions() do
