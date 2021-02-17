@@ -1091,6 +1091,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					end
 					F.Reskin(mission.ViewButton)
 					if mission.DoomRunButton then F.Reskin(mission.DoomRunButton) end
+					if mission.TentativeClear then F.Reskin(mission.TentativeClear) end
 
 					for j = 1, mission.statLine:GetNumRegions() do
 						local stat = select(j, mission.statLine:GetRegions())
@@ -1117,6 +1118,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 			reskinVenturePlan(VenturePlanFrame)
 			VenturePlanFrame:HookScript("OnShow", reskinVenturePlan)
+			if VenturePlanFrame.UnButton then F.Reskin(VenturePlanFrame.UnButton) end
 
 			local copyBox = VenturePlanFrame.CopyBox
 			F.Reskin(copyBox.ResetButton)
