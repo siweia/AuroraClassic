@@ -1,9 +1,8 @@
 local _, ns = ...
 local F, C = unpack(ns)
+local r, g, b = C.r, C.g, C.b
 
 tinsert(C.defaultThemes, function()
-	local r, g, b = DB.r, DB.g, DB.b
-
 	-- Dressup Frame
 
 	F.ReskinPortraitFrame(DressUpFrame)
