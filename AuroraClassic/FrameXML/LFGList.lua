@@ -167,11 +167,24 @@ tinsert(C.defaultThemes, function()
 
 	-- [[ Role count ]]
 
+	local function HandleRoleAnchor(self, role)
+		self[role.."Count"]:SetWidth(22)
+		self[role.."Count"]:SetFontObject(Game13Font)
+		self[role.."Count"]:SetPoint("RIGHT", self[role.."Icon"], "LEFT", 1, 0)
+	end
+
 	hooksecurefunc("LFGListGroupDataDisplayRoleCount_Update", function(self)
 		if not self.styled then
 			F.ReskinRole(self.TankIcon, "TANK")
 			F.ReskinRole(self.HealerIcon, "HEALER")
 			F.ReskinRole(self.DamagerIcon, "DPS")
+
+			self.HealerIcon:SetPoint("RIGHT", self.DamagerIcon, "LEFT", -22, 0)
+			self.TankIcon:SetPoint("RIGHT", self.HealerIcon, "LEFT", -22, 0)
+
+			HandleRoleAnchor(self, "Tank")
+			HandleRoleAnchor(self, "Healer")
+			HandleRoleAnchor(self, "Damager")
 
 			self.styled = true
 		end
