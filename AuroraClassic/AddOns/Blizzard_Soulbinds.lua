@@ -35,10 +35,13 @@ C.themes["Blizzard_Soulbinds"] = function()
 	F.ReskinClose(SoulbindViewer.CloseButton)
 	F.Reskin(SoulbindViewer.CommitConduitsButton)
 	F.Reskin(SoulbindViewer.ActivateSoulbindButton)
-	SoulbindViewer.ConduitList.BottomShadowContainer.BottomShadow:SetAlpha(0)
 
-	local scrollBox = SoulbindViewer.ConduitList.ScrollBox
-	for i = 1, 3 do
-		hooksecurefunc(scrollBox.ScrollTarget.Lists[i], "UpdateLayout", ReskinConduitList)
+	if not C.isNewPatch then
+		SoulbindViewer.ConduitList.BottomShadowContainer.BottomShadow:SetAlpha(0)
+
+		local scrollBox = SoulbindViewer.ConduitList.ScrollBox
+		for i = 1, 3 do
+			hooksecurefunc(scrollBox.ScrollTarget.Lists[i], "UpdateLayout", ReskinConduitList)
+		end
 	end
 end
