@@ -14,7 +14,7 @@ local function ReskinConduitList(frame)
 
 	for button in frame.pool:EnumerateActive() do
 		if button and not button.styled then
-			if not DB.isNewPatch then
+			if not C.isNewPatch then
 				for _, element in ipairs(button.Hovers) do
 					element:SetColorTexture(1, 1, 1, .25)
 				end
