@@ -1130,11 +1130,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					F.StripTextures(widget)
 					F.CreateBDFrame(widget, 1)
 				elseif otype == "MissionToast" then
-					widget.Background:Hide()
-					widget.Icon:Show()
 					F.SetBD(widget)
-					widget.Outcome:SetFontObject("Game13Font")
-					widget.Detail:SetFontObject("Game13Font")
+					if widget.Icon then widget.Icon:Show() end
+					if widget.Background then widget.Background:Hide() end
+					if widget.Detail then widget.Detail:SetFontObject("Game13Font") end
+					if widget.Outcome then widget.Outcome:SetFontObject("Game13Font") end
 				end
 			end
 		end
