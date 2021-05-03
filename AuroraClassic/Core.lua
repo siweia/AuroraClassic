@@ -437,6 +437,7 @@ do
 		self:SetPoint("TOPRIGHT", parent, "TOPRIGHT", xOffset, yOffset)
 
 		F.StripTextures(self)
+		if self.Border then self.Border:SetAlpha(0) end
 		local bg = F.CreateBDFrame(self, 0, true)
 		bg:SetAllPoints()
 
