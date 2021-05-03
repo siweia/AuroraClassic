@@ -15,7 +15,7 @@ local atlasColors = {
 	["EmberCourtScenario-Tracker-barfill"] = {.9, .2, .2},
 }
 
-function B:ReplaceWidgetBarTexture(atlas)
+function F:ReplaceWidgetBarTexture(atlas)
 	if atlasColors[atlas] then
 		self:SetStatusBarTexture(C.normTex)
 		self:SetStatusBarColor(unpack(atlasColors[atlas]))
