@@ -66,7 +66,7 @@ tinsert(C.defaultThemes, function()
 	QuestProgressText.SetTextColor = F.Dummy
 	GreetingText:SetTextColor(1, 1, 1)
 	GreetingText.SetTextColor = F.Dummy
-	AvailableQuestsText:SetTextColor(1, 1, 1)
+	AvailableQuestsText:SetTextColor(1, .8, 0)
 	AvailableQuestsText.SetTextColor = F.Dummy
 	AvailableQuestsText:SetShadowColor(0, 0, 0)
 	CurrentQuestsText:SetTextColor(1, 1, 1)
