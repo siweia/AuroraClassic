@@ -55,8 +55,6 @@ local function ReskinVoicePicker(voicePicker)
 end
 
 tinsert(C.defaultThemes, function()
-	if not C.db["Skins"]["BlizzardSkins"] then return end
-
 	-- Battlenet toast frame
 	BNToastFrame:SetBackdrop(nil)
 	F.SetBD(BNToastFrame)
