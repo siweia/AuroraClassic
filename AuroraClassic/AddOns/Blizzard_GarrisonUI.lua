@@ -280,6 +280,18 @@ local function UpdateFollowerAbilities(followerList)
 	end
 end
 
+local function reskinFollowerItem(item)
+	if not item then return end
+
+	local icon = item.Icon
+	item.Border:Hide()
+	F.ReskinIcon(icon)
+
+	local bg = F.CreateBDFrame(item, .25)
+	bg:SetPoint("TOPLEFT", 41, -1)
+	bg:SetPoint("BOTTOMRIGHT", 0, 1)
+end
+
 local function ReskinMissionFrame(self)
 	F.StripTextures(self)
 	F.SetBD(self)
@@ -304,17 +316,8 @@ local function ReskinMissionFrame(self)
 	ReskinXPBar(self.FollowerTab)
 	hooksecurefunc(self.FollowerTab, "UpdateCombatantStats", UpdateSpellAbilities)
 
-	for _, item in pairs({self.FollowerTab.ItemWeapon, self.FollowerTab.ItemArmor}) do
-		if item then
-			local icon = item.Icon
-			item.Border:Hide()
-			F.ReskinIcon(icon)
-
-			local bg = F.CreateBDFrame(item, .25)
-			bg:SetPoint("TOPLEFT", 41, -1)
-			bg:SetPoint("BOTTOMRIGHT", 0, 1)
-		end
-	end
+	reskinFollowerItem(self.FollowerTab.ItemWeapon)
+	reskinFollowerItem(self.FollowerTab.ItemArmor)
 
 	local missionList = self.MissionTab.MissionList
 	F.StripTextures(missionList)
