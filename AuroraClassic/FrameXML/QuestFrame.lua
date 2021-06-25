@@ -42,7 +42,7 @@ tinsert(C.defaultThemes, function()
 		button.__id = i
 		button.Icon.__owner = button
 		hooksecurefunc(button.Icon, "SetTexture", UpdateProgressItemQuality)
-	
+
 		local bg = F.CreateBDFrame(button, .25)
 		bg:SetPoint("TOPLEFT", button.bg, "TOPRIGHT", 2, 0)
 		bg:SetPoint("BOTTOMRIGHT", button.bg, 100, 0)
