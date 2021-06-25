@@ -30,7 +30,7 @@ C.themes["Blizzard_PlayerChoice"] = function()
 		end
 
 		self.CloseButton:SetPoint("TOPRIGHT", self.bg, -2, -2)
-		self.bg:SetShown(not IsInJailersTower())
+		self.bg:SetShown(not IsInInstance())
 
 		for optionFrame in self.optionPools:EnumerateActiveByTemplate(self.optionFrameTemplate) do
 			local header = optionFrame.Header
@@ -56,7 +56,7 @@ C.themes["Blizzard_PlayerChoice"] = function()
 						F.StripTextures(itemButton, 1)
 						itemButton.bg = F.ReskinIcon(itemButton:GetRegions(), nil)
 						F.ReskinIconBorder(itemButton.IconBorder, true)
-	
+
 						rewardFrame.styled = true
 					end
 				end
