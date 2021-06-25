@@ -18,7 +18,7 @@ tinsert(C.defaultThemes, function()
 		F.StripTextures(VideoOptionsFrame.Header)
 		VideoOptionsFrame.Header:ClearAllPoints()
 		VideoOptionsFrame.Header:SetPoint("TOP", VideoOptionsFrame, 0, 0)
-	
+
 		F.SetBD(VideoOptionsFrame)
 		VideoOptionsFrame.Border:Hide()
 		F.Reskin(VideoOptionsFrameOkay)
