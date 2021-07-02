@@ -87,7 +87,7 @@ tinsert(C.defaultThemes, function()
 			if not frame.bg then
 				frame.bg = F.SetBD(frame)
 				if C.isNewPatch then
-					frame.bg:SetPoint("TOPLEFT", frame, 28, -7)
+					frame.bg:SetPoint("TOPLEFT", frame, 5, -7)
 					frame.bg:SetPoint("BOTTOMRIGHT", frame, 18, 10)
 				else
 					frame.bg:SetPoint("TOPLEFT", frame, -18, 5)
