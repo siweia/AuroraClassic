@@ -165,6 +165,7 @@ tinsert(C.defaultThemes, function()
 		if not button.styled then
 			F.Reskin(button.DeclineButton)
 			F.Reskin(button.InviteButton)
+			F.Reskin(button.InviteButtonSmall)
 
 			button.styled = true
 		end
