@@ -90,11 +90,6 @@ local function ReskinSpellDisplayWidget(self)
 	end
 end
 
-local ignoredWidgetIDs = {
-	[3246] = true, -- Torghast progressbar
-	[3273] = true, -- Torghast progressbar
-}
-
 tinsert(C.defaultThemes, function()
 	hooksecurefunc(_G.UIWidgetTopCenterContainerFrame, "UpdateWidgetLayout", function(self)
 		for _, widgetFrame in pairs(self.widgetFrames) do
@@ -125,9 +120,24 @@ tinsert(C.defaultThemes, function()
 		end
 	end)
 
+	hooksecurefunc(_G.TopScenarioWidgetContainerBlock.WidgetContainer, "UpdateWidgetLayout", function(self)
+		for _, widgetFrame in pairs(self.widgetFrames) do
+			if widgetFrame.widgetType == Type_StatusBar then
+				ReskinWidgetStatusBar(widgetFrame.Bar)
+			end
+		end
+	end)
+
+	hooksecurefunc(_G.BottomScenarioWidgetContainerBlock.WidgetContainer, "UpdateWidgetLayout", function(self)
+		for _, widgetFrame in pairs(self.widgetFrames) do
+			if widgetFrame.widgetType == Type_SpellDisplay then
+				ReskinSpellDisplayWidget(widgetFrame)
+			end
+		end
+	end)
+
 	-- needs review, might remove this in the future
 	hooksecurefunc(_G.UIWidgetTemplateStatusBarMixin, "Setup", function(self)
-		if ignoredWidgetIDs[self.widgetID] then return end
 		ReskinWidgetStatusBar(self.Bar)
 	end)
 end)
