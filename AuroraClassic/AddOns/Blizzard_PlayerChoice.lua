@@ -15,9 +15,14 @@ local function ReskinOptionButton(self)
 	F.Reskin(self)
 end
 
-local function ShouldHideBackground()
-	local instID = select(3, GetInstanceInfo())
-	return IsInJailersTower() or instID == 8
+local function ReskinSpellWidget(spell)
+	if not spell.bg then
+		spell.Border:SetAlpha(0)
+		spell.bg = F.ReskinIcon(spell.Icon)
+	end
+
+	spell.IconMask:Hide()
+	spell.Text:SetTextColor(1, 1, 1)
 end
 
 C.themes["Blizzard_PlayerChoice"] = function()
@@ -36,7 +41,7 @@ C.themes["Blizzard_PlayerChoice"] = function()
 
 		self.CloseButton:SetPoint("TOPRIGHT", self.bg, -4, -4)
 		if self.CloseButton.Border then self.CloseButton.Border:SetAlpha(0) end -- no border for some templates
-		self.bg:SetShown(not ShouldHideBackground())
+		self.bg:SetShown(self.Background:IsShown())
 
 		for optionFrame in self.optionPools:EnumerateActiveByTemplate(self.optionFrameTemplate) do
 			local header = optionFrame.Header
@@ -78,6 +83,9 @@ C.themes["Blizzard_PlayerChoice"] = function()
 			if widgetContainer and widgetContainer.widgetFrames then
 				for _, widgetFrame in pairs(widgetContainer.widgetFrames) do
 					ReskinOptionText(widgetFrame.Text, 1, 1, 1)
+					if widgetFrame.Spell then
+						ReskinSpellWidget(widgetFrame.Spell)
+					end
 				end
 			end
 		end
