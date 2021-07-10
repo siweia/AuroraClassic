@@ -3,7 +3,7 @@ local F, C = unpack(ns)
 
 local function UpdateProgressItemQuality(self)
 	local button = self.__owner
-	local index = button.__id
+	local index = button:GetID()
 	local buttonType = button.type
 	local objectType = button.objectType
 
@@ -39,7 +39,6 @@ tinsert(C.defaultThemes, function()
 		local button = _G["QuestProgressItem"..i]
 		button.NameFrame:Hide()
 		button.bg = F.ReskinIcon(button.Icon)
-		button.__id = i
 		button.Icon.__owner = button
 		hooksecurefunc(button.Icon, "SetTexture", UpdateProgressItemQuality)
 
