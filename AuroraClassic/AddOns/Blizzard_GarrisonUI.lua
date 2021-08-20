@@ -1097,6 +1097,27 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				self.__owner.Icon:SetTexture(ANIMA_TEXTURE)
 			end
 		end
+		local function AdjustFollowerList(self, height)
+			if self.isSetting then return end
+			self.isSetting = true
+
+			local mult = (height-135)/72
+			if mult == floor(mult) then -- only adjust the unmodified VP
+				self:SetHeight(mult*68 + 135)
+			end
+			self.isSetting = nil
+		end
+		local function AdjustFollowerButton(self, anchor, x, y)
+			if y == -35 then return end -- troops
+			if self.isSetting then return end
+			self.isSetting = true
+
+			local mult = (y+130)/72
+			if mult == floor(mult) then -- only adjust the unmodified VP
+				self:SetPoint(anchor, x, mult*68 - 130)
+			end
+			self.isSetting = nil
+		end
 
 		function VPEX_OnUIObjectCreated(otype, widget, peek)
 			if widget:IsObjectType("Frame") then
@@ -1141,8 +1162,10 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				elseif otype == "FollowerList" then
 					F.StripTextures(widget)
 					F.CreateBDFrame(widget, .25)
+					hooksecurefunc(widget, "SetHeight", AdjustFollowerList)
 				elseif otype == "FollowerListButton" then
 					peek("TextLabel"):SetFontObject("Game12Font")
+					hooksecurefunc(widget, "SetPoint", AdjustFollowerButton)
 				elseif otype == "ProgressBar" then
 					F.StripTextures(widget)
 					F.CreateBDFrame(widget, 1)
