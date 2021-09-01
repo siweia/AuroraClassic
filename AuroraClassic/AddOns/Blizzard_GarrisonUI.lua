@@ -1171,15 +1171,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					F.CreateBDFrame(widget, 1)
 				elseif otype == "MissionToast" then
 					F.SetBD(widget)
-					if widget.Icon then widget.Icon:Show() end
 					if widget.Background then widget.Background:Hide() end
 					if widget.Detail then widget.Detail:SetFontObject("Game13Font") end
-					if widget.Outcome then widget.Outcome:SetFontObject("Game13Font") end
 				elseif otype == "RewardFrame" then
-					if widget.Quantity then
-						widget.Quantity.__owner = widget
-						hooksecurefunc(widget.Quantity, "SetText", SetAnimaActualCount)
-					end
+					widget.Quantity.__owner = widget
+					hooksecurefunc(widget.Quantity, "SetText", SetAnimaActualCount)
 				end
 			end
 		end
