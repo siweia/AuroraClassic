@@ -1101,10 +1101,9 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			if self.isSetting then return end
 			self.isSetting = true
 
-			local mult = (height-135)/72
-			if mult == floor(mult) then -- only adjust the unmodified VP
-				self:SetHeight(mult*68 + 135)
-			end
+			local numFollowers = #C_Garrison.GetFollowers(123)
+			self:SetHeight(135 + 60*ceil(numFollowers/5)) -- 5 follower per row, support up to 35 followers in the future
+
 			self.isSetting = nil
 		end
 		local function AdjustFollowerButton(self, anchor, x, y)
@@ -1119,6 +1118,70 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			self.isSetting = nil
 		end
 
+		local ReplacedRoleTex = {
+			["adventures-tank"] = "Soulbinds_Tree_Conduit_Icon_Protect",
+			["adventures-healer"] = "ui_adv_health",
+			["adventures-dps"] = "ui_adv_atk",
+			["adventures-dps-ranged"] = "Soulbinds_Tree_Conduit_Icon_Utility",
+		}
+		local function replaceFollowerRole(roleIcon, atlas)
+			local newAtlas = ReplacedRoleTex[atlas]
+			if newAtlas then
+				roleIcon:SetAtlas(newAtlas)
+			end
+		end
+
+		local function updateSelectedBorder(portrait, show)
+			if show then
+				portrait.__owner.bg:SetBackdropBorderColor(.6, 0, 0)
+			else
+				portrait.__owner.bg:SetBackdropBorderColor(0, 0, 0)
+			end
+		end
+
+		local function updateActiveGlow(border, show)
+			border.__shadow:SetShown(show)
+		end
+
+		local abilityIndex1, abilityIndex2
+		local function GetAbilitiesIndex(frame)
+			if not abilityIndex1 then
+				for i = 1, frame:GetNumRegions() do
+					local region = select(i, frame:GetRegions())
+					if region then
+						local width, height = region:GetSize()
+						if width == 17 and height == 17 then
+							if abilityIndex1 then
+								abilityIndex2 = i
+							else
+								abilityIndex1 = i
+							end
+						end
+					end
+				end
+			end
+			return abilityIndex1, abilityIndex2
+		end
+
+		local function reskinFollowerAbility(frame, index, first)
+			local ability = select(index, frame:GetRegions())
+			ability:SetMask(nil)
+			ability:SetSize(12, 12)
+			ability.bg = F.ReskinIcon(ability)
+			ability.bg:SetFrameLevel(5)
+			tinsert(frame.__abilities, ability)
+			select(2, ability:GetPoint()):SetAlpha(0)
+			ability:SetPoint("CENTER", frame, "LEFT", 11, first and 11 or -1)
+		end
+
+		local function updateVisibleAbilities(self)
+			for _, ability in pairs(self.__owner.__abilities) do
+				ability:SetDesaturated(not self.__owner.Health:IsShown())
+				ability.bg:SetShown(ability:IsShown())
+			end
+		end
+
+		local VPFollowers, VPTroops = {}, {}
 		function VPEX_OnUIObjectCreated(otype, widget, peek)
 			if widget:IsObjectType("Frame") then
 				if otype == "MissionButton" then
@@ -1158,13 +1221,74 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					F.ReskinIcon(widget:GetNormalTexture())
 					widget:SetHighlightTexture(nil)
 					widget:SetPushedTexture(C.pushed)
-					widget.Icon:SetTexCoord(unpack(C.TexCoord))
+					widget:SetSize(46, 46)
 				elseif otype == "FollowerList" then
 					F.StripTextures(widget)
 					F.CreateBDFrame(widget, .25)
 					hooksecurefunc(widget, "SetHeight", AdjustFollowerList)
+
+					for i, troop in pairs(VPTroops) do
+						troop:ClearAllPoints()
+						troop:SetPoint("TOPLEFT", (i-1)*60+5, -35)
+					end
+					for i, follower in pairs(VPFollowers) do
+						follower:ClearAllPoints()
+						follower:SetPoint("TOPLEFT", ((i-1)%5)*60+5, -floor((i-1)/5)*60-130)
+					end
 				elseif otype == "FollowerListButton" then
+					widget.bg = F.CreateBDFrame(peek("Portrait"), 1)
+					peek("Hi"):SetColorTexture(1, 1, 1, .25)
+					peek("Hi"):SetInside(widget.bg)
+					peek("PortraitR"):Hide()
+					peek("PortraitT"):SetTexture(nil)
+					peek("PortraitT").__owner = widget
+					hooksecurefunc(peek("PortraitT"), "SetShown", updateSelectedBorder)
+
+					if peek("EC") then
+						peek("EC"):SetTexture(nil)
+						peek("EC").__shadow = F.CreateSD(peek("Portrait"), 5, true)
+						peek("EC").__shadow:SetBackdropBorderColor(peek("EC"):GetVertexColor())
+						hooksecurefunc(peek("EC"), "SetShown", updateActiveGlow)
+						tinsert(VPFollowers, widget)
+					else
+						tinsert(VPTroops, widget)
+					end
+
+					peek("HealthBG"):ClearAllPoints()
+					peek("HealthBG"):SetPoint("TOPLEFT", peek("Portrait"), "BOTTOMLEFT", 0, 10)
+					peek("HealthBG"):SetPoint("BOTTOMRIGHT", peek("Portrait"), "BOTTOMRIGHT")
+					local line = widget:CreateTexture(nil, "ARTWORK")
+					line:SetColorTexture(0, 0, 0)
+					line:SetSize(peek("HealthBG"):GetWidth(), C.mult)
+					line:SetPoint("BOTTOM", peek("HealthBG"), "TOP")
+
+					peek("Health"):SetHeight(10)
+					peek("HealthFrameR"):Hide()
 					peek("TextLabel"):SetFontObject("Game12Font")
+					peek("TextLabel"):ClearAllPoints()
+					peek("TextLabel"):SetPoint("CENTER", peek("HealthBG"), 1, 0)
+
+					peek("Favorite"):ClearAllPoints()
+					peek("Favorite"):SetPoint("TOPLEFT", -2, 2)
+					peek("Favorite"):SetSize(30, 30)
+					peek("Blip"):SetSize(18, 20)
+					peek("Blip"):SetPoint("BOTTOMRIGHT", -8, 12)
+					peek("RoleB"):Hide()
+					peek("Role"):ClearAllPoints()
+					peek("Role"):SetPoint("CENTER", widget.bg, "TOPRIGHT", -2, -2)
+					hooksecurefunc(peek("Role"), "SetAtlas", replaceFollowerRole)
+
+					local frame = peek("Health"):GetParent()
+					if frame then
+						frame.__abilities = {}
+						frame.Health = peek("Health")
+						local index1, index2 = GetAbilitiesIndex(frame)
+						reskinFollowerAbility(frame, index1, true)
+						reskinFollowerAbility(frame, index2)
+						peek("HealthBG").__owner = frame
+						hooksecurefunc(peek("HealthBG"), "SetGradient", updateVisibleAbilities)
+					end
+
 					hooksecurefunc(widget, "SetPoint", AdjustFollowerButton)
 				elseif otype == "ProgressBar" then
 					F.StripTextures(widget)
