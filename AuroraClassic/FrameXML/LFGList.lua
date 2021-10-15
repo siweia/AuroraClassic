@@ -194,7 +194,7 @@ tinsert(C.defaultThemes, function()
 
 	-- [[ Entry creation ]]
 
-	local EntryCreation = LFGListFrame.EntryCreation
+	local entryCreation = LFGListFrame.EntryCreation
 	entryCreation.Inset:Hide()
 	F.StripTextures(entryCreation.Description)
 	F.Reskin(entryCreation.ListGroupButton)
