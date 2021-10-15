@@ -153,6 +153,9 @@ tinsert(C.defaultThemes, function()
 	F.Reskin(ChatConfigFrameOkayButton)
 	F.Reskin(ChatConfigFrameDefaultButton)
 	F.Reskin(ChatConfigFrameRedockButton)
+	if C.isNewPatch then
+		F.Reskin(ChatConfigFrame.ToggleChatButton)
+	end
 	F.ReskinArrow(ChatConfigMoveFilterUpButton, "up")
 	F.ReskinArrow(ChatConfigMoveFilterDownButton, "down")
 	F.ReskinInput(CombatConfigSettingsNameEditBox)
