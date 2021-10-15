@@ -145,6 +145,14 @@ do
 		return tex
 	end
 
+	function F:HideBackdrop()
+		if C.isNewPatch then
+			self.NineSlice:SetAlpha(0)
+		else
+			if self.SetBackdrop then self:SetBackdrop(nil) end
+		end
+	end
+
 	-- Handle frame
 	function F:CreateBDFrame(a, gradient)
 		local frame = self
@@ -177,7 +185,7 @@ do
 	-- Handle icons
 	function F:ReskinIcon(shadow)
 		self:SetTexCoord(unpack(C.TexCoord))
-		local bg = F.CreateBDFrame(self)
+		local bg = F.CreateBDFrame(self, .25) -- exclude from opacity control
 		if shadow then F.CreateSD(bg) end
 		return bg
 	end

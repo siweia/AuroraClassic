@@ -127,7 +127,8 @@ tinsert(C.defaultThemes, function()
 	ApplicationViewer.Inset:Hide()
 
 	local prevHeader
-	for _, headerName in pairs({"NameColumnHeader", "RoleColumnHeader", "ItemLevelColumnHeader", "DungeonScoreColumnHeader"}) do
+	local scoreHeader = C.isNewPatch and "RatingColumnHeader" or "DungeonScoreColumnHeader"
+	for _, headerName in pairs({"NameColumnHeader", "RoleColumnHeader", "ItemLevelColumnHeader", scoreHeader}) do
 		local header = ApplicationViewer[headerName]
 
 		F.StripTextures(header)
@@ -195,7 +196,9 @@ tinsert(C.defaultThemes, function()
 	F.ReskinInput(EntryCreation.Name)
 	F.ReskinInput(EntryCreation.ItemLevel.EditBox)
 	F.ReskinInput(EntryCreation.VoiceChat.EditBox)
-	F.ReskinDropDown(EntryCreation.CategoryDropDown)
+	if not C.isNewPatch then
+		F.ReskinDropDown(EntryCreation.CategoryDropDown)
+	end
 	F.ReskinDropDown(EntryCreation.GroupDropDown)
 	F.ReskinDropDown(EntryCreation.ActivityDropDown)
 	F.ReskinCheck(EntryCreation.ItemLevel.CheckButton)

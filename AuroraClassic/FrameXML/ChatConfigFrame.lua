@@ -43,7 +43,7 @@ tinsert(C.defaultThemes, function()
 			local checkBoxName = nameString..index
 			local checkbox = _G[checkBoxName]
 			if checkbox and not checkbox.styled then
-				checkbox:SetBackdrop(nil)
+				F.HideBackdrop(checkbox) -- isNewPatch
 				local bg = F.CreateBDFrame(checkbox, .25)
 				bg:SetInside()
 				F.ReskinCheck(_G[checkBoxName.."Check"])
@@ -176,6 +176,9 @@ tinsert(C.defaultThemes, function()
 	F.Reskin(TextToSpeechFramePlaySampleButton)
 	F.Reskin(TextToSpeechFramePlaySampleAlternateButton)
 	F.Reskin(TextToSpeechDefaultButton)
+	if C.isNewPatch then
+		F.ReskinCheck(TextToSpeechCharacterSpecificButton)
+	end
 
 	F.ReskinDropDown(TextToSpeechFrameTtsVoiceDropdown)
 	F.ReskinDropDown(TextToSpeechFrameTtsVoiceAlternateDropdown)
