@@ -36,12 +36,12 @@ tinsert(C.defaultThemes, function()
 
 	-- [[ Category selection ]]
 
-	local CategorySelection = LFGListFrame.CategorySelection
+	local categorySelection = LFGListFrame.CategorySelection
 
-	F.Reskin(CategorySelection.FindGroupButton)
-	F.Reskin(CategorySelection.StartGroupButton)
-	CategorySelection.Inset:Hide()
-	CategorySelection.CategoryButtons[1]:SetNormalFontObject(GameFontNormal)
+	F.Reskin(categorySelection.FindGroupButton)
+	F.Reskin(categorySelection.StartGroupButton)
+	categorySelection.Inset:Hide()
+	categorySelection.CategoryButtons[1]:SetNormalFontObject(GameFontNormal)
 
 	hooksecurefunc("LFGListCategorySelection_AddButton", function(self, btnIndex)
 		local bu = self.CategoryButtons[btnIndex]
@@ -72,19 +72,19 @@ tinsert(C.defaultThemes, function()
 
 	-- [[ Search panel ]]
 
-	local SearchPanel = LFGListFrame.SearchPanel
+	local searchPanel = LFGListFrame.SearchPanel
 
-	F.Reskin(SearchPanel.RefreshButton)
-	F.Reskin(SearchPanel.BackButton)
-	F.Reskin(SearchPanel.SignUpButton)
-	F.Reskin(SearchPanel.ScrollFrame.ScrollChild.StartGroupButton)
-	F.ReskinInput(SearchPanel.SearchBox)
-	F.ReskinScroll(SearchPanel.ScrollFrame.scrollBar)
+	F.Reskin(searchPanel.RefreshButton)
+	F.Reskin(searchPanel.BackButton)
+	F.Reskin(searchPanel.SignUpButton)
+	F.Reskin(searchPanel.ScrollFrame.ScrollChild.StartGroupButton)
+	F.ReskinInput(searchPanel.SearchBox)
+	F.ReskinScroll(searchPanel.ScrollFrame.scrollBar)
 
-	SearchPanel.RefreshButton:SetSize(24, 24)
-	SearchPanel.RefreshButton.Icon:SetPoint("CENTER")
-	SearchPanel.ResultsInset:Hide()
-	F.StripTextures(SearchPanel.AutoCompleteFrame)
+	searchPanel.RefreshButton:SetSize(24, 24)
+	searchPanel.RefreshButton.Icon:SetPoint("CENTER")
+	searchPanel.ResultsInset:Hide()
+	F.StripTextures(searchPanel.AutoCompleteFrame)
 
 	local numResults = 1
 	hooksecurefunc("LFGListSearchPanel_UpdateAutoComplete", function(self)
@@ -122,14 +122,14 @@ tinsert(C.defaultThemes, function()
 
 	-- [[ Application viewer ]]
 
-	local ApplicationViewer = LFGListFrame.ApplicationViewer
-	ApplicationViewer.InfoBackground:Hide()
-	ApplicationViewer.Inset:Hide()
+	local applicationViewer = LFGListFrame.ApplicationViewer
+	applicationViewer.InfoBackground:Hide()
+	applicationViewer.Inset:Hide()
 
 	local prevHeader
 	local scoreHeader = C.isNewPatch and "RatingColumnHeader" or "DungeonScoreColumnHeader"
 	for _, headerName in pairs({"NameColumnHeader", "RoleColumnHeader", "ItemLevelColumnHeader", scoreHeader}) do
-		local header = ApplicationViewer[headerName]
+		local header = applicationViewer[headerName]
 
 		F.StripTextures(header)
 		header.Label:SetFont(C.Font[1], 14, C.Font[3])
@@ -153,13 +153,14 @@ tinsert(C.defaultThemes, function()
 		prevHeader = header
 	end
 
-	F.Reskin(ApplicationViewer.RefreshButton)
-	F.Reskin(ApplicationViewer.RemoveEntryButton)
-	F.Reskin(ApplicationViewer.EditButton)
+	F.Reskin(applicationViewer.RefreshButton)
+	F.Reskin(applicationViewer.RemoveEntryButton)
+	F.Reskin(applicationViewer.EditButton)
+	F.ReskinCheck(applicationViewer.AutoAcceptButton)
 	F.ReskinScroll(LFGListApplicationViewerScrollFrameScrollBar)
 
-	ApplicationViewer.RefreshButton:SetSize(24, 24)
-	ApplicationViewer.RefreshButton.Icon:SetPoint("CENTER")
+	applicationViewer.RefreshButton:SetSize(24, 24)
+	applicationViewer.RefreshButton.Icon:SetPoint("CENTER")
 
 	hooksecurefunc("LFGListApplicationViewer_UpdateApplicant", function(button)
 		if not button.styled then
@@ -188,23 +189,29 @@ tinsert(C.defaultThemes, function()
 	-- [[ Entry creation ]]
 
 	local EntryCreation = LFGListFrame.EntryCreation
-	EntryCreation.Inset:Hide()
-	F.StripTextures(EntryCreation.Description)
-	F.Reskin(EntryCreation.ListGroupButton)
-	F.Reskin(EntryCreation.CancelButton)
-	F.ReskinInput(EntryCreation.Description)
-	F.ReskinInput(EntryCreation.Name)
-	F.ReskinInput(EntryCreation.ItemLevel.EditBox)
-	F.ReskinInput(EntryCreation.VoiceChat.EditBox)
+	entryCreation.Inset:Hide()
+	F.StripTextures(entryCreation.Description)
+	F.Reskin(entryCreation.ListGroupButton)
+	F.Reskin(entryCreation.CancelButton)
+	F.ReskinInput(entryCreation.Description)
+	F.ReskinInput(entryCreation.Name)
+	F.ReskinInput(entryCreation.ItemLevel.EditBox)
+	F.ReskinInput(entryCreation.VoiceChat.EditBox)
 	if not C.isNewPatch then
-		F.ReskinDropDown(EntryCreation.CategoryDropDown)
+		F.ReskinDropDown(entryCreation.CategoryDropDown)
 	end
-	F.ReskinDropDown(EntryCreation.GroupDropDown)
-	F.ReskinDropDown(EntryCreation.ActivityDropDown)
-	F.ReskinCheck(EntryCreation.ItemLevel.CheckButton)
-	F.ReskinCheck(EntryCreation.VoiceChat.CheckButton)
-	F.ReskinCheck(EntryCreation.PrivateGroup.CheckButton)
-	F.ReskinCheck(LFGListFrame.ApplicationViewer.AutoAcceptButton)
+	F.ReskinDropDown(entryCreation.GroupDropDown)
+	F.ReskinDropDown(entryCreation.ActivityDropDown)
+	if C.isNewPatch then
+		F.ReskinDropDown(entryCreation.PlayStyleDropdown)
+		F.ReskinCheck(entryCreation.MythicPlusRating.CheckButton)
+		F.ReskinInput(entryCreation.MythicPlusRating.EditBox)
+		F.ReskinCheck(entryCreation.PVPRating.CheckButton)
+		F.ReskinInput(entryCreation.PVPRating.EditBox)
+	end
+	F.ReskinCheck(entryCreation.ItemLevel.CheckButton)
+	F.ReskinCheck(entryCreation.VoiceChat.CheckButton)
+	F.ReskinCheck(entryCreation.PrivateGroup.CheckButton)
 
 	-- [[ Role count ]]
 
@@ -235,15 +242,16 @@ tinsert(C.defaultThemes, function()
 
 	-- Activity finder
 
-	local ActivityFinder = EntryCreation.ActivityFinder
+	local activityFinder = entryCreation.ActivityFinder
+	activityFinder.Background:SetTexture("")
 
-	ActivityFinder.Background:SetTexture("")
-	F.StripTextures(ActivityFinder.Dialog)
-	F.ReskinInput(ActivityFinder.Dialog)
-	F.Reskin(ActivityFinder.Dialog.SelectButton)
-	F.Reskin(ActivityFinder.Dialog.CancelButton)
-	F.ReskinInput(ActivityFinder.Dialog.EntryBox)
-	F.ReskinScroll(LFGListEntryCreationSearchScrollFrameScrollBar)
+	local finderDialog = activityFinder.Dialog
+	F.StripTextures(finderDialog)
+	F.SetBD(finderDialog)
+	F.Reskin(finderDialog.SelectButton)
+	F.Reskin(finderDialog.CancelButton)
+	F.ReskinInput(finderDialog.EntryBox)
+	F.ReskinScroll(finderDialog.ScrollFrame.scrollBar)
 
 	-- [[ Application dialog ]]
 
