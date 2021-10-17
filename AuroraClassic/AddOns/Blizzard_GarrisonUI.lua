@@ -1168,10 +1168,10 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			ability:SetMask(nil)
 			ability:SetSize(12, 12)
 			ability.bg = F.ReskinIcon(ability)
-			ability.bg:SetFrameLevel(5)
+			ability.bg:SetFrameLevel(4)
 			tinsert(frame.__abilities, ability)
 			select(2, ability:GetPoint()):SetAlpha(0)
-			ability:SetPoint("CENTER", frame, "LEFT", 11, first and 11 or -1)
+			ability:SetPoint("CENTER", frame, "LEFT", 11, first and 12 or -1)
 		end
 
 		local function updateVisibleAbilities(self)
@@ -1181,6 +1181,12 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				ability.bg:SetShown(ability:IsShown())
 			end
 			self.__owner.__role:SetDesaturated(not showHealth)
+		end
+
+		local function fixAnchorForModVP(self, _, x, y)
+			if x == 5 and y == -18 then
+				self:SetPoint("CENTER", self.__owner, 1, 0)
+			end
 		end
 
 		local VPFollowers, VPTroops = {}, {}
@@ -1213,6 +1219,10 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				elseif otype == "MissionPage" then
 					F.StripTextures(widget)
 					F.Reskin(peek("UnButton"))
+					F.Reskin(peek("StartButton"))
+					if peek("StartButton"):GetWidth() < 50 then -- only adjust the unmodified VP
+						peek("StartButton"):SetText("|T"..C.ArrowUp..":16|t")
+					end
 				elseif otype == "ILButton" then
 					widget:DisableDrawLayer("BACKGROUND")
 					local bg = F.CreateBDFrame(widget, .25)
@@ -1270,6 +1280,8 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					peek("TextLabel"):SetFontObject("Game12Font")
 					peek("TextLabel"):ClearAllPoints()
 					peek("TextLabel"):SetPoint("CENTER", peek("HealthBG"), 1, 0)
+					peek("TextLabel").__owner = peek("HealthBG")
+					hooksecurefunc(peek("TextLabel"), "SetPoint", fixAnchorForModVP)
 
 					peek("Favorite"):ClearAllPoints()
 					peek("Favorite"):SetPoint("TOPLEFT", -2, 2)
