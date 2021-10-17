@@ -1106,17 +1106,6 @@ C.themes["Blizzard_GarrisonUI"] = function()
 
 			self.isSetting = nil
 		end
-		local function AdjustFollowerButton(self, anchor, x, y)
-			if y == -35 then return end -- troops
-			if self.isSetting then return end
-			self.isSetting = true
-
-			local mult = (y+130)/72
-			if mult == floor(mult) then -- only adjust the unmodified VP
-				self:SetPoint(anchor, x, mult*68 - 130)
-			end
-			self.isSetting = nil
-		end
 
 		local ReplacedRoleTex = {
 			["adventures-tank"] = "Soulbinds_Tree_Conduit_Icon_Protect",
@@ -1304,8 +1293,6 @@ C.themes["Blizzard_GarrisonUI"] = function()
 						peek("HealthBG").__owner = frame
 						hooksecurefunc(peek("HealthBG"), "SetGradient", updateVisibleAbilities)
 					end
-
-					hooksecurefunc(widget, "SetPoint", AdjustFollowerButton)
 				elseif otype == "ProgressBar" then
 					F.StripTextures(widget)
 					F.CreateBDFrame(widget, 1)
