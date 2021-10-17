@@ -1180,6 +1180,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				ability:SetDesaturated(not showHealth)
 				ability.bg:SetShown(ability:IsShown())
 			end
+			self.__owner.__role:SetDesaturated(not showHealth)
 		end
 
 		local VPFollowers, VPTroops = {}, {}
@@ -1284,6 +1285,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					if frame then
 						frame.__abilities = {}
 						frame.__health = peek("Health")
+						frame.__role = peek("Role")
 						local index1, index2 = GetAbilitiesIndex(frame)
 						reskinFollowerAbility(frame, index1, true)
 						reskinFollowerAbility(frame, index2)
