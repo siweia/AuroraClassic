@@ -1178,7 +1178,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			end
 		end
 
-		local VPFollowers, VPTroops = {}, {}
+		local VPFollowers, VPTroops, VPBooks = {}, {}, {}
 		function VPEX_OnUIObjectCreated(otype, widget, peek)
 			if widget:IsObjectType("Frame") then
 				if otype == "MissionButton" then
@@ -1220,10 +1220,11 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					F.CreateBDFrame(widget.Icon, .25)
 				elseif otype == "IconButton" then
 					F.ReskinIcon(widget:GetNormalTexture())
-					widget:SetHighlightTexture(nil)
-					widget:SetPushedTexture(C.pushed)
+					widget:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
+					widget:SetPushedTexture(nil)
 					widget.Icon:SetTexCoord(unpack(C.TexCoord))
 					widget:SetSize(46, 46)
+					tinsert(VPBooks, widget)
 				elseif otype == "FollowerList" then
 					F.StripTextures(widget)
 					F.CreateBDFrame(widget, .25)
@@ -1236,6 +1237,10 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					for i, follower in pairs(VPFollowers) do
 						follower:ClearAllPoints()
 						follower:SetPoint("TOPLEFT", ((i-1)%5)*60+5, -floor((i-1)/5)*60-130)
+					end
+					for i, book in pairs(VPBooks) do
+						book:ClearAllPoints()
+						book:SetPoint("BOTTOMLEFT", 24, -46 + i*50)
 					end
 				elseif otype == "FollowerListButton" then
 					widget.bg = F.CreateBDFrame(peek("Portrait"), 1)
