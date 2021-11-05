@@ -31,9 +31,9 @@ tinsert(C.defaultThemes, function()
 		line:SetPoint("LEFT", 205, 30)
 		line:SetColorTexture(1, 1, 1, .25)
 
-		F.HideBackdrop(Display_) -- isNewPatch
-		F.HideBackdrop(Graphics_) -- isNewPatch
-		F.HideBackdrop(RaidGraphics_) -- isNewPatch
+		Display_:HideBackdrop()
+		Graphics_:HideBackdrop()
+		RaidGraphics_:HideBackdrop()
 		GraphicsButton:DisableDrawLayer("BACKGROUND")
 		RaidButton:DisableDrawLayer("BACKGROUND")
 

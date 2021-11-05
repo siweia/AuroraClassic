@@ -56,9 +56,9 @@ C.themes["Blizzard_GuildUI"] = function()
 	F.ReskinPortraitFrame(GuildFrame)
 	F.StripTextures(GuildMemberDetailFrame)
 	F.SetBD(GuildMemberDetailFrame)
-	F.HideBackdrop(GuildMemberNoteBackground) -- isNewPatch
+	GuildMemberNoteBackground:HideBackdrop()
 	F.CreateBDFrame(GuildMemberNoteBackground, .25)
-	F.HideBackdrop(GuildMemberOfficerNoteBackground) -- isNewPatch
+	GuildMemberOfficerNoteBackground:HideBackdrop()
 	F.CreateBDFrame(GuildMemberOfficerNoteBackground, .25)
 	F.SetBD(GuildLogFrame)
 	F.CreateBDFrame(GuildLogContainer, .25)

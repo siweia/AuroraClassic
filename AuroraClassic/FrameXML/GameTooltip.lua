@@ -24,7 +24,7 @@ tinsert(C.defaultThemes, function()
 		if self:IsForbidden() then return end
 
 		if not self.auroraTip then
-			F.HideBackdrop(self) -- isNewPatch
+			self:HideBackdrop()
 			self:DisableDrawLayer("BACKGROUND")
 			self.bg = F.SetBD(self, .7)
 			self.bg:SetInside(self)
@@ -39,13 +39,6 @@ tinsert(C.defaultThemes, function()
 
 			self.auroraTip = true
 		end
-	end
-
-	if not C.isNewPatch then
-		hooksecurefunc("SharedTooltip_SetBackdropStyle", function(self)
-			if not self.auroraTip then return end
-			self:SetBackdrop(nil)
-		end)
 	end
 
 	hooksecurefunc("GameTooltip_ShowStatusBar", function(self)
