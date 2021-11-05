@@ -43,7 +43,7 @@ tinsert(C.defaultThemes, function()
 			local checkBoxName = nameString..index
 			local checkbox = _G[checkBoxName]
 			if checkbox and not checkbox.styled then
-				F.HideBackdrop(checkbox) -- isNewPatch
+				checkbox:HideBackdrop()
 				local bg = F.CreateBDFrame(checkbox, .25)
 				bg:SetInside()
 				F.ReskinCheck(_G[checkBoxName.."Check"])
@@ -153,9 +153,7 @@ tinsert(C.defaultThemes, function()
 	F.Reskin(ChatConfigFrameOkayButton)
 	F.Reskin(ChatConfigFrameDefaultButton)
 	F.Reskin(ChatConfigFrameRedockButton)
-	if C.isNewPatch then
-		F.Reskin(ChatConfigFrame.ToggleChatButton)
-	end
+	F.Reskin(ChatConfigFrame.ToggleChatButton)
 	F.ReskinArrow(ChatConfigMoveFilterUpButton, "up")
 	F.ReskinArrow(ChatConfigMoveFilterDownButton, "down")
 	F.ReskinInput(CombatConfigSettingsNameEditBox)
@@ -179,9 +177,7 @@ tinsert(C.defaultThemes, function()
 	F.Reskin(TextToSpeechFramePlaySampleButton)
 	F.Reskin(TextToSpeechFramePlaySampleAlternateButton)
 	F.Reskin(TextToSpeechDefaultButton)
-	if C.isNewPatch then
-		F.ReskinCheck(TextToSpeechCharacterSpecificButton)
-	end
+	F.ReskinCheck(TextToSpeechCharacterSpecificButton)
 
 	F.ReskinDropDown(TextToSpeechFrameTtsVoiceDropdown)
 	F.ReskinDropDown(TextToSpeechFrameTtsVoiceAlternateDropdown)

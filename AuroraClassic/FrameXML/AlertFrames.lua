@@ -53,8 +53,6 @@ tinsert(C.defaultThemes, function()
 		[GarrisonShipFollowerAlertSystem] = true,
 	}
 
-	if not NewCosmeticAlertFrameSystem then NewCosmeticAlertFrameSystem = 123 end -- isNewPatch
-
 	local newAlertTemplate = {
 		[NewPetAlertSystem] = true,
 		[NewMountAlertSystem] = true,
