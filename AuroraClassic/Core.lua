@@ -238,6 +238,12 @@ do
 		hooksecurefunc(self, "Hide", resetIconBorderColor)
 	end
 
+	local CLASS_ICON_TCOORDS = CLASS_ICON_TCOORDS
+	function F:ClassIconTexCoord(class)
+		local tcoords = CLASS_ICON_TCOORDS[class]
+		self:SetTexCoord(tcoords[1] + .022, tcoords[2] - .025, tcoords[3] + .022, tcoords[4] - .025)
+	end
+
 	-- Handle button
 	local function Button_OnEnter(self)
 		if not self:IsEnabled() then return end
