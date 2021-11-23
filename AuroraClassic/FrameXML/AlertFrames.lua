@@ -313,20 +313,20 @@ tinsert(C.defaultThemes, function()
 			end
 		elseif frame.queue == EntitlementDeliveredAlertSystem then
 			if not frame.bg then
-				frame.bg = B.SetBD(frame)
+				frame.bg = F.SetBD(frame)
 				frame.bg:SetInside(frame, 12, 12)
 
-				B.ReskinIcon(frame.Icon)
+				F.ReskinIcon(frame.Icon)
 				frame.Title:SetTextColor(0, .6, 1)
 				frame.Background:Hide()
 			end
 		elseif frame.queue == RafRewardDeliveredAlertSystem then
 			if not frame.bg then
-				frame.bg = B.SetBD(frame)
+				frame.bg = F.SetBD(frame)
 				frame.bg:SetPoint("TOPLEFT", 24, -14)
 				frame.bg:SetPoint("BOTTOMRIGHT", -24, 8)
 
-				B.ReskinIcon(frame.Icon)
+				F.ReskinIcon(frame.Icon)
 				frame.StandardBackground:SetTexture("")
 			end
 		end
