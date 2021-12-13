@@ -407,6 +407,48 @@ do
 		self:HookScript("OnLeave", Scroll_OnLeave)
 	end
 
+	-- WowTrimScrollBar
+	local function updateTrimScrollArrow(self, atlas)
+		local arrow = self.__owner
+		if not arrow.__texture then return end
+	
+		if atlas == arrow.disabledTexture then
+			arrow.__texture:SetVertexColor(.5, .5, .5)
+		else
+			arrow.__texture:SetVertexColor(1, 1, 1)
+		end
+	end
+
+	local function reskinTrimScrollArrow(self, direction)
+		if not self then return end
+
+		self.Texture:SetAlpha(0)
+		self.Overlay:SetAlpha(0)
+		local tex = self:CreateTexture(nil, "ARTWORK")
+		tex:SetAllPoints()
+		F.CreateBDFrame(tex, .25)
+		F.SetupArrow(tex, direction)
+		self.__texture = tex
+	
+		self:HookScript("OnEnter", F.Texture_OnEnter)
+		self:HookScript("OnLeave", F.Texture_OnLeave)
+		self.Texture.__owner = self
+		hooksecurefunc(self.Texture, "SetAtlas", updateTrimScrollArrow)
+		self.Texture:SetAtlas(self.Texture:GetAtlas())
+	end
+
+	function F:ReskinTrimScroll()
+		F.StripTextures(self)
+		reskinTrimScrollArrow(self.Back, "up")
+		reskinTrimScrollArrow(self.Forward, "down")
+
+		local thumb = self:GetThumb()
+		if thumb then
+			F.StripTextures(thumb, 0)
+			F.CreateBDFrame(thumb, 0, true)
+		end
+	end
+
 	-- Handle dropdown
 	function F:ReskinDropDown()
 		F.StripTextures(self)
