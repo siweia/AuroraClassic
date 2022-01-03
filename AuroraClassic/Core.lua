@@ -26,6 +26,12 @@ do
 		self:SetScale(.0001)
 	end
 
+	function F:Round(number, idp)
+		idp = idp or 0
+		local mult = 10 ^ idp
+		return floor(number * mult + .5) / mult
+	end
+
 	local blizzTextures = {
 		"Inset",
 		"inset",
