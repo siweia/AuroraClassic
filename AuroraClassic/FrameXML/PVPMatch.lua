@@ -26,6 +26,12 @@ tinsert(C.defaultThemes, function()
 		F.StripTextures(self)
 	end
 
+	if C.isNewPatch then
+		ReadyStatus.Border:SetAlpha(0)
+		B.SetBD(ReadyStatus)
+		B.ReskinClose(ReadyStatus.CloseButton)
+	end
+
 	-- match score
 	F.SetBD(PVPMatchScoreboard)
 	PVPMatchScoreboard:HookScript("OnShow", stripBorders)
