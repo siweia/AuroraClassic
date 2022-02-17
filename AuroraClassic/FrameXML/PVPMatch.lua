@@ -28,8 +28,8 @@ tinsert(C.defaultThemes, function()
 
 	if C.isNewPatch then
 		ReadyStatus.Border:SetAlpha(0)
-		B.SetBD(ReadyStatus)
-		B.ReskinClose(ReadyStatus.CloseButton)
+		F.SetBD(ReadyStatus)
+		F.ReskinClose(ReadyStatus.CloseButton)
 	end
 
 	-- match score
