@@ -14,9 +14,7 @@ C.themes["Blizzard_BindingUI"] = function()
 	F.SetBD(KeyBindingFrame)
 	F.Reskin(KeyBindingFrame.defaultsButton)
 	F.Reskin(KeyBindingFrame.quickKeybindButton)
-	if C.isNewPatch then
-		F.Reskin(KeyBindingFrame.clickCastingButton)
-	end
+	F.Reskin(KeyBindingFrame.clickCastingButton)
 	F.Reskin(KeyBindingFrame.unbindButton)
 	F.Reskin(KeyBindingFrame.okayButton)
 	F.Reskin(KeyBindingFrame.cancelButton)
