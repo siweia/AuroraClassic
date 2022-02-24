@@ -1,8 +1,6 @@
 local _, ns = ...
 local F, C = unpack(ns)
 
-if not C.isNewPatch then return end
-
 local function updateNewGlow(self)
 	if self.NewOutline:IsShown() then
 		self.bg:SetBackdropBorderColor(0, .7, .08)
