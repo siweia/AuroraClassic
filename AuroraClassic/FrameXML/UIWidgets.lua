@@ -98,13 +98,15 @@ end
 tinsert(C.defaultThemes, function()
 	hooksecurefunc(_G.UIWidgetTopCenterContainerFrame, "UpdateWidgetLayout", function(self)
 		for _, widgetFrame in pairs(self.widgetFrames) do
-			local widgetType = widgetFrame.widgetType
-			if widgetType == Type_DoubleStatusBar then
-				ReskinDoubleStatusBarWidget(widgetFrame)
-			elseif widgetType == Type_SpellDisplay then
-				ReskinSpellDisplayWidget(widgetFrame.Spell)
-			elseif widgetType == Type_StatusBar then
-				ReskinWidgetStatusBar(widgetFrame.Bar)
+			if not widgetFrame:IsForbidden() then
+				local widgetType = widgetFrame.widgetType
+				if widgetType == Type_DoubleStatusBar then
+					ReskinDoubleStatusBarWidget(widgetFrame)
+				elseif widgetType == Type_SpellDisplay then
+					ReskinSpellDisplayWidget(widgetFrame.Spell)
+				elseif widgetType == Type_StatusBar then
+					ReskinWidgetStatusBar(widgetFrame.Bar)
+				end
 			end
 		end
 	end)
@@ -112,7 +114,9 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc(_G.UIWidgetBelowMinimapContainerFrame, "UpdateWidgetLayout", function(self)
 		for _, widgetFrame in pairs(self.widgetFrames) do
 			if widgetFrame.widgetType == Type_CaptureBar then
-				ReskinPVPCaptureBar(widgetFrame)
+				if not widgetFrame:IsForbidden() then
+					ReskinPVPCaptureBar(widgetFrame)
+				end
 			end
 		end
 	end)
@@ -120,7 +124,9 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc(_G.UIWidgetPowerBarContainerFrame, "UpdateWidgetLayout", function(self)
 		for _, widgetFrame in pairs(self.widgetFrames) do
 			if widgetFrame.widgetType == Type_StatusBar then
-				ReskinWidgetStatusBar(widgetFrame.Bar)
+				if not widgetFrame:IsForbidden() then
+					ReskinWidgetStatusBar(widgetFrame.Bar)
+				end
 			end
 		end
 	end)
@@ -128,7 +134,9 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc(_G.TopScenarioWidgetContainerBlock.WidgetContainer, "UpdateWidgetLayout", function(self)
 		for _, widgetFrame in pairs(self.widgetFrames) do
 			if widgetFrame.widgetType == Type_StatusBar then
-				ReskinWidgetStatusBar(widgetFrame.Bar)
+				if not widgetFrame:IsForbidden() then
+					ReskinWidgetStatusBar(widgetFrame.Bar)
+				end
 			end
 		end
 	end)
@@ -136,7 +144,9 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc(_G.BottomScenarioWidgetContainerBlock.WidgetContainer, "UpdateWidgetLayout", function(self)
 		for _, widgetFrame in pairs(self.widgetFrames) do
 			if widgetFrame.widgetType == Type_SpellDisplay then
-				ReskinSpellDisplayWidget(widgetFrame.Spell)
+				if not widgetFrame:IsForbidden() then
+					ReskinSpellDisplayWidget(widgetFrame.Spell)
+				end
 			end
 		end
 	end)
@@ -148,6 +158,7 @@ tinsert(C.defaultThemes, function()
 
 	-- needs review, might remove this in the future
 	hooksecurefunc(_G.UIWidgetTemplateStatusBarMixin, "Setup", function(self)
+		if self:IsForbidden() then return end
 		ReskinWidgetStatusBar(self.Bar)
 	end)
 end)
