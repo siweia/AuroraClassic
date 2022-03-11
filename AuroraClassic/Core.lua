@@ -253,7 +253,7 @@ do
 			for i = 1, numTicks-1 do
 				if not ticks[i] then
 					ticks[i] = bar:CreateTexture(nil, "OVERLAY")
-					ticks[i]:SetTexture(DB.normTex)
+					ticks[i]:SetTexture(C.normTex)
 					ticks[i]:SetVertexColor(0, 0, 0, .7)
 					ticks[i]:SetWidth(C.mult)
 					ticks[i]:SetHeight(height)
@@ -871,11 +871,11 @@ do
 
 	function F:GetRoleTex()
 		if self == "TANK" then
-			return DB.tankTex
+			return C.tankTex
 		elseif self == "DPS" or self == "DAMAGER" then
-			return DB.dpsTex
+			return C.dpsTex
 		elseif self == "HEALER" then
-			return DB.healTex
+			return C.healTex
 		end
 	end
 
