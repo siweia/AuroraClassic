@@ -240,6 +240,20 @@ tinsert(C.defaultThemes, function()
 		end
 	end)
 
+	-- AuroraClassic ONLY
+	hooksecurefunc("LFGListGroupDataDisplayEnumerate_Update", function(self, numPlayers, displayData, _, iconOrder)
+		local iconIndex = numPlayers
+		for i = 1, #iconOrder do
+			for j = 1, displayData[iconOrder[i]] do
+				F.ReskinSmallRole(self.Icons[iconIndex], iconOrder[i])
+				iconIndex = iconIndex - 1
+				if iconIndex < 1 then
+					return
+				end
+			end
+		end
+	end)
+
 	-- Activity finder
 
 	local activityFinder = entryCreation.ActivityFinder
