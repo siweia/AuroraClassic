@@ -869,10 +869,27 @@ do
 		end
 	end
 
+	function F:GetRoleTex()
+		if self == "TANK" then
+			return DB.tankTex
+		elseif self == "DPS" or self == "DAMAGER" then
+			return DB.dpsTex
+		elseif self == "HEALER" then
+			return DB.healTex
+		end
+	end
+
+	function F:ReskinSmallRole(role)
+		self:SetTexture(F.GetRoleTex(role))
+		self:SetTexCoord(0, 1, 0, 1)
+	end
+
 	function F:ReskinRole(role)
 		if self.background then self.background:SetTexture("") end
+
 		local cover = self.cover or self.Cover
 		if cover then cover:SetTexture("") end
+
 		local texture = self.GetNormalTexture and self:GetNormalTexture() or self.texture or self.Texture or (self.SetTexture and self) or self.Icon
 		if texture then
 			texture:SetTexture(C.rolesTex)
