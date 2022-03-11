@@ -241,14 +241,18 @@ tinsert(C.defaultThemes, function()
 	end)
 
 	-- AuroraClassic ONLY
-	hooksecurefunc("LFGListGroupDataDisplayEnumerate_Update", function(self, numPlayers, displayData, _, iconOrder)
-		local iconIndex = numPlayers
-		for i = 1, #iconOrder do
-			for j = 1, displayData[iconOrder[i]] do
-				F.ReskinSmallRole(self.Icons[iconIndex], iconOrder[i])
-				iconIndex = iconIndex - 1
-				if iconIndex < 1 then
-					return
+	local atlasToRole = {
+		["groupfinder-icon-role-large-tank"] = "TANK",
+		["groupfinder-icon-role-large-heal"] = "HEALER",
+		["groupfinder-icon-role-large-dps"] = "DAMAGER"
+	}
+	hooksecurefunc("LFGListGroupDataDisplayEnumerate_Update", function(self)
+		for i = 1, #self.Icons do
+			local icon = self.Icons[i]
+			if icon:IsShown() then
+				local role = atlasToRole[icon:GetAtlas()]
+				if role then
+					F.ReskinSmallRole(icon, role)
 				end
 			end
 		end
