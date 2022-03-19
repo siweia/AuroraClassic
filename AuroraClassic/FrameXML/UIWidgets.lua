@@ -96,6 +96,8 @@ local function ReskinSpellDisplayWidget(spell)
 end
 
 local function ReskinPowerBarWidget(self)
+	if not self.widgetFrames then return end
+
 	for _, widgetFrame in pairs(self.widgetFrames) do
 		if widgetFrame.widgetType == Type_StatusBar then
 			if not widgetFrame:IsForbidden() then
