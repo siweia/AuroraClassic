@@ -373,4 +373,39 @@ C.themes["Blizzard_EncounterJournal"] = function()
 		EncounterJournalTooltip.Item2.icon:SetTexCoord(unpack(C.TexCoord))
 		EncounterJournalTooltip.Item2.IconBorder:SetAlpha(0)
 	end
+
+	-- ItemSetsFrame
+	if EncounterJournal.LootJournalItems then
+		F.StripTextures(EncounterJournal.LootJournalItems)
+		F.ReskinDropDown(EncounterJournal.LootJournalViewDropDown)
+
+		local itemSetsFrame = EncounterJournal.LootJournalItems.ItemSetsFrame
+		F.ReskinScroll(itemSetsFrame.scrollBar)
+		reskinFilterToggle(itemSetsFrame.ClassButton)
+
+		hooksecurefunc(itemSetsFrame, "UpdateList", function(self)
+			local buttons = self.buttons
+			for i = 1, #buttons do
+				local button = buttons[i]
+				if not button.styled then
+					button.ItemLevel:SetTextColor(1, 1, 1)
+					button.Background:Hide()
+					F.CreateBDFrame(button, .25)
+
+					button.styled = true
+				end
+			end
+		end)
+
+		hooksecurefunc(itemSetsFrame, "ConfigureItemButton", function(_, button)
+			if not button.bg then
+				button.Border:SetAlpha(0)
+				button.bg = F.ReskinIcon(button.Icon)
+			end
+
+			local quality = select(3, GetItemInfo(button.itemID))
+			local color = C.QualityColors[quality or 1]
+			button.bg:SetBackdropBorderColor(color.r, color.g, color.b)
+		end)
+	end
 end
