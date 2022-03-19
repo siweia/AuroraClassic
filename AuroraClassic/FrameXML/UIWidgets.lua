@@ -96,8 +96,6 @@ local function ReskinSpellDisplayWidget(spell)
 end
 
 local function ReskinPowerBarWidget(self)
-	if not self.widgetFrames then return end
-
 	for _, widgetFrame in pairs(self.widgetFrames) do
 		if widgetFrame.widgetType == Type_StatusBar then
 			if not widgetFrame:IsForbidden() then
@@ -137,7 +135,6 @@ tinsert(C.defaultThemes, function()
 	ReskinPowerBarWidget(_G.UIWidgetPowerBarContainerFrame)
 
 	hooksecurefunc(_G.TopScenarioWidgetContainerBlock.WidgetContainer, "UpdateWidgetLayout", ReskinPowerBarWidget)
-	ReskinPowerBarWidget(_G.TopScenarioWidgetContainerBlock.WidgetContainer)
 
 	hooksecurefunc(_G.BottomScenarioWidgetContainerBlock.WidgetContainer, "UpdateWidgetLayout", function(self)
 		for _, widgetFrame in pairs(self.widgetFrames) do
