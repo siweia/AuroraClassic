@@ -135,7 +135,7 @@ tinsert(C.defaultThemes, function()
 	ReskinPowerBarWidget(_G.UIWidgetPowerBarContainerFrame)
 
 	hooksecurefunc(_G.TopScenarioWidgetContainerBlock.WidgetContainer, "UpdateWidgetLayout", ReskinPowerBarWidget)
-	ReskinPowerBarWidget(_G.TopScenarioWidgetContainerBlock)
+	ReskinPowerBarWidget(_G.TopScenarioWidgetContainerBlock.WidgetContainer)
 
 	hooksecurefunc(_G.BottomScenarioWidgetContainerBlock.WidgetContainer, "UpdateWidgetLayout", function(self)
 		for _, widgetFrame in pairs(self.widgetFrames) do
