@@ -95,6 +95,16 @@ local function ReskinSpellDisplayWidget(spell)
 	spell.IconMask:Hide()
 end
 
+local function ReskinPowerBarWidget(self)
+	for _, widgetFrame in pairs(self.widgetFrames) do
+		if widgetFrame.widgetType == Type_StatusBar then
+			if not widgetFrame:IsForbidden() then
+				ReskinWidgetStatusBar(widgetFrame.Bar)
+			end
+		end
+	end
+end
+
 tinsert(C.defaultThemes, function()
 	hooksecurefunc(_G.UIWidgetTopCenterContainerFrame, "UpdateWidgetLayout", function(self)
 		for _, widgetFrame in pairs(self.widgetFrames) do
@@ -121,25 +131,11 @@ tinsert(C.defaultThemes, function()
 		end
 	end)
 
-	hooksecurefunc(_G.UIWidgetPowerBarContainerFrame, "UpdateWidgetLayout", function(self)
-		for _, widgetFrame in pairs(self.widgetFrames) do
-			if widgetFrame.widgetType == Type_StatusBar then
-				if not widgetFrame:IsForbidden() then
-					ReskinWidgetStatusBar(widgetFrame.Bar)
-				end
-			end
-		end
-	end)
+	hooksecurefunc(_G.UIWidgetPowerBarContainerFrame, "UpdateWidgetLayout", ReskinPowerBarWidget)
+	ReskinPowerBarWidget(_G.UIWidgetPowerBarContainerFrame)
 
-	hooksecurefunc(_G.TopScenarioWidgetContainerBlock.WidgetContainer, "UpdateWidgetLayout", function(self)
-		for _, widgetFrame in pairs(self.widgetFrames) do
-			if widgetFrame.widgetType == Type_StatusBar then
-				if not widgetFrame:IsForbidden() then
-					ReskinWidgetStatusBar(widgetFrame.Bar)
-				end
-			end
-		end
-	end)
+	hooksecurefunc(_G.TopScenarioWidgetContainerBlock.WidgetContainer, "UpdateWidgetLayout", ReskinPowerBarWidget)
+	ReskinPowerBarWidget(_G.TopScenarioWidgetContainerBlock)
 
 	hooksecurefunc(_G.BottomScenarioWidgetContainerBlock.WidgetContainer, "UpdateWidgetLayout", function(self)
 		for _, widgetFrame in pairs(self.widgetFrames) do
