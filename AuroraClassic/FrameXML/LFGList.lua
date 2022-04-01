@@ -212,6 +212,9 @@ tinsert(C.defaultThemes, function()
 	F.ReskinCheck(entryCreation.ItemLevel.CheckButton)
 	F.ReskinCheck(entryCreation.VoiceChat.CheckButton)
 	F.ReskinCheck(entryCreation.PrivateGroup.CheckButton)
+	if C.isNewPatch then
+		F.ReskinCheck(entryCreation.CrossFactionGroup.CheckButton)
+	end
 
 	-- [[ Role count ]]
 

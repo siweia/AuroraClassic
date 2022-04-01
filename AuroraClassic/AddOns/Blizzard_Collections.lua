@@ -386,7 +386,11 @@ C.themes["Blizzard_Collections"] = function()
 	F.StripTextures(icons)
 	F.ReskinInput(HeirloomsJournalSearchBox)
 	F.ReskinDropDown(HeirloomsJournalClassDropDown)
-	F.ReskinFilterButton(HeirloomsJournalFilterButton)
+	if C.isNewPatch then
+		F.ReskinFilterButton(HeirloomsJournal.FilterButton)
+	else
+		F.ReskinFilterButton(HeirloomsJournalFilterButton)
+	end
 	F.ReskinArrow(HeirloomsJournal.PagingFrame.PrevPageButton, "left")
 	F.ReskinArrow(HeirloomsJournal.PagingFrame.NextPageButton, "right")
 
