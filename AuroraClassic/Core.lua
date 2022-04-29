@@ -689,7 +689,7 @@ do
 		if vertical then thumb:SetRotation(rad(90)) end
 
 		local bar = CreateFrame("StatusBar", nil, bg)
-		bar:SetStatusBarTexture(DB.normTex)
+		bar:SetStatusBarTexture(C.normTex)
 		bar:SetStatusBarColor(1, .8, 0, .5)
 		if vertical then
 			bar:SetPoint("BOTTOMLEFT", bg, C.mult, C.mult)
