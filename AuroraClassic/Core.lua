@@ -591,7 +591,7 @@ do
 		F.SetupArrow(self.Icon, "right")
 		self.Icon:SetPoint("RIGHT")
 		self.Icon:SetSize(14, 14)
-		if C.isNewPatch and self.ResetButton then
+		if self.ResetButton then
 			F.ReskinFilterReset(self.ResetButton)
 		end
 	end
