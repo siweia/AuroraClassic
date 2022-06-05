@@ -1,6 +1,18 @@
 local _, ns = ...
 local F, C = unpack(ns)
 
+local atlasToTex = {
+	["friendslist-invitebutton-horde-normal"] = "Interface\\FriendsFrame\\PlusManz-Horde",
+	["friendslist-invitebutton-alliance-normal"] = "Interface\\FriendsFrame\\PlusManz-Alliance",
+	["friendslist-invitebutton-default-normal"] = "Interface\\FriendsFrame\\PlusManz-PlusManz",
+}
+local function replaceInviteTex(self, atlas)
+	local tex = atlasToTex[atlas]
+	if tex then
+		self:SetTexture(tex)
+	end
+end
+
 tinsert(C.defaultThemes, function()
 	local loadInit
 	FriendsFrame:HookScript("OnShow", function()
@@ -39,8 +51,8 @@ tinsert(C.defaultThemes, function()
 		travelPass:SetPoint("TOPRIGHT", -3, -6)
 		F.CreateBDFrame(travelPass, 1)
 		local nt = travelPass:GetNormalTexture()
-		nt:SetTexture("Interface\\FriendsFrame\\PlusManz-PlusManz")
 		nt:SetTexCoord(.1, .9, .1, .9)
+		hooksecurefunc(nt, "SetAtlas", replaceInviteTex)
 		local hl = travelPass:GetHighlightTexture()
 		hl:SetColorTexture(1, 1, 1, .25)
 		hl:SetAllPoints()
