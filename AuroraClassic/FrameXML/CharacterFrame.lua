@@ -255,10 +255,16 @@ tinsert(C.defaultThemes, function()
 	F.StripTextures(ReputationDetailFrame)
 	F.SetBD(ReputationDetailFrame)
 	F.ReskinClose(ReputationDetailCloseButton)
-	F.ReskinCheck(ReputationDetailAtWarCheckBox)
 	F.ReskinCheck(ReputationDetailInactiveCheckBox)
 	F.ReskinCheck(ReputationDetailMainScreenCheckBox)
 	F.ReskinScroll(ReputationListScrollFrameScrollBar)
+
+	local atWarCheck = ReputationDetailAtWarCheckBox
+	F.ReskinCheck(atWarCheck)
+	local atWarCheckTex = atWarCheck:GetCheckedTexture()
+	atWarCheckTex:ClearAllPoints()
+	atWarCheckTex:SetSize(26, 26)
+	atWarCheckTex:SetPoint("CENTER")
 
 	-- Token frame
 	TokenFramePopupCorner:Hide()
