@@ -132,7 +132,7 @@ tinsert(C.defaultThemes, function()
 		local header = applicationViewer[headerName]
 
 		F.StripTextures(header)
-		header.Label:SetFont(C.Font[1], 14, C.Font[3])
+		F.SetFontSize(header.Label, 14)
 		header.Label:SetShadowColor(0, 0, 0, 0)
 		header:SetHighlightTexture("")
 
