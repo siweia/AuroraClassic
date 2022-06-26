@@ -481,7 +481,7 @@ do
 			if self.bg then
 				self.bg:SetBackdropColor(cr, cg, cb, .25)
 			else
-				self.__texture:SetVertexColor(cr, cg, cb)
+				self.__texture:SetVertexColor(0, .6, 1)
 			end
 		end
 	end
@@ -758,6 +758,7 @@ do
 				button:SetSize(16, 16)
 				button:ClearAllPoints()
 				button:SetPoint("CENTER", -3, 0)
+				button:SetHitRectInsets(1, 1, 1, 1)
 				F.Reskin(button)
 
 				local tex = button:CreateTexture()
