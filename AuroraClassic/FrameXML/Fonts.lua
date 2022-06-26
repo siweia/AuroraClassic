@@ -5,8 +5,7 @@ local function ReskinFont(font, size)
 	if not font then return end
 	local oldSize = select(2, font:GetFont())
 	size = size or oldSize
-	local fontSize = size*AuroraClassicDB.FontScale
-	font:SetFont(C.Font[1], fontSize, C.Font[3])
+	F.SetFontSize(font, size*AuroraClassicDB.FontScale)
 	font:SetShadowColor(0, 0, 0, 0)
 end
 
