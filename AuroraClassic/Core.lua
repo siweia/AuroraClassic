@@ -89,6 +89,10 @@ end
 
 -- UI widgets
 do
+	function F:SetFontSize(size)
+		self:SetFont(C.Font[1], size, C.Font[3])
+	end
+
 	function F:CreateTex()
 		if self.__bgTex then return end
 
