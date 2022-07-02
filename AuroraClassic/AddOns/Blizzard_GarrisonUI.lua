@@ -330,7 +330,7 @@ local function ReskinMissionFrame(self)
 	if FollowerList.SearchBox then F.ReskinInput(FollowerList.SearchBox) end
 	F.ReskinScroll(FollowerList.listScroll.scrollBar)
 	ReskinGarrMaterial(FollowerList)
-	hooksecurefunc(FollowerList, "UpdateData", UpdateFollowerList)
+	hooksecurefunc(FollowerList, "UpdateFollowers", UpdateFollowerList)
 	hooksecurefunc(FollowerList, "ShowFollower", UpdateFollowerAbilities)
 end
 
@@ -460,7 +460,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	followerList:DisableDrawLayer("BACKGROUND")
 	followerList:DisableDrawLayer("BORDER")
 	F.ReskinScroll(followerList.listScroll.scrollBar)
-	hooksecurefunc(followerList, "UpdateData", UpdateFollowerList)
+	hooksecurefunc(followerList, "UpdateFollowers", UpdateFollowerList)
 	hooksecurefunc(followerList, "ShowFollower", UpdateFollowerAbilities)
 
 	-- Info box
@@ -608,7 +608,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	F.StripTextures(followerList)
 	F.ReskinInput(followerList.SearchBox)
 	F.ReskinScroll(followerList.listScroll.scrollBar)
-	hooksecurefunc(GarrisonLandingPageFollowerList, "UpdateData", UpdateFollowerList)
+	hooksecurefunc(GarrisonLandingPageFollowerList, "UpdateFollowers", UpdateFollowerList)
 	hooksecurefunc(GarrisonLandingPageFollowerList, "ShowFollower", UpdateFollowerAbilities)
 
 	-- Ship follower list
@@ -798,7 +798,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 	followerList:DisableDrawLayer("BORDER")
 	F.ReskinScroll(followerList.listScroll.scrollBar)
 	F.ReskinInput(followerList.SearchBox)
-	hooksecurefunc(followerList, "UpdateData", UpdateFollowerList)
+	hooksecurefunc(followerList, "UpdateFollowers", UpdateFollowerList)
 	hooksecurefunc(followerList, "ShowFollower", UpdateFollowerAbilities)
 
 	-- Follower selection
