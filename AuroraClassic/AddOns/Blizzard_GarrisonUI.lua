@@ -1078,7 +1078,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 		end)
 	end
 
-	-- VenturePlan
+	-- VenturePlan, 4.30 and higher
 	if IsAddOnLoaded("VenturePlan") then
 		local ANIMA_TEXTURE = 3528288
 		local ANIMA_SPELLID = {[347555] = 3, [345706] = 5, [336327] = 35, [336456] = 250}
@@ -1176,13 +1176,16 @@ C.themes["Blizzard_GarrisonUI"] = function()
 			end
 		end
 
-		local VPFollowers, VPTroops, VPBooks = {}, {}, {}
+		local VPFollowers, VPTroops, VPBooks, numButtons = {}, {}, {}, 0
 		function VPEX_OnUIObjectCreated(otype, widget, peek)
 			if widget:IsObjectType("Frame") then
 				if otype == "MissionButton" then
 					F.Reskin(peek("ViewButton"))
 					F.Reskin(peek("DoomRunButton"))
 					F.Reskin(peek("TentativeClear"))
+					if peek("GroupHints") then
+						F.Reskin(peek("GroupHints"))
+					end
 					reskinWidgetFont(peek("Description"), .8, .8, .8)
 					reskinWidgetFont(peek("enemyHP"), 1, 1, 1)
 					reskinWidgetFont(peek("enemyATK"), 1, 1, 1)
@@ -1207,9 +1210,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					F.StripTextures(widget)
 					F.Reskin(peek("UnButton"))
 					F.Reskin(peek("StartButton"))
-					if peek("StartButton"):GetWidth() < 50 then -- only adjust the unmodified VP
-						peek("StartButton"):SetText("|T"..C.ArrowUp..":16|t")
-					end
+					peek("StartButton"):SetText("|T"..C.ArrowUp..":16|t")
 				elseif otype == "ILButton" then
 					widget:DisableDrawLayer("BACKGROUND")
 					local bg = F.CreateBDFrame(widget, .25)
@@ -1217,16 +1218,16 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					bg:SetPoint("BOTTOMRIGHT", 2, -2)
 					F.CreateBDFrame(widget.Icon, .25)
 				elseif otype == "IconButton" then
-					F.ReskinIcon(widget:GetNormalTexture())
+					F.ReskinIcon(widget.Icon)
 					widget:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 					widget:SetPushedTexture(nil)
-					widget.Icon:SetTexCoord(unpack(C.TexCoord))
 					widget:SetSize(46, 46)
 					tinsert(VPBooks, widget)
-				elseif otype == "FollowerList" then
+				elseif otype == "AdventurerRoster" then
 					F.StripTextures(widget)
 					F.CreateBDFrame(widget, .25)
 					hooksecurefunc(widget, "SetHeight", AdjustFollowerList)
+					F.Reskin(peek("HealAllButton"))
 
 					for i, troop in pairs(VPTroops) do
 						troop:ClearAllPoints()
@@ -1240,7 +1241,7 @@ C.themes["Blizzard_GarrisonUI"] = function()
 						book:ClearAllPoints()
 						book:SetPoint("BOTTOMLEFT", 24, -46 + i*50)
 					end
-				elseif otype == "FollowerListButton" then
+				elseif otype == "AdventurerListButton" then
 					widget.bg = F.CreateBDFrame(peek("Portrait"), 1)
 					peek("Hi"):SetColorTexture(1, 1, 1, .25)
 					peek("Hi"):SetInside(widget.bg)
@@ -1249,11 +1250,12 @@ C.themes["Blizzard_GarrisonUI"] = function()
 					peek("PortraitT").__owner = widget
 					hooksecurefunc(peek("PortraitT"), "SetShown", updateSelectedBorder)
 
-					if peek("EC") then
-						peek("EC"):SetTexture(nil)
-						peek("EC").__shadow = F.CreateSD(peek("Portrait"), 5, true)
-						peek("EC").__shadow:SetBackdropBorderColor(peek("EC"):GetVertexColor())
-						hooksecurefunc(peek("EC"), "SetShown", updateActiveGlow)
+					numButtons = numButtons + 1
+					if numButtons > 2 then
+						peek("UsedBorder"):SetTexture(nil)
+						peek("UsedBorder").__shadow = F.CreateSD(peek("Portrait"), 5, true)
+						peek("UsedBorder").__shadow:SetBackdropBorderColor(peek("UsedBorder"):GetVertexColor())
+						hooksecurefunc(peek("UsedBorder"), "SetShown", updateActiveGlow)
 						tinsert(VPFollowers, widget)
 					else
 						tinsert(VPTroops, widget)
@@ -1306,6 +1308,10 @@ C.themes["Blizzard_GarrisonUI"] = function()
 				elseif otype == "RewardFrame" then
 					widget.Quantity.__owner = widget
 					hooksecurefunc(widget.Quantity, "SetText", SetAnimaActualCount)
+				elseif otype == "MiniHealthBar" then
+					local _, r1, r2 = widget:GetRegions()
+					r1:Hide()
+					r2:Hide()
 				end
 			end
 		end
