@@ -12,10 +12,19 @@ local function replaceCheckText(self, text)
 end
 
 tinsert(C.defaultThemes, function()
+	local tooltipsEnabled = AuroraClassicDB.Tooltips
+
 	local dropdowns = {"DropDownList", "L_DropDownList", "Lib_DropDownList"}
 	hooksecurefunc("UIDropDownMenu_CreateFrames", function()
 		for _, name in next, dropdowns do
 			for i = 1, UIDROPDOWNMENU_MAXLEVELS do
+				local menu = _G[name..i.."MenuBackdrop"]
+				if tooltipsEnabled then
+					if menu and not menu.styled then
+						B.ReskinTooltip(menu)
+						menu.styled = true
+					end
+				end
 				local backdrop = _G[name..i.."Backdrop"]
 				if backdrop and not backdrop.styled then
 					B.StripTextures(backdrop)
