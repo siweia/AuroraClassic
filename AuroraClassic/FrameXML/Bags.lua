@@ -96,7 +96,7 @@ local function emptySlotBG(button)
 end
 
 tinsert(C.defaultThemes, function()
-	if AuroraClassicDB.Bags then return end
+	if not AuroraClassicDB.Bags then return end
 
 	for i = 1, 12 do
 		local frameName = "ContainerFrame"..i
