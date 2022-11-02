@@ -1,21 +1,23 @@
-local F, C = unpack(select(2, ...))
+local F, C, L, DB = unpack(select(2, ...))
 
 tinsert(C.defaultThemes, function()
 	if not AuroraClassicDB.Tooltips then return end
 
-	GameTooltip.StatusBar = GameTooltipStatusBar
+	if not GameTooltip.StatusBar then
+		GameTooltip.StatusBar = GameTooltipStatusBar
+	end
 
 	local function ReskinStatusBar(self)
 		self.StatusBar:ClearAllPoints()
 		self.StatusBar:SetPoint("BOTTOMLEFT", self.bg, "TOPLEFT", C.mult, 3)
 		self.StatusBar:SetPoint("BOTTOMRIGHT", self.bg, "TOPRIGHT", -C.mult, 3)
-		self.StatusBar:SetStatusBarTexture(C.normTex)
+		self.StatusBar:SetStatusBarTexture(DB.normTex)
 		self.StatusBar:SetHeight(5)
 		F.SetBD(self.StatusBar)
 	end
 
 	local fakeBg = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
-	fakeBg:SetBackdrop({ bgFile = C.bdTex, edgeFile = C.bdTex, edgeSize = 1 })
+	fakeBg:SetBackdrop({ bgFile = DB.bdTex, edgeFile = DB.bdTex, edgeSize = 1 })
 	local function __GetBackdrop() return fakeBg:GetBackdrop() end
 	local function __GetBackdropColor() return 0, 0, 0, .7 end
 	local function __GetBackdropBorderColor() return 0, 0, 0 end
@@ -49,7 +51,7 @@ tinsert(C.defaultThemes, function()
 		if bar and not bar.styled then
 			F.StripTextures(bar)
 			F.CreateBDFrame(bar, .25)
-			bar:SetStatusBarTexture(C.normTex)
+			bar:SetStatusBarTexture(DB.normTex)
 	
 			bar.styled = true
 		end
@@ -63,7 +65,7 @@ tinsert(C.defaultThemes, function()
 		if bar and not bar.styled then
 			F.StripTextures(bar.Bar)
 			F.CreateBDFrame(bar.Bar, .25)
-			bar.Bar:SetStatusBarTexture(C.normTex)
+			bar.Bar:SetStatusBarTexture(DB.normTex)
 	
 			bar.styled = true
 		end
@@ -132,7 +134,7 @@ tinsert(C.defaultThemes, function()
 
 	-- Tooltip rewards icon
 	local function reskinRewardIcon(self)
-		self.Icon:SetTexCoord(unpack(C.TexCoord))
+		self.Icon:SetTexCoord(unpack(DB.TexCoord))
 		self.bg = F.CreateBDFrame(self.Icon, 0)
 		F.ReskinIconBorder(self.IconBorder)
 	end

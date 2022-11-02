@@ -3,10 +3,11 @@ local addonName, ns = ...
 ns[1] = {} -- F, functions
 ns[2] = {} -- C, config
 ns[3] = {} -- L, locales
+ns[4] = {} -- DB, database
 
 AuroraClassicDB = {} -- Saved Variables
 
-local F, C, L = unpack(ns)
+local F, C, L, DB = unpack(ns)
 
 local function GetCurrentScale()
 	local mult = 1e5

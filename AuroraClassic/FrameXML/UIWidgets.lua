@@ -1,5 +1,5 @@
 local _, ns = ...
-local F, C = unpack(ns)
+local B, C, L, DB = unpack(ns)
 
 local Type_StatusBar = _G.Enum.UIWidgetVisualizationType.StatusBar
 local Type_CaptureBar = _G.Enum.UIWidgetVisualizationType.CaptureBar
@@ -15,16 +15,16 @@ local atlasColors = {
 	["EmberCourtScenario-Tracker-barfill"] = {.9, .2, .2},
 }
 
-function F:ReplaceWidgetBarTexture(atlas)
+function B:ReplaceWidgetBarTexture(atlas)
 	if atlasColors[atlas] then
-		self:SetStatusBarTexture(C.normTex)
+		self:SetStatusBarTexture(DB.normTex)
 		self:SetStatusBarColor(unpack(atlasColors[atlas]))
 	end
 end
 
-local function ResetLabelColor(text, _, _, _, force)
+local function ResetLabelColor(text, _, _, _, _, force)
 	if not force then
-		text:SetTextColor(1, 1, 1, true)
+		text:SetTextColor(1, 1, 1, 1, true)
 	end
 end
 
@@ -46,9 +46,11 @@ local function ReskinWidgetStatusBar(bar)
 			ResetLabelColor(bar.Label)
 			hooksecurefunc(bar.Label, "SetTextColor", ResetLabelColor)
 		end
-		F.SetBD(bar)
-		F.ReplaceWidgetBarTexture(bar, bar:GetStatusBarAtlas())
-		hooksecurefunc(bar, "SetStatusBarAtlas", F.ReplaceWidgetBarTexture)
+		B.SetBD(bar)
+		if bar.GetStatusBarAtlas then
+			B.ReplaceWidgetBarTexture(bar, bar:GetStatusBarAtlas())
+			hooksecurefunc(bar, "SetStatusBarAtlas", B.ReplaceWidgetBarTexture)
+		end
 
 		bar.styled = true
 	end
@@ -64,9 +66,9 @@ local function ReskinDoubleStatusBarWidget(self)
 end
 
 local function ReskinPVPCaptureBar(self)
-	self.LeftBar:SetTexture(C.normTex)
-	self.NeutralBar:SetTexture(C.normTex)
-	self.RightBar:SetTexture(C.normTex)
+	self.LeftBar:SetTexture(DB.normTex)
+	self.NeutralBar:SetTexture(DB.normTex)
+	self.RightBar:SetTexture(DB.normTex)
 
 	self.LeftBar:SetVertexColor(.2, .6, 1)
 	self.NeutralBar:SetVertexColor(.8, .8, .8)
@@ -80,7 +82,7 @@ local function ReskinPVPCaptureBar(self)
 	self.Glow3:SetAlpha(0)
 
 	if not self.bg then
-		self.bg = F.SetBD(self)
+		self.bg = B.SetBD(self)
 		self.bg:SetPoint("TOPLEFT", self.LeftBar, -2, 2)
 		self.bg:SetPoint("BOTTOMRIGHT", self.RightBar, 2, -2)
 	end
@@ -90,7 +92,7 @@ local function ReskinSpellDisplayWidget(spell)
 	if not spell.bg then
 		spell.Border:SetAlpha(0)
 		spell.DebuffBorder:SetAlpha(0)
-		spell.bg = F.ReskinIcon(spell.Icon)
+		spell.bg = B.ReskinIcon(spell.Icon)
 	end
 	spell.IconMask:Hide()
 end

@@ -1,19 +1,19 @@
 local _, ns = ...
-local F, C = unpack(ns)
+local B, C, L, DB = unpack(ns)
 
 local LFD_NUM_ROLES = _G.LFD_NUM_ROLES or 3
 
 local function reskinEntry(self)
 	if self.styled then return end
 
-	F.ReskinRole(self.TanksFound, "TANK")
-	F.ReskinRole(self.HealersFound, "HEALER")
-	F.ReskinRole(self.DamagersFound, "DPS")
+	B.ReskinRole(self.TanksFound, "TANK")
+	B.ReskinRole(self.HealersFound, "HEALER")
+	B.ReskinRole(self.DamagersFound, "DPS")
 
 	for i = 1, LFD_NUM_ROLES do
 		local roleIcon = self["RoleIcon"..i]
-		roleIcon:SetTexture(C.rolesTex)
-		roleIcon.bg = F.CreateBDFrame(roleIcon)
+		roleIcon:SetTexture(DB.rolesTex)
+		roleIcon.bg = B.CreateBDFrame(roleIcon)
 		if i > 1 then
 			roleIcon:SetPoint("RIGHT", self["RoleIcon"..(i-1)], "LEFT", -4, 0)
 		end
@@ -24,7 +24,7 @@ end
 
 local function updateTexCoord(entry, index, role)
 	local roleIcon = entry["RoleIcon"..index]
-	roleIcon:SetTexCoord(F.GetRoleTexCoord(role))
+	roleIcon:SetTexCoord(B.GetRoleTexCoord(role))
 	roleIcon:Show()
 	roleIcon.bg:Show()
 end
