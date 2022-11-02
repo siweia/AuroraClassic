@@ -1,15 +1,20 @@
 local _, ns = ...
-local F, C = unpack(ns)
+local B, C, L, DB = unpack(ns)
 
 local function ReskinFont(font, size)
 	if not font then return end
 	local oldSize = select(2, font:GetFont())
 	size = size or oldSize
-	F.SetFontSize(font, size*AuroraClassicDB.FontScale)
+	B.SetFontSize(font, size*AuroraClassicDB.FontScale)
 	font:SetShadowColor(0, 0, 0, 0)
 end
 
 tinsert(C.defaultThemes, function()
+	-- Text color
+	GameFontBlack:SetTextColor(1, 1, 1)
+	GameFontBlackMedium:SetTextColor(1, 1, 1)
+	CoreAbilityFont:SetTextColor(1, 1, 1)
+
 	if not AuroraClassicDB.FontOutline then return end
 
 	ReskinFont(RaidWarningFrame.slot1)
@@ -29,7 +34,6 @@ tinsert(C.defaultThemes, function()
 	ReskinFont(FriendsFont_UserText)
 	ReskinFont(FriendsFont_11)
 	ReskinFont(GameFont_Gigantic)
-	ReskinFont(GameTooltipHeader)
 	ReskinFont(InvoiceFont_Small)
 	ReskinFont(InvoiceFont_Med)
 	ReskinFont(MailFont_Large)
@@ -95,8 +99,6 @@ tinsert(C.defaultThemes, function()
 	ReskinFont(SystemFont_World, 64)
 	ReskinFont(SystemFont_World_ThickOutline, 64)
 	ReskinFont(SystemFont_WTF2, 64)
-	ReskinFont(Tooltip_Med)
-	ReskinFont(Tooltip_Small)
 	ReskinFont(Game11Font)
 	ReskinFont(Game12Font)
 	ReskinFont(Game13Font)
@@ -144,7 +146,7 @@ tinsert(C.defaultThemes, function()
 		if frame:IsForbidden() then return end
 		if not frame.statusText then return end
 
-		local options = DefaultCompactUnitFrameSetupOptions
+		local options = DefaultCompactMiniFrameSetUpOptions
 		frame.statusText:ClearAllPoints()
 		frame.statusText:SetPoint("BOTTOMLEFT", frame, "BOTTOMLEFT", 3, options.height/3 - 5)
 		frame.statusText:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -3, options.height/3 - 5)
@@ -157,34 +159,4 @@ tinsert(C.defaultThemes, function()
 			frame.fontStyled = true
 		end
 	end)
-
-	-- Refont Titles Panel
-	hooksecurefunc("PaperDollTitlesPane_UpdateScrollFrame", function()
-		local bu = PaperDollTitlesPane.buttons
-		for i = 1, #bu do
-			if not bu[i].fontStyled then
-				ReskinFont(bu[i].text, 14)
-				bu[i].fontStyled = true
-			end
-		end
-	end)
-
-	-- WhoFrame LevelText
-	hooksecurefunc("WhoList_Update", function()
-		local buttons = WhoListScrollFrame.buttons
-		for i = 1, #buttons do
-			local button = buttons[i]
-			local level = button.Level
-			if level and not level.fontStyled then
-				level:SetWidth(32)
-				level:SetJustifyH("LEFT")
-				level.fontStyled = true
-			end
-		end
-	end)
-
-	-- Text color
-	GameFontBlack:SetTextColor(1, 1, 1)
-	GameFontBlackMedium:SetTextColor(1, 1, 1)
-	CoreAbilityFont:SetTextColor(1, 1, 1)
 end)

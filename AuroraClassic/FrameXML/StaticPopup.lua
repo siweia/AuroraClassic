@@ -1,6 +1,6 @@
 local _, ns = ...
-local F, C = unpack(ns)
-local r, g, b = C.r, C.g, C.b
+local B, C, L, DB = unpack(ns)
+local r, g, b = DB.r, DB.g, DB.b
 
 local function colorMinimize(f)
 	if f:IsEnabled() then
@@ -33,13 +33,13 @@ tinsert(C.defaultThemes, function()
 
 		_G["StaticPopup"..i.."ItemFrameNameFrame"]:Hide()
 
-		bu:SetNormalTexture("")
-		bu:SetHighlightTexture("")
-		bu:SetPushedTexture("")
-		bu.bg = F.ReskinIcon(icon)
-		F.ReskinIconBorder(bu.IconBorder)
+		bu:SetNormalTexture(0)
+		bu:SetHighlightTexture(0)
+		bu:SetPushedTexture(0)
+		bu.bg = B.ReskinIcon(icon)
+		B.ReskinIconBorder(bu.IconBorder)
 
-		local bg = F.CreateBDFrame(bu, .25)
+		local bg = B.CreateBDFrame(bu, .25)
 		bg:SetPoint("TOPLEFT", bu.bg, "TOPRIGHT", 2, 0)
 		bg:SetPoint("BOTTOMRIGHT", bu.bg, 115, 0)
 
@@ -47,25 +47,25 @@ tinsert(C.defaultThemes, function()
 		copper:SetPoint("LEFT", silver, "RIGHT", 1, 0)
 
 		frame.Border:Hide()
-		F.SetBD(frame)
+		B.SetBD(frame)
 		for j = 1, 4 do
-			F.Reskin(frame["button"..j])
+			B.Reskin(frame["button"..j])
 		end
-		F.Reskin(frame.extraButton)
-		F.ReskinClose(close)
+		B.Reskin(frame.extraButton)
+		B.ReskinClose(close)
 
 		close.minimize = close:CreateTexture(nil, "OVERLAY")
 		close.minimize:SetSize(9, C.mult)
 		close.minimize:SetPoint("CENTER")
-		close.minimize:SetTexture(C.bdTex)
+		close.minimize:SetTexture(DB.bdTex)
 		close.minimize:SetVertexColor(1, 1, 1)
 		close:HookScript("OnEnter", colorMinimize)
 		close:HookScript("OnLeave", clearMinimize)
 
-		F.ReskinInput(_G["StaticPopup"..i.."EditBox"], 20)
-		F.ReskinInput(gold)
-		F.ReskinInput(silver)
-		F.ReskinInput(copper)
+		B.ReskinInput(_G["StaticPopup"..i.."EditBox"], 20)
+		B.ReskinInput(gold)
+		B.ReskinInput(silver)
+		B.ReskinInput(copper)
 	end
 
 	hooksecurefunc("StaticPopup_Show", function(which, _, _, data)
@@ -105,8 +105,8 @@ tinsert(C.defaultThemes, function()
 		if info.closeButton then
 			local closeButton = _G[dialog:GetName().."CloseButton"]
 
-			closeButton:SetNormalTexture("")
-			closeButton:SetPushedTexture("")
+			closeButton:SetNormalTexture(0)
+			closeButton:SetPushedTexture(0)
 
 			if info.closeButtonIsHide then
 				closeButton.__texture:Hide()
@@ -120,26 +120,26 @@ tinsert(C.defaultThemes, function()
 
 	-- Pet battle queue popup
 
-	F.SetBD(PetBattleQueueReadyFrame)
-	F.CreateBDFrame(PetBattleQueueReadyFrame.Art)
+	B.SetBD(PetBattleQueueReadyFrame)
+	B.CreateBDFrame(PetBattleQueueReadyFrame.Art)
 	PetBattleQueueReadyFrame.Border:Hide()
-	F.Reskin(PetBattleQueueReadyFrame.AcceptButton)
-	F.Reskin(PetBattleQueueReadyFrame.DeclineButton)
+	B.Reskin(PetBattleQueueReadyFrame.AcceptButton)
+	B.Reskin(PetBattleQueueReadyFrame.DeclineButton)
 
 	-- PlayerReportFrame
-	F.StripTextures(ReportFrame)
-	F.SetBD(ReportFrame)
-	F.ReskinClose(ReportFrame.CloseButton)
-	F.Reskin(ReportFrame.ReportButton)
-	F.ReskinDropDown(ReportFrame.ReportingMajorCategoryDropdown)
-	F.ReskinEditBox(ReportFrame.Comment)
+	B.StripTextures(ReportFrame)
+	B.SetBD(ReportFrame)
+	B.ReskinClose(ReportFrame.CloseButton)
+	B.Reskin(ReportFrame.ReportButton)
+	B.ReskinDropDown(ReportFrame.ReportingMajorCategoryDropdown)
+	B.ReskinEditBox(ReportFrame.Comment)
 
 	hooksecurefunc(ReportFrame, "AnchorMinorCategory", function(self)
 		if self.MinorCategoryButtonPool then
 			for button in self.MinorCategoryButtonPool:EnumerateActive() do
 				if not button.styled then
-					F.StripTextures(button)
-					button.bg = F.CreateBDFrame(button, .25)
+					B.StripTextures(button)
+					button.bg = B.CreateBDFrame(button, .25)
 					button:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 					button:HookScript("OnClick", updateMinorButtonState)
 
