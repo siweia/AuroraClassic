@@ -1,5 +1,5 @@
 local _, ns = ...
-local F, C, L, DB = unpack(ns)
+local B, C, L, DB = unpack(ns)
 
 -- Default settings
 C.options = {

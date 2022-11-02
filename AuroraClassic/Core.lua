@@ -343,10 +343,10 @@ do
 		"Center",
 	}
 	function B:Reskin(noHighlight, override)
-		if self.SetNormalTexture and not override then self:SetNormalTexture("") end
-		if self.SetHighlightTexture then self:SetHighlightTexture("") end
-		if self.SetPushedTexture then self:SetPushedTexture("") end
-		if self.SetDisabledTexture then self:SetDisabledTexture("") end
+		if self.SetNormalTexture and not override then self:SetNormalTexture(0) end
+		if self.SetHighlightTexture then self:SetHighlightTexture(0) end
+		if self.SetPushedTexture then self:SetPushedTexture(0) end
+		if self.SetDisabledTexture then self:SetDisabledTexture(0) end
 
 		local buttonName = self.GetName and self:GetName()
 		for _, region in pairs(blizzRegions) do

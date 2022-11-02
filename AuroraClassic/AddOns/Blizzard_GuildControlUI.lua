@@ -41,7 +41,9 @@ C.themes["Blizzard_GuildControlUI"] = function()
 	GuildControlUIRankBankFrameInsetScrollFrameBottom:SetAlpha(0)
 
 	-- Guild ranks
-	B:RegisterEvent("GUILD_RANKS_UPDATE", updateGuildRanks)
+	local f = CreateFrame("Frame")
+	f:RegisterEvent("GUILD_RANKS_UPDATE")
+	f:SetScript("OnEvent", updateGuildRanks)
 	hooksecurefunc("GuildControlUI_RankOrder_Update", updateGuildRanks)
 
 	-- Guild tabs
