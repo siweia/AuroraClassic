@@ -3,7 +3,9 @@ local B, C, L, DB = unpack(select(2, ...))
 tinsert(C.defaultThemes, function()
 	if not AuroraClassicDB.Tooltips then return end
 
-	GameTooltip.StatusBar = GameTooltipStatusBar
+	if not GameTooltip.StatusBar then
+		GameTooltip.StatusBar = GameTooltipStatusBar
+	end
 
 	local function ReskinStatusBar(self)
 		self.StatusBar:ClearAllPoints()
@@ -102,18 +104,43 @@ tinsert(C.defaultThemes, function()
 		FloatingBattlePetTooltip,
 		FloatingPetBattleAbilityTooltip,
 		IMECandidatesFrame,
-		QuickKeybindTooltip
+		QuickKeybindTooltip,
+		SettingsTooltip,
 	}
 	for _, tooltip in pairs(tooltips) do
 		B.ReskinTooltip(tooltip)
 	end
 
 	C_Timer.After(5, function()
+		-- BagSync
+		if BSYC_EventAlertTooltip then
+			B.ReskinTooltip(BSYC_EventAlertTooltip)
+		end
+		-- Libs
 		if LibDBIconTooltip then
 			B.ReskinTooltip(LibDBIconTooltip)
 		end
 		if AceConfigDialogTooltip then
 			B.ReskinTooltip(AceConfigDialogTooltip)
+		end
+		-- TomTom
+		if TomTomTooltip then
+			B.ReskinTooltip(TomTomTooltip)
+		end
+		-- RareScanner
+		if RSMapItemToolTip then
+			B.ReskinTooltip(RSMapItemToolTip)
+		end
+		if LootBarToolTip then
+			B.ReskinTooltip(LootBarToolTip)
+		end
+		-- Narcissus
+		if NarciGameTooltip then
+			B.ReskinTooltip(NarciGameTooltip)
+		end
+		-- Altoholic
+		if AltoTooltip then
+			B.ReskinTooltip(AltoTooltip)
 		end
 	end)
 
