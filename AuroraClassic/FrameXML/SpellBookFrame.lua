@@ -106,7 +106,7 @@ tinsert(C.defaultThemes, function()
 				tab:GetRegions():Hide()
 				tab:SetCheckedTexture(DB.pushed)
 				tab:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
-				B.CreateBDFrame(tab)
+				B.CreateBDFrame(tab, .25)
 
 				tab.styled = true
 			end
