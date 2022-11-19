@@ -234,6 +234,11 @@ do
 			button.IconBorder:Hide()
 		end
 	end
+	local function iconBorderShown(border, show)
+		if not show then
+			resetIconBorderColor(border)
+		end
+	end
 	function B:ReskinIconBorder(needInit, useAtlas)
 		self:SetAlpha(0)
 		self.__owner = self:GetParent()
@@ -251,10 +256,12 @@ do
 			end
 		end
 		hooksecurefunc(self, "Hide", resetIconBorderColor)
+		hooksecurefunc(self, "SetShown", iconBorderShown)
 
-		if self.__owner.SetItemButtonQuality then
-			hooksecurefunc(self.__owner, "SetItemButtonQuality", resetIconBorder)
-		end
+		-- disable this and see how it goes, needs review
+		--if self.__owner.SetItemButtonQuality then
+		--	hooksecurefunc(self.__owner, "SetItemButtonQuality", resetIconBorder)
+		--end
 	end
 
 	local CLASS_ICON_TCOORDS = CLASS_ICON_TCOORDS
@@ -580,6 +587,13 @@ do
 		end
 	end
 
+	local function resetCloseButtonAnchor(button)
+		if button.isSetting then return end
+		button.isSetting = true
+		button:ClearAllPoints()
+		button:SetPoint("TOPRIGHT", button.__owner, "TOPRIGHT", button.__xOffset, button.__yOffset)
+		button.isSetting = nil
+	end
 	function B:ReskinClose(parent, xOffset, yOffset)
 		parent = parent or self:GetParent()
 		xOffset = xOffset or -6
@@ -588,6 +602,10 @@ do
 		self:SetSize(16, 16)
 		self:ClearAllPoints()
 		self:SetPoint("TOPRIGHT", parent, "TOPRIGHT", xOffset, yOffset)
+		self.__owner = parent
+		self.__xOffset = xOffset
+		self.__yOffset = yOffset
+		hooksecurefunc(self, "SetPoint", resetCloseButtonAnchor)
 
 		B.StripTextures(self)
 		if self.Border then self.Border:SetAlpha(0) end

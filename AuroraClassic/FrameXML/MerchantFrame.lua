@@ -43,9 +43,6 @@ tinsert(C.defaultThemes, function()
 	B.ReskinArrow(MerchantNextPageButton, "right")
 	MerchantMoneyInset:Hide()
 	MerchantMoneyBg:Hide()
-	if MerchantNameText then -- removed in 46619
-		MerchantNameText:SetDrawLayer("ARTWORK")
-	end
 	MerchantExtraCurrencyBg:SetAlpha(0)
 	MerchantExtraCurrencyInset:SetAlpha(0)
 	BuybackBG:SetAlpha(0)
