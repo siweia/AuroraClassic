@@ -46,13 +46,13 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc("GameTooltip_ShowStatusBar", function(self)
 		if not self or self:IsForbidden() then return end
 		if not self.statusBarPool then return end
-	
+
 		local bar = self.statusBarPool:GetNextActive()
 		if bar and not bar.styled then
 			B.StripTextures(bar)
 			B.CreateBDFrame(bar, .25)
 			bar:SetStatusBarTexture(DB.normTex)
-	
+
 			bar.styled = true
 		end
 	end)
@@ -60,13 +60,13 @@ tinsert(C.defaultThemes, function()
 	hooksecurefunc("GameTooltip_ShowProgressBar", function(self)
 		if not self or self:IsForbidden() then return end
 		if not self.progressBarPool then return end
-	
+
 		local bar = self.progressBarPool:GetNextActive()
 		if bar and not bar.styled then
 			B.StripTextures(bar.Bar)
 			B.CreateBDFrame(bar.Bar, .25)
 			bar.Bar:SetStatusBarTexture(DB.normTex)
-	
+
 			bar.styled = true
 		end
 	end)
