@@ -4,6 +4,9 @@ manual-changelog:
   filename: CHANGELOG.md
   markup-type: markdown
 
+move-folders:
+    AuroraClassic/AuroraClassic/: AuroraClassic
+
 ignore:
   - .github/*
   - README.md
