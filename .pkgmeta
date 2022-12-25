@@ -1,0 +1,9 @@
+package-as: AuroraClassic
+
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown
+
+ignore:
+  - .github/*
+  - README.md
