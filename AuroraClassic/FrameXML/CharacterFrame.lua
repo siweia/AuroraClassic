@@ -239,8 +239,10 @@ tinsert(C.defaultThemes, function()
 	end)
 
 	-- Reputation Frame
-	ReputationDetailCorner:Hide()
-	ReputationDetailDivider:Hide()
+	if not DB.isNewPatch then
+		ReputationDetailCorner:Hide()
+		ReputationDetailDivider:Hide()
+	end
 	ReputationDetailFrame:SetPoint("TOPLEFT", ReputationFrame, "TOPRIGHT", 3, -28)
 
 	local function UpdateFactionSkins()
