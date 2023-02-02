@@ -1,6 +1,6 @@
 # AuroraClassic
 
-## [6.4.0](https://github.com/siweia/AuroraClassic/tree/6.4.0) (2023-1-31)
+## [6.4.1](https://github.com/siweia/AuroraClassic/tree/6.4.1) (2023-2-2)
 
-- Blizzard_PerksProgram.
-- Blizzard_EncounterJournal.
+- Update AlertFrame for monthly activities.
+- Update Communites, Professions and ClassTalentFrame.
