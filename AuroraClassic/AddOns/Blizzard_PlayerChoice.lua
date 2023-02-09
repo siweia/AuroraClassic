@@ -72,23 +72,30 @@ C.themes["Blizzard_PlayerChoice"] = function()
 
 			local rewards = optionFrame.Rewards
 			if rewards then
-				for rewardFrame in rewards.rewardsPool:EnumerateActiveByTemplate("PlayerChoiceBaseOptionItemRewardTemplate") do
-					ReskinOptionText(rewardFrame.Name, .9, .8, .5)
+				for rewardFrame in rewards.rewardsPool:EnumerateActive() do
+					local text = rewardFrame.Name or rewardFrame.Text -- .Text for PlayerChoiceBaseOptionReputationRewardTemplate
+					if text then
+						ReskinOptionText(text, .9, .8, .5)
+					end
+
 					if not rewardFrame.styled then
+						-- PlayerChoiceBaseOptionItemRewardTemplate, PlayerChoiceBaseOptionCurrencyContainerRewardTemplate
 						local itemButton = rewardFrame.itemButton
-						B.StripTextures(itemButton, 1)
-						itemButton.bg = B.ReskinIcon(itemButton:GetRegions(), nil)
-						B.ReskinIconBorder(itemButton.IconBorder, true)
+						if itemButton then
+							B.StripTextures(itemButton, 1)
+							itemButton.bg = B.ReskinIcon((itemButton:GetRegions()))
+							B.ReskinIconBorder(itemButton.IconBorder, true)
+						end
+						-- PlayerChoiceBaseOptionCurrencyRewardTemplate
+						local count = rewardFrame.Count
+						if count then
+							rewardFrame.bg = B.ReskinIcon(rewardFrame.Icon)
+							B.ReskinIconBorder(rewardFrame.IconBorder, true)
+						end
 
 						rewardFrame.styled = true
 					end
 				end
-
-				--[[ unseen templates
-					PlayerChoiceBaseOptionCurrencyContainerRewardTemplate
-					PlayerChoiceBaseOptionCurrencyRewardTemplate
-					PlayerChoiceBaseOptionReputationRewardTemplate
-				]]
 			end
 
 			local widgetContainer = optionFrame.WidgetContainer
