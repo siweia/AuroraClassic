@@ -1,6 +1,5 @@
 # AuroraClassic
 
-## [6.4.1](https://github.com/siweia/AuroraClassic/tree/6.4.1) (2023-2-2)
+## [6.4.2](https://github.com/siweia/AuroraClassic/tree/6.4.2) (2023-2-9)
 
-- Update AlertFrame for monthly activities.
-- Update Communites, Professions and ClassTalentFrame.
+- Updates from NDui 7.3.0.
