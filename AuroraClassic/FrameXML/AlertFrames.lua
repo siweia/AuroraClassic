@@ -7,7 +7,7 @@ local function fixBg(frame)
 		frame = frame:GetParent()
 	end
 	if frame.bg then
-		frame.bg:SetBackdropColor(0, 0, 0, C.db["Skins"]["SkinAlpha"])
+		frame.bg:SetBackdropColor(0, 0, 0, AuroraClassicDB.Alpha)
 		if frame.bg.__shadow then
 			frame.bg.__shadow:SetBackdropBorderColor(0, 0, 0, .4)
 		end
@@ -17,7 +17,7 @@ end
 local function fixParentbg(anim)
 	local frame = anim.__owner
 	if frame.bg then
-		frame.bg:SetBackdropColor(0, 0, 0, C.db["Skins"]["SkinAlpha"])
+		frame.bg:SetBackdropColor(0, 0, 0, AuroraClassicDB.Alpha)
 		if frame.bg.__shadow then
 			frame.bg.__shadow:SetBackdropBorderColor(0, 0, 0, .4)
 		end
