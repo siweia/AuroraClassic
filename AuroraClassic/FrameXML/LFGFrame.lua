@@ -71,6 +71,9 @@ tinsert(C.defaultThemes, function()
 		end
 
 		button.enableButton:GetCheckedTexture():SetAtlas("checkmark-minimal")
+		local disabledTexture = button.enableButton:GetDisabledCheckedTexture()
+		disabledTexture:SetAtlas("checkmark-minimal")
+		disabledTexture:SetDesaturated(true)
 	end)
 
 	B.StripTextures(LFDParentFrame)
