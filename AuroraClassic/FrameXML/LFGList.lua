@@ -131,7 +131,7 @@ tinsert(C.defaultThemes, function()
 	local delayStyled -- otherwise it taints while listing
 	hooksecurefunc(searchPanel.ScrollBox, "Update", function(self)
 		if not delayStyled then
-			B.Reskin(searchPanel.ScrollBox.StartGroupButton)
+			B.Reskin(self.StartGroupButton)
 			B.ReskinTrimScroll(searchPanel.ScrollBar)
 			delayStyled = true
 		end
