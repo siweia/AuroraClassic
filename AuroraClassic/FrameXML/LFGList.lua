@@ -78,8 +78,6 @@ tinsert(C.defaultThemes, function()
 	B.Reskin(searchPanel.BackButton)
 	B.Reskin(searchPanel.BackToGroupButton)
 	B.Reskin(searchPanel.SignUpButton)
-	B.Reskin(searchPanel.ScrollBox.StartGroupButton)
-	B.ReskinTrimScroll(searchPanel.ScrollBar)
 	B.ReskinInput(searchPanel.SearchBox)
 	B.ReskinFilterButton(searchPanel.FilterButton)
 
@@ -129,7 +127,14 @@ tinsert(C.defaultThemes, function()
 			child.styled = true
 		end
 	end
+
+	local delayStyled -- otherwise it taints while listing
 	hooksecurefunc(searchPanel.ScrollBox, "Update", function(self)
+		if not delayStyled then
+			B.Reskin(searchPanel.ScrollBox.StartGroupButton)
+			B.ReskinTrimScroll(searchPanel.ScrollBar)
+			delayStyled = true
+		end
 		self:ForEachFrame(skinCreateButton)
 	end)
 
