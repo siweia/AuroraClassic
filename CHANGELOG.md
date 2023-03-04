@@ -1,6 +1,8 @@
 # AuroraClassic
 
-## [6.4.6](https://github.com/siweia/AuroraClassic/tree/6.4.6) (2023-2-26)
+## [6.5.0](https://github.com/siweia/AuroraClassic/tree/6.5.0) (2023-3-4)
 
-- Update professions,
-- Update dungeons selection.
+- Fix LFG listing taint.
+- Handle check textures in quest tracker.
+- Update skin for default bags.
+- Update graphic controls in settings panel.
