@@ -527,7 +527,9 @@ do
 	end
 
 	-- WowTrimScrollBar
-	function B:ReskinTrimScroll(minimal)
+	function B:ReskinTrimScroll()
+		local minimal = self:GetWidth() < 10
+
 		B.StripTextures(self)
 		reskinScrollArrow(self.Back, "up", minimal)
 		reskinScrollArrow(self.Forward, "down", minimal)
@@ -544,7 +546,6 @@ do
 				thumb.bg:SetPoint("TOPLEFT", 4, -1)
 				thumb.bg:SetPoint("BOTTOMRIGHT", -4, 1)
 			end
-			self.thumb = thumb
 
 			thumb:HookScript("OnEnter", Thumb_OnEnter)
 			thumb:HookScript("OnLeave", Thumb_OnLeave)
@@ -595,18 +596,20 @@ do
 		button:SetPoint("TOPRIGHT", button.__owner, "TOPRIGHT", button.__xOffset, button.__yOffset)
 		button.isSetting = nil
 	end
-	function B:ReskinClose(parent, xOffset, yOffset)
+	function B:ReskinClose(parent, xOffset, yOffset, override)
 		parent = parent or self:GetParent()
 		xOffset = xOffset or -6
 		yOffset = yOffset or -6
 
 		self:SetSize(16, 16)
-		self:ClearAllPoints()
-		self:SetPoint("TOPRIGHT", parent, "TOPRIGHT", xOffset, yOffset)
-		self.__owner = parent
-		self.__xOffset = xOffset
-		self.__yOffset = yOffset
-		hooksecurefunc(self, "SetPoint", resetCloseButtonAnchor)
+		if not override then
+			self:ClearAllPoints()
+			self:SetPoint("TOPRIGHT", parent, "TOPRIGHT", xOffset, yOffset)
+			self.__owner = parent
+			self.__xOffset = xOffset
+			self.__yOffset = yOffset
+			hooksecurefunc(self, "SetPoint", resetCloseButtonAnchor)
+		end
 
 		B.StripTextures(self)
 		if self.Border then self.Border:SetAlpha(0) end
