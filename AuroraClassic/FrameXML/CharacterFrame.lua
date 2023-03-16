@@ -217,6 +217,7 @@ tinsert(C.defaultThemes, function()
 				child.HighlightBar:SetDrawLayer("BACKGROUND")
 				child.SelectedBar:SetColorTexture(r, g, b, .25)
 				child.SelectedBar:SetDrawLayer("BACKGROUND")
+				child.Check:SetAtlas("checkmark-minimal")
 
 				child.styled = true
 			end
@@ -233,6 +234,8 @@ tinsert(C.defaultThemes, function()
 			local child = select(i, self.ScrollTarget:GetChildren())
 			if not child.styled then
 				child:DisableDrawLayer("BACKGROUND")
+				child.Check:SetAtlas("checkmark-minimal")
+
 				child.styled = true
 			end
 		end
