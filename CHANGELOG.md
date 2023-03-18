@@ -1,6 +1,6 @@
 # AuroraClassic
 
-## [6.6.1](https://github.com/siweia/AuroraClassic/tree/6.6.1) (2023-3-17)
+## [6.6.2](https://github.com/siweia/AuroraClassic/tree/6.6.2) (2023-3-19)
 
-- Replace some check textures.
-- Skin some scrollbars visible in 10.1.
+- Update skin for generic choices in DF.
+- Remove invalid code in reputation frame.
