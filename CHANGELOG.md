@@ -1,6 +1,6 @@
 # AuroraClassic
 
-## [6.6.2](https://github.com/siweia/AuroraClassic/tree/6.6.2) (2023-3-19)
+## [6.6.3](https://github.com/siweia/AuroraClassic/tree/6.6.3) (2023-3-24)
 
-- Update skin for generic choices in DF.
-- Remove invalid code in reputation frame.
+- Update skins for 10.1.
+- Bump up TOC.
