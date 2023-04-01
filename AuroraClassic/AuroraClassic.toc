@@ -6,7 +6,7 @@
 ## Author: Siweia
 ## X-Credits: Haleth, Gethe
 ## X-Curse-Project-ID: 776149
-## Version: 6.6.4
+## Version: 6.6.5
 ## X-Website: https://github.com/siweia/AuroraClassic
 ## SavedVariables: AuroraClassicDB
 
