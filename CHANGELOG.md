@@ -1,5 +1,6 @@
 # AuroraClassic
 
-## [6.6.5](https://github.com/siweia/AuroraClassic/tree/6.6.5) (2023-4-1)
+## [6.7.0](https://github.com/siweia/AuroraClassic/tree/6.7.0) (2023-4-30)
 
-- Fix for ppl use Angrykeystones but turn off its scheduel stuff.
+- Fixes for 10.1.
+- Fix loot frame quest highlight.
