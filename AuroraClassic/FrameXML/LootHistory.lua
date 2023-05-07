@@ -7,20 +7,10 @@ tinsert(C.defaultThemes, function()
 	local LootHistoryFrame = GroupLootHistoryFrame or LootHistoryFrame
 	if not LootHistoryFrame then return end
 
-	if not DB.isPatch10_1 then
-		LootHistoryFrame.Label:ClearAllPoints()
-		LootHistoryFrame.Label:SetPoint("TOP", LootHistoryFrame, "TOP", 0, -8)
-		B.ReskinClose(LootHistoryFrame.CloseButton)
-	end
-
 	B.StripTextures(LootHistoryFrame)
 	B.SetBD(LootHistoryFrame)
-	if DB.isPatch10_1 then
-		B.ReskinClose(LootHistoryFrame.ClosePanelButton)
-		B.ReskinTrimScroll(LootHistoryFrame.ScrollBar)
-	else
-		B.ReskinScroll(LootHistoryFrameScrollFrameScrollBar)
-	end
+	B.ReskinClose(LootHistoryFrame.ClosePanelButton)
+	B.ReskinTrimScroll(LootHistoryFrame.ScrollBar)
 
 	-- [[ Resize button ]]
 
@@ -54,6 +44,7 @@ tinsert(C.defaultThemes, function()
 	-- [[ Item frame ]]
 
 	if DB.isPatch10_1 then
+		-- TODO
 	else
 		hooksecurefunc("LootHistoryFrame_UpdateItemFrame", function(self, frame)
 			local rollID, _, _, isDone, winnerIdx = C_LootHistory.GetItem(frame.itemIdx)
