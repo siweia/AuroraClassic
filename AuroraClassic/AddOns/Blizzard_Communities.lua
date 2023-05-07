@@ -216,11 +216,7 @@ C.themes["Blizzard_Communities"] = function()
 	-- ChatTab
 	B.Reskin(CommunitiesFrame.InviteButton)
 	B.StripTextures(CommunitiesFrame.Chat)
-	if DB.isPatch10_1 then
-		-- todo
-	else
-		B.ReskinScroll(CommunitiesFrame.Chat.MessageFrame.ScrollBar)
-	end
+	B.ReskinTrimScroll(CommunitiesFrame.Chat.ScrollBar)
 	CommunitiesFrame.ChatEditBox:DisableDrawLayer("BACKGROUND")
 	local bg1 = B.CreateBDFrame(CommunitiesFrame.Chat.InsetFrame, .25)
 	bg1:SetPoint("TOPLEFT", 1, -3)
