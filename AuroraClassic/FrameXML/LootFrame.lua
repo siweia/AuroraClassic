@@ -92,6 +92,8 @@ tinsert(C.defaultThemes, function()
 	BONUS_ROLL_CURRENT_COUNT = BONUS_ROLL_CURRENT_COUNT:gsub(from, to)
 
 	-- Loot Roll Frame
+	if not DB.isNewPatch then
+
 	hooksecurefunc("GroupLootFrame_OpenNewFrame", function()
 		for i = 1, NUM_GROUP_LOOT_FRAMES do
 			local frame = _G["GroupLootFrame"..i]
@@ -122,6 +124,8 @@ tinsert(C.defaultThemes, function()
 			end
 		end
 	end)
+
+	end
 
 	-- Bossbanner
 	hooksecurefunc("BossBanner_ConfigureLootFrame", function(lootFrame)
