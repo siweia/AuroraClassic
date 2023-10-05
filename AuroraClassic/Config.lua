@@ -20,7 +20,7 @@ C.defaultThemes = {}
 C.themes = {}
 
 -- Data
-DB.isNewPatch = select(4, GetBuildInfo()) >= 100105 -- 10.1.5
+DB.isNewPatch = select(4, GetBuildInfo()) >= 100107 -- 10.1.7
 DB.MyClass = select(2, UnitClass("player"))
 DB.ClassColors = {}
 
