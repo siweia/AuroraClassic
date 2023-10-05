@@ -4,7 +4,7 @@ local B, C, L, DB = unpack(ns)
 tinsert(C.defaultThemes, function()
 	-- Ready check
 	B.StripTextures(ReadyCheckListenerFrame)
-	B.SetBD(ReadyCheckFrame)
+	B.SetBD(ReadyCheckListenerFrame, nil, 30, -1, 1, -1)
 	ReadyCheckPortrait:SetAlpha(0)
 
 	B.Reskin(ReadyCheckFrameYesButton)
