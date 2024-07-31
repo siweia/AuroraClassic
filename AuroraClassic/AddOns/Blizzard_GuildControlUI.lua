@@ -39,9 +39,7 @@ C.themes["Blizzard_GuildControlUI"] = function()
 	GuildControlUIHbar:Hide()
 
 	-- Guild ranks
-	local f = CreateFrame("Frame")
-	f:RegisterEvent("GUILD_RANKS_UPDATE")
-	f:SetScript("OnEvent", updateGuildRanks)
+	B:RegisterEvent("GUILD_RANKS_UPDATE", updateGuildRanks)
 	hooksecurefunc("GuildControlUI_RankOrder_Update", updateGuildRanks)
 
 	-- Guild tabs
@@ -93,8 +91,8 @@ C.themes["Blizzard_GuildControlUI"] = function()
 	B.Reskin(GuildControlUIRankOrderFrameNewButton)
 	B.ReskinClose(GuildControlUICloseButton)
 	B.ReskinTrimScroll(GuildControlUIRankBankFrameInsetScrollFrame.ScrollBar)
-	B.ReskinDropDown(GuildControlUINavigationDropDown)
-	B.ReskinDropDown(GuildControlUIRankSettingsFrameRankDropDown)
-	B.ReskinDropDown(GuildControlUIRankBankFrameRankDropDown)
+	B.ReskinDropDown(GuildControlUINavigationDropdown)
+	B.ReskinDropDown(GuildControlUIRankSettingsFrameRankDropdown)
+	B.ReskinDropDown(GuildControlUIRankBankFrameRankDropdown)
 	B.ReskinInput(GuildControlUIRankSettingsFrameGoldBox, 20)
 end
