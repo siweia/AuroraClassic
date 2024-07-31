@@ -8,6 +8,10 @@ do
 		return
 	end
 
+	function B:SmoothBar()
+		return
+	end
+
 	B.HiddenFrame = CreateFrame("Frame")
 	B.HiddenFrame:Hide()
 
