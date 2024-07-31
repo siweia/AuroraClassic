@@ -1,7 +1,7 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
-tinsert(C.defaultThemes, function()
+C.themes["Blizzard_TimeManager"] = function()
 	TimeManagerGlobe:Hide()
 	TimeManagerStopwatchCheck:GetNormalTexture():SetTexCoord(unpack(DB.TexCoord))
 	TimeManagerStopwatchCheck:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
@@ -33,4 +33,4 @@ tinsert(C.defaultThemes, function()
 	play:SetSize(18, 18)
 	play:GetHighlightTexture():SetColorTexture(1, 1, 1, .25)
 	play:SetPoint("RIGHT", reset, "LEFT", -2, 0)
-end)
+end
