@@ -39,7 +39,7 @@ tinsert(C.defaultThemes, function()
 
 	B.ReskinPortraitFrame(PVEFrame)
 
-	for i = 1, 3 do
+	for i = 1, 4 do
 		local tab = _G["PVEFrameTab"..i]
 		if tab then
 			B.ReskinTab(tab)
@@ -50,18 +50,14 @@ tinsert(C.defaultThemes, function()
 		end
 	end
 
-	if DB.isNewPatch then
-
 	if ScenarioQueueFrame then
 		B.StripTextures(ScenarioFinderFrame)
 		ScenarioQueueFrameBackground:SetAlpha(0)
-		B.ReskinDropDown(ScenarioQueueFrameTypeDropDown)
+		B.ReskinDropDown(ScenarioQueueFrameTypeDropdown)
 		B.Reskin(ScenarioQueueFrameFindGroupButton)
 		B.ReskinTrimScroll(ScenarioQueueFrameRandomScrollFrame.ScrollBar)
 		if ScenarioQueueFrameRandomScrollFrameScrollBar then
 			ScenarioQueueFrameRandomScrollFrameScrollBar:SetAlpha(0)
 		end
-	end
-
 	end
 end)

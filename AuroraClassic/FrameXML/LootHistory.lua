@@ -11,7 +11,7 @@ tinsert(C.defaultThemes, function()
 	B.SetBD(frame)
 	B.ReskinClose(frame.ClosePanelButton)
 	B.ReskinTrimScroll(frame.ScrollBar)
-	B.ReskinDropDown(frame.EncounterDropDown)
+	B.ReskinDropDown(frame.EncounterDropdown)
 
 	local bar = frame.Timer
 	if bar then
