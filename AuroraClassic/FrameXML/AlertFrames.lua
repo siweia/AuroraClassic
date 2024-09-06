@@ -428,7 +428,7 @@ tinsert(C.defaultThemes, function()
 		end
 
 		if toast.bg then
-			toast.bg:SetShown(icon and icon:IsShown())
+			toast.bg:SetShown(icon and icon:IsShown() and icon:GetTexture() ~= nil)
 		end
 	end)
 end)
