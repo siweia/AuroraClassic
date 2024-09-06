@@ -6,7 +6,7 @@
 ## Author: Siweia
 ## X-Credits: Haleth, Gethe
 ## X-Curse-Project-ID: 776149
-## Version: 7.1.1
+## Version: 7.2.0
 ## X-Website: https://github.com/siweia/AuroraClassic
 ## SavedVariables: AuroraClassicDB
 ## IconTexture: Interface\HELPFRAME\HelpIcon-HotIssues
