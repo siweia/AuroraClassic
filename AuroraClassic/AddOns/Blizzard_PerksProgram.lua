@@ -12,8 +12,7 @@ local function ReskinRewardButton(button)
 	local container = button.ContentsContainer
 	if container then
 		B.ReskinIcon(container.Icon)
-		B.ReplaceIconString(container.Price)
-		hooksecurefunc(container.Price, "SetText", B.ReplaceIconString)
+		B.ReskinIcon(container.PriceIcon)
 	end
 	button.styled = true
 end
@@ -27,6 +26,12 @@ local function SetupSetButton(button)
 	button.SelectedTexture:SetInside()
 	button.HighlightTexture:SetColorTexture(1, 1, 1, .25)
 	button.HighlightTexture:SetInside()
+end
+
+local function SetupFramBG(frame)
+	local bg = B.SetBD(frame)
+	bg:SetFrameLevel(0)
+	bg.__shadow:SetFrameLevel(0)
 end
 
 C.themes["Blizzard_PerksProgram"] = function()
@@ -44,14 +49,21 @@ C.themes["Blizzard_PerksProgram"] = function()
 		B.ReskinCheck(footerFrame.ToggleMountSpecial)
 		ReskinCustomizeButton(footerFrame.RotateButtonContainer.RotateLeftButton)
 		ReskinCustomizeButton(footerFrame.RotateButtonContainer.RotateRightButton)
+
+		hooksecurefunc(GlowEmitterFactory, "Show", function(frame, target, show)
+			local button = footerFrame.PurchaseButton
+			if button and target == button and show then
+				frame:Hide(target)
+			end
+		end)
 	end
 
 	local productsFrame = frame.ProductsFrame
 	if productsFrame then
-		B.Reskin(productsFrame.PerksProgramFilter)
+		B.ReskinFilterButton(productsFrame.PerksProgramFilter)
 		B.ReskinIcon(productsFrame.PerksProgramCurrencyFrame.Icon)
 		B.StripTextures(productsFrame.PerksProgramProductDetailsContainerFrame)
-		B.SetBD(productsFrame.PerksProgramProductDetailsContainerFrame)
+		SetupFramBG(productsFrame.PerksProgramProductDetailsContainerFrame)
 		B.ReskinTrimScroll(productsFrame.PerksProgramProductDetailsContainerFrame.SetDetailsScrollBoxContainer.ScrollBar)
 
 		hooksecurefunc(productsFrame.PerksProgramProductDetailsContainerFrame.SetDetailsScrollBoxContainer.ScrollBox, "Update", function(self)
@@ -60,7 +72,7 @@ C.themes["Blizzard_PerksProgram"] = function()
 
 		local productsContainer = productsFrame.ProductsScrollBoxContainer
 		B.StripTextures(productsContainer)
-		B.SetBD(productsContainer)
+		SetupFramBG(productsContainer)
 		B.ReskinTrimScroll(productsContainer.ScrollBar)
 		B.StripTextures(productsContainer.PerksProgramHoldFrame)
 		B.CreateBDFrame(productsContainer.PerksProgramHoldFrame, .25):SetInside(nil, 3, 3)
