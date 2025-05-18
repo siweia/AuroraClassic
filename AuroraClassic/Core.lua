@@ -100,6 +100,24 @@ do
 		self:SetFont(DB.Font[1], size, DB.Font[3])
 	end
 
+	-- Gradient texture
+	local orientationAbbr = {
+		["V"] = "Vertical",
+		["H"] = "Horizontal",
+	}
+	function B:SetGradient(orientation, r, g, b, a1, a2, width, height)
+		orientation = orientationAbbr[orientation]
+		if not orientation then return end
+
+		local tex = self:CreateTexture(nil, "BACKGROUND")
+		tex:SetTexture(DB.bdTex)
+		tex:SetGradient(orientation, CreateColor(r, g, b, a1), CreateColor(r, g, b, a2))
+		if width then tex:SetWidth(width) end
+		if height then tex:SetHeight(height) end
+
+		return tex
+	end
+
 	function B:CreateTex()
 		if self.__bgTex then return end
 
@@ -204,19 +222,21 @@ do
 
 	local AtlasToQuality = {
 		["error"] = 99,
-		["uncollected"] = LE_ITEM_QUALITY_POOR,
-		["gray"] = LE_ITEM_QUALITY_POOR,
-		["white"] = LE_ITEM_QUALITY_COMMON,
-		["green"] = LE_ITEM_QUALITY_UNCOMMON,
-		["blue"] = LE_ITEM_QUALITY_RARE,
-		["purple"] = LE_ITEM_QUALITY_EPIC,
-		["orange"] = LE_ITEM_QUALITY_LEGENDARY,
-		["artifact"] = LE_ITEM_QUALITY_ARTIFACT,
-		["account"] = LE_ITEM_QUALITY_HEIRLOOM,
+		["uncollected"] = Enum.ItemQuality.Poor,
+		["gray"] = Enum.ItemQuality.Poor,
+		["white"] = Enum.ItemQuality.Common,
+		["green"] = Enum.ItemQuality.Uncommon,
+		["blue"] = Enum.ItemQuality.Rare,
+		["purple"] = Enum.ItemQuality.Epic,
+		["orange"] = Enum.ItemQuality.Legendary,
+		["artifact"] = Enum.ItemQuality.Artifact,
+		["account"] = Enum.ItemQuality.Heirloom,
+		["epic"] = Enum.ItemQuality.Epic,
+		["legendary"] = Enum.ItemQuality.Legendary,
 	}
 	local function updateIconBorderColorByAtlas(border, atlas)
 		local atlasAbbr = atlas and strmatch(atlas, "%-(%w+)$")
-		local quality = atlasAbbr and AtlasToQuality[atlasAbbr]
+		local quality = atlasAbbr and AtlasToQuality[strlower(atlasAbbr)]
 		local color = DB.QualityColors[quality or 1]
 		border.__owner.bg:SetBackdropBorderColor(color.r, color.g, color.b)
 	end
