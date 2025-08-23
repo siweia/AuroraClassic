@@ -3,7 +3,7 @@ local B, C, L, DB = unpack(ns)
 
 tinsert(C.defaultThemes, function()
 	local styled
-	hooksecurefunc("LossOfControlFrame_SetUpDisplay", function(self)
+	hooksecurefunc(LossOfControlFrame, "SetUpDisplay", function(self)
 		if not styled then
 			B.ReskinIcon(self.Icon, true)
 

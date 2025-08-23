@@ -23,35 +23,39 @@ end
 tinsert(C.defaultThemes, function()
 	for i = 1, 4 do
 		local frame = _G["StaticPopup"..i]
-		local bu = _G["StaticPopup"..i.."ItemFrame"]
-		local icon = _G["StaticPopup"..i.."ItemFrameIconTexture"]
+		local itemFrame = frame.ItemFrame
+		local bu = frame.ItemFrame.Item
+		local icon = _G["StaticPopup"..i.."IconTexture"]
 		local close = _G["StaticPopup"..i.."CloseButton"]
 
 		local gold = _G["StaticPopup"..i.."MoneyInputFrameGold"]
 		local silver = _G["StaticPopup"..i.."MoneyInputFrameSilver"]
 		local copper = _G["StaticPopup"..i.."MoneyInputFrameCopper"]
 
-		_G["StaticPopup"..i.."ItemFrameNameFrame"]:Hide()
+		if itemFrame.NameFrame then
+			itemFrame.NameFrame:Hide()
+		end
 
-		bu:SetNormalTexture(0)
-		bu:SetHighlightTexture(0)
-		bu:SetPushedTexture(0)
-		bu.bg = B.ReskinIcon(icon)
-		B.ReskinIconBorder(bu.IconBorder)
+		if bu then
+			bu:SetNormalTexture(0)
+			bu:SetHighlightTexture(0)
+			bu:SetPushedTexture(0)
+			bu.bg = B.ReskinIcon(icon)
+			B.ReskinIconBorder(bu.IconBorder)
 
-		local bg = B.CreateBDFrame(bu, .25)
-		bg:SetPoint("TOPLEFT", bu.bg, "TOPRIGHT", 2, 0)
-		bg:SetPoint("BOTTOMRIGHT", bu.bg, 115, 0)
+			local bg = B.CreateBDFrame(bu, .25)
+			bg:SetPoint("TOPLEFT", bu.bg, "TOPRIGHT", 2, 0)
+			bg:SetPoint("BOTTOMRIGHT", bu.bg, 115, 0)
+		end
 
 		silver:SetPoint("LEFT", gold, "RIGHT", 1, 0)
 		copper:SetPoint("LEFT", silver, "RIGHT", 1, 0)
 
-		frame.Border:Hide()
-		B.SetBD(frame)
+		B.StripTextures(frame)
 		for j = 1, 4 do
-			B.Reskin(frame["button"..j])
+			B.Reskin(_G["StaticPopup"..i.."Button"..j])
 		end
-		B.Reskin(frame.extraButton)
+		B.SetBD(frame)
 		B.ReskinClose(close)
 
 		close.minimize = close:CreateTexture(nil, "OVERLAY")
@@ -62,7 +66,8 @@ tinsert(C.defaultThemes, function()
 		close:HookScript("OnEnter", colorMinimize)
 		close:HookScript("OnLeave", clearMinimize)
 
-		B.ReskinInput(_G["StaticPopup"..i.."EditBox"], 20)
+		B.ReskinInput(frame.EditBox, 20)
+		frame.EditBox.NineSlice:SetAlpha(0)
 		B.ReskinInput(gold)
 		B.ReskinInput(silver)
 		B.ReskinInput(copper)
