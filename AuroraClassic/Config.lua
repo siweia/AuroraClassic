@@ -14,6 +14,8 @@ C.options = {
 	Shadow = true,
 	ObjectiveTracker = true,
 	UIScale = 0,
+	CooldownMgr = true,
+	DamageMeter = true,
 }
 
 C.defaultThemes = {}
