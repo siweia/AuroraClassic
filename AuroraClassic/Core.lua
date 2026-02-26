@@ -1191,3 +1191,12 @@ do
 		object = EnumerateFrames(object)
 	end
 end
+
+-- Blizz fix
+local old_SetupTextureCoordinates = BackdropTemplateMixin.SetupTextureCoordinates
+
+function BackdropTemplateMixin:SetupTextureCoordinates()
+	local width = self:GetWidth()
+	if B:IsSecretValue(width) then return end -- needs review
+	old_SetupTextureCoordinates(self)
+end
