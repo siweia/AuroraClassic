@@ -2,6 +2,30 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local cr, cg, cb = DB.r, DB.g, DB.b
 
+-- Secret
+do
+	function B:IsSecretValue(value)
+		return issecretvalue and issecretvalue(value)
+	end
+
+	function B:NotSecretValue(value)
+		return not issecretvalue or not issecretvalue(value)
+	end
+
+	function B:IsSecretTable(object)
+		return issecrettable and issecrettable(object)
+	end
+
+	function B:NotSecretTable(object)
+		return not issecrettable or not issecrettable(object)
+	end
+
+	function B:SendChatMessage(...)
+		if C_ChatInfo.InChatMessagingLockdown() then return end
+		return C_ChatInfo.SendChatMessage(...)
+	end
+end
+
 -- Kill regions
 do
 	function B:Dummy()

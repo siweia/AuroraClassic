@@ -2,7 +2,7 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 local cr, cg, cb = DB.r, DB.g, DB.b
 
-local function ReskinQuestHeader(header, isCalling)
+local function ReskinQuestHeader(header)
 	if header.styled then return end
 
 	if header.Background then header.Background:SetAlpha(.7) end
@@ -53,13 +53,6 @@ tinsert(C.defaultThemes, function()
 	B.StripTextures(QuestScrollFrame.BorderFrame)
 	B.StripTextures(QuestMapFrame.DetailsFrame.BackFrame)
 
-	local campaignOverview = QuestMapFrame.CampaignOverview
-	if campaignOverview then -- isNewPath, removed?
-		campaignOverview.BG:SetAlpha(0)
-		ReskinQuestHeader(campaignOverview.Header)
-		B.ReskinTrimScroll(campaignOverview.ScrollFrame.ScrollBar)
-	end
-
 	QuestScrollFrame.Edge:Hide()
 	B.ReskinTrimScroll(QuestScrollFrame.ScrollBar)
 	B.ReskinEditBox(QuestScrollFrame.SearchBox)
@@ -67,7 +60,6 @@ tinsert(C.defaultThemes, function()
 	-- Quest details
 
 	local DetailsFrame = QuestMapFrame.DetailsFrame
-	local CompleteQuestFrame = DetailsFrame.CompleteQuestFrame
 
 	B.StripTextures(DetailsFrame)
 	B.StripTextures(DetailsFrame.ShareButton)
@@ -133,7 +125,7 @@ tinsert(C.defaultThemes, function()
 		end
 
 		for header in QuestScrollFrame.covenantCallingsHeaderFramePool:EnumerateActive() do
-			ReskinQuestHeader(header, true)
+			ReskinQuestHeader(header)
 		end
 
 		ReskinAWQHeader()
