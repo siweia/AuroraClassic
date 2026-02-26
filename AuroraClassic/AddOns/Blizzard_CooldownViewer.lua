@@ -154,7 +154,7 @@ C.themes["Blizzard_CooldownViewer"] = function()
 						cooldown:SetInside(icon.bg)
 						cooldown:SetDrawEdge(false)
 						cooldown:SetDrawSwipe(true)
-						cooldown:SetSwipeTexture(DB.flatTex)
+						cooldown:SetSwipeTexture(DB.bdTex)
 					end
 
 					local outOfRange = itemFrame.OutOfRange
