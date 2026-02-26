@@ -122,7 +122,7 @@ for index, value in ipairs(featuresList) do
 end
 
 local appearance = addSubCategory(gui, L["Appearance"])
-appearance:SetPoint("TOPLEFT", features, "BOTTOMLEFT", 0, -110)
+appearance:SetPoint("TOPLEFT", features, "BOTTOMLEFT", 0, -130)
 
 createToggleBox(gui, "FlatMode", L["FlatMode"], appearance, 1)
 
