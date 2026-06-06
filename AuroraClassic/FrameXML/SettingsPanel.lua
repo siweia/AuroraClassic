@@ -56,7 +56,7 @@ tinsert(C.defaultThemes, function()
 	bg:SetInside()
 	bg:SetPoint("TOPLEFT", 1, 6)
 	B.Reskin(frame.Container.SettingsList.Header.DefaultsButton)
-	B.ReskinTrimScroll(frame.Container.SettingsList.ScrollBar)
+	B.ReskinTrimScroll(frame.Container.SettingsList.ScrollBar, true) -- taint while in combat
 
 	local function ReskinDropdown(option)
 		B.Reskin(option.Dropdown)
