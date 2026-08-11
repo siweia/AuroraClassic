@@ -2,7 +2,7 @@
 
 ## 適用基準
 
-- AuroraClassic 當前 TOC 仍為 `Interface: 120005`；本輪另以 WoWUI 12.0.7 live 與 12.1 ptr 建立 migration 基線。所有 secret 結論仍須以最後採用的正式服 build 與實測為準。
+- AuroraClassic 當前 TOC 仍為 `Interface: 120005`；12.1 migration 已改以 WoWUI live `b3733541`（12.1.0.69273）重核。先前 PTR 只保留為歷史基線，所有 secret 結論仍須以 live source 與正式服實測為準。
 - oUF_Ruri 文件中針對其他 build、單位框架、光環、資源條或 formatter 的允許路徑只作分析案例，不構成本專案白名單。
 - `SecretReturns`、`SecretPayloads`、`SecretValue`、`SecretWhen*` 與由 secret 衍生的值都要沿資料流審查。
 
@@ -26,7 +26,7 @@
 6. 是否牽涉 protected frame、combat lockdown、taint、anchor、Backdrop、Layout 或 pool reuse。
 7. 驗證層級：靜態來源核對、正式服場景與戰鬥內／外測試。
 
-## AuroraClassic 現有基線（2026-08-11）
+## AuroraClassic 現有基線（2026-08-12）
 
 以下只表示已找到呼叫點，不表示已完成安全認證。
 
@@ -38,8 +38,18 @@
 | `AddOns/Blizzard_Communities.lua` 的 selection 顯示 hook | 以 `B:NotSecretValue(show)` 後才做 boolean test | 待核對 `SetShown` hook 的參數契約、texture reuse 與未讀取時的外觀 fallback |
 | `AddOns/Blizzard_Communities.lua` 的 icon ring 狀態 | 以 `B:NotSecretValue(borderShown)` 後決定自訂 border 顯示 | 待核對 `IsShown()` 在目標 build 的 secret 條件與 pooled child refresh |
 | `AddOns/Blizzard_Communities.lua` 的 roster class icon | post-hook 讀 `memberInfo.classID` 並查 class table | chat messaging lockdown 下屬已確認 secret-unsafe 資料流；實際觸發需正式服驗證 |
-| `FrameXML/ChatFrame.lua` 的 voice notification | secret GUID 衍生 class 後做 boolean test／table key | chat messaging lockdown 高風險；修復 BattleTag 12.1 blocker 後此路徑才重新可達 |
-| `AddOns/Blizzard_CooldownViewer.lua` 的 dispel border | tainted post-hook 讀 aura instance，呼叫可回 secret color 的 API | 12.1 restricted aura 高風險；需重新設計 fallback 與 pool reset，不能只 early return |
+| `FrameXML/ChatFrame.lua` 的 voice notification | secret GUID 衍生 class 後做 boolean test／table key | 既有 12.x chat messaging lockdown 高風險；修復 BattleTag 12.1 blocker 後此路徑才重新可達 |
+| `AddOns/Blizzard_CooldownViewer.lua` 的 dispel border | tainted post-hook 讀 aura instance，呼叫可回 secret color 的 API | 12.x restricted aura 高風險；12.1 另加 unit-aura-access 前置條件，需重新設計 fallback 與 pool reset，不能只 early return |
+
+## 12.1 live 補充契約
+
+- 上述 CooldownViewer、Communities roster 與 voice GUID 三條高風險資料流在 live 69273 的 API 文件仍成立，沒有因 PTR → live 而撤回。
+- Communities `GetMemberInfo` 的 chat-lockdown secret 契約及 CooldownViewer `GetAuraDispelTypeColor` 的 restricted-aura／curve secret 契約在 12.0.7 已存在，因此兩者不是 12.1 才出現的資料流；12.1 對 dispel color API 另新增 `RequiresUnitAuraAccess`，提高觸發限制，仍須以 live restricted aura 場景重測。
+- CooldownViewer 的安全方向是停止解析 aura payload/RGB，保留 Blizzard trusted code 已更新的原生 border，再只做不依賴 gameplay data 的 cosmetic；Communities 則使用原生已完成的 class texture/widget state，不自行重算 `classID`。
+- Voice GUID 的 secret 註記在 12.0.7 已存在，不是 12.1 新限制。Blizzard `VoiceActivityNotification` 在 Aurora hook 前已先恢復原生 channel color，因此 restricted 時略過 Aurora class recolor 可使用原生狀態作 fallback，不必保留 pooled 舊 class 色。
+- `C_BattleNet.SearchFriends` 在 live 文件新增 `HasRestrictions=true`、`SecretArguments=AllowedWhenUntainted`。Aurora 目前沒有 caller；未來 SocialUI skin 只處理 frame/region，不 hook 搜尋資料、不自行呼叫或轉送 `AuroraFriendsSearchInfo`。
+- `C_HousingBlueprint.UpdateBlueprintStringFromInput` 是 live 69273 新增 API；若 `inputShareCode` 是 secret，只有未 taint 的呼叫可傳入。Aurora 目前沒有 HousingBlueprint runtime 模組；新增 skin 不讀、不 trim、不驗證、不保存 share code，只處理公開 widget 外觀與 enabled/shown state。
+- 上述兩項是未來實作邊界，不表示目前 Aurora 已存在新的 secret data-flow bug。
 
 ## 特別風險
 

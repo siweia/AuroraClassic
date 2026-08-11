@@ -36,3 +36,18 @@
 - 確定覆蓋缺口／失效：PVP 新 Arena button 與 CategoryButton5、PlayerChoice BorderOverlay、NewPlayer 舊 global、Transmog PreviewedWeaponToggle、ExpansionLandingPage Dragonriding target、MajorFactionRenown dead target。
 - Communities、CooldownViewer 具有 secret data-flow 風險；Achievement／Auction／Raid 等 secure 路徑與大量 Bootstrap addon 仍需兩種載入順序及戰鬥內實測。
 - 主要 pool／ScrollBox lifecycle 已逐檔核對；除已列項外，未確認另一個必然的 reuse error。
+
+## 2026-08-12 12.1 live 重核
+
+- 以 WoWUI live `b3733541`（12.1.0.69273）重核後，Achievement、Delves、Housing Dashboard、Weekly Rewards 四個 AddOns P1 均仍成立；最後 PTR → live 沒有撤回其結構變更。
+- Delves 的 Role／Flavor／Combat／Utility 四個 slot 全部繼承同一個 `CompanionConfigSlotTemplate`，live source 確認每個 slot 都有 `OptionsList.ScrollBox`；migration 可一致處理四個 slot，再依內容決定是否 skin pooled option button。
+- Weekly Rewards 的 live `ConcessionsFrame.Rewards` 已由原生 children/layout 管理兩個 concession；修正宜枚舉 children 並處理各自 `RewardsFrame.Text`，不再把數量 2 寫死。
+- PVP Training Grounds live 以 `BonusTrainingGroundButtons` parent array 管理普通與 Arena button；Aurora 應枚舉該 array。`CategoryButton5`、PlayerChoice `BorderOverlay`、NewPlayer 舊 globals、Transmog `PreviewedWeaponToggle` 都早在 12.0.7 已存在，維持「既有缺口」分類。
+- HousingBlueprint 是獨立 `LoadOnDemand` addon；若補完整覆蓋，應新增真實 `C.themes["Blizzard_HousingBlueprint"]` 註冊與對應 AddOns XML 模組，不依賴 HousingDashboard 載入時順便處理。
+- 正式版 HousingBlueprint 的 import input／validation 各有一個 `GearDropdown`，ContentSummary 會在 loading／error／empty/content 狀態間改 `fixedHeight`、`minimumHeight` 與 child visibility。skin 必須保留原生 Layout/MarkDirty lifecycle，測兩個 dropdown 的 enabled/disabled 與所有內容狀態。
+- HousingBlueprint `ContentBudgets` 內部使用 pool；live 已移除 `SetInfo()` 自行 Show，統一由 `ContentSummary:UpdateContentVisibility()` 控制。future skin 不可 force-show budgets 或 content children，並須對 pooled budget entries 做冪等處理。
+- WoWUI live `Blizzard_HousingDashboardInitiatives.lua:177` 本身仍呼叫已移除的 `HousingDashboardFrame.HouseInfoContent.HouseDropdown`，而 XML 只建立 root `HousingDashboardFrame.HouseDropdown`。這是上游 source 的 stale HelpTip anchor，不應複製進 Aurora；正式服測 Initiatives 首次顯示時需把原生錯誤與 Aurora theme 錯誤分開記錄。
+- `Blizzard_Tutorial` key 確實不存在，但其舊 skin 目標屬於仍有效的 `Blizzard_BoostTutorial`。若保留 boosted-character 教學皮膚，需改用真實 key 並按現行 `PortraitFrameTemplate` 重寫；不能把它與 `Blizzard_TalentUI`、`Blizzard_VoidStorageUI` 一起直接退休，也不能只 re-key，因舊 `TitleBg`／root `.portrait` 路徑已失效。
+- `B.SetCurrenciesHook` 藏在 Runeforge 模組仍是架構耦合，但不是「只有現行 XML 執行順序才會存在」的 runtime bug：所有 Script 在 theme closure 執行前已載入。移動／刪除 Runeforge 模組時仍必須同步處理 Azerite caller。
+- CooldownViewer restricted-aura、Communities roster、GMChat deprecated alias、ExpansionLandingPage no-op、MajorFaction dead target 與 delayed theme 清錯 key 都在最後 12.0.7 已存在；12.1 migration 需一併修／驗證，但不能標成 12.1 新增。
+- 12.1 Communities 新增 Discord stream／`discordInfo`／`SendTitleFriendRequest` 等 surface；補 skin 時仍只使用公開 frame/region state，不把新 coverage 變成另一條 member payload 解析路徑。

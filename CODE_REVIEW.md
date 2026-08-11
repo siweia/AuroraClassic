@@ -9,14 +9,16 @@
 3. 不把記憶中的歷史判斷直接當成現況；確認後才引用。
 4. 完成審查或修改後，把新結論寫回相關模組記憶，索引只更新摘要與入口。
 
-## 最新概況（2026-08-11）
+## 最新概況（2026-08-12）
 
 - 已完整閱讀 `D:\Github\oUF_Ruri` 下 24 份 Markdown，包括 `AGENTS.md`、`CODE_REVIEW.md`、全部 `.agents/code_reviews/*.md`、README 與 issue template。
 - 已將其中可泛用的 code review 方法、生命週期檢查、secret value、CVar、效能與記憶維護原則整理到 AuroraClassic 的本機文件。
 - oUF_Ruri 的模組結論、API 白名單、版本判斷與歷史問題只保留為參考案例，不視為 AuroraClassic 的現況。
 - 已逐檔讀完 AuroraClassic 126 個 Lua、TOC、兩份載入 XML、打包／release 設定與 README；58 個 FrameXML Script、63 個 AddOns Script 均與實際 Lua 一一對應。
-- 已用 WoWUI `live=1f2d178`（12.0.7.68453）與 `ptr=b883b4d`（12.1.0.69189）核對所有模組、theme key、主要 pool／ScrollBox lifecycle 與 12.1 API hardening。
-- AuroraClassic 當前工作樹仍為 `Interface: 120005`。已確認 ChatFrame、Fonts、Achievement、Delves Companion、Housing Dashboard、Weekly Rewards 六個 12.1 結構性硬斷點。
+- 12.1 正式上線後已改用 WoWUI `live` 重核。正式 migration 基準為 `861fbf13`（12.0.7.68974）→ `b3733541`（tag `v12.1.0`，12.1.0.69273）；先前 `ptr=b883b4d`（12.1.0.69189）結論已由 live source 覆核，不再作當前事實來源。
+- AuroraClassic 當前工作樹仍為 `Interface: 120005`。ChatFrame、Fonts、Achievement、Delves Companion、Housing Dashboard、Weekly Rewards 六個 12.1 結構性硬斷點在 live 全部仍成立，沒有撤回項；12.1 migration 預定 Interface 為 `120100`，修改前仍須以正式服 `GetBuildInfo()` 第四回傳確認。
+- 最後 PTR → live 只改動 16 個 tracked 檔（14 個 code/API，另含 `.gitignore` 與 `No code changes.txt`）；與 Aurora migration 直接相關的是 SocialUI 即時搜尋／filter lifecycle、HousingBlueprint 輸入與內容狀態。未新增第七個現有 runtime 硬斷點，但這兩區的實作與測試清單已補強。
+- 已更正 Bootstrap 判斷：`Init.lua` 的 initial scan 已同時要求 `loadedOrLoading` 與 `loaded`，不把 bootstrap-only 提早執行列為已確認 bug；delayed `ADDON_LOADED` 清錯 theme key 仍是確定問題。
 - 完整 findings、已撤回誤判、正式服測試矩陣與 12.0.7 → 12.1 待辦見 `2026-08-11-full-review-12.1-migration.md`。
 - 本輪未修改 AuroraClassic runtime Lua／XML／TOC；secret、secure、combat 與實際 widget 顯示仍須正式服遊戲內驗證。
 

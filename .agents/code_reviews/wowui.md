@@ -10,13 +10,24 @@
 
 API、Mixin、模板、全域名稱、LoadOnDemand addon 名稱與載入順序的最終依據是相符 build 的 Blizzard UI 原始碼與正式服實測，不以第三方插件實作取代。
 
-## 當前基準（2026-08-11）
+## 當前基準（2026-08-12）
 
 - `AuroraClassic/AuroraClassic.toc` 明示 `Interface: 120005`。
-- 本輪使用者明確要求 12.0.7 → 12.1 migration，因此固定比較：
-  - `live`：`1f2d1789ad7d4721b4b89bcabf736b3d958d8485`，12.0.7.68453。
-  - `ptr`：`b883b4d1d004b9437da7a09dfe3ea6752b472f69`，12.1.0.69189。
-- oUF_Ruri 記憶中的 12.1 結論仍只作案例；本次 findings 均重新由 AuroraClassic caller 與上述 WoWUI source 核對。
+- 使用者已指定 12.1 正式上線後以 WoWUI `live` 為 BlizzardInterfaceCode 基準；目前固定比較：
+  - 最後 12.0.7 live：`861fbf13f64ead8f984cf7106507a54c6cec9e5e`，12.0.7.68974。
+  - 12.1 live：`b37335415534861099918d612f4c35440c1ab986`，tag `v12.1.0`，12.1.0.69273。
+- 先前初審使用的 `ptr=b883b4d1`（12.1.0.69189）已由上述 live source 逐項覆核；後續不再以 ptr 結論代表正式服現況。
+- 先前 12.0.7 基準 `1f2d1789`（68453）到最後 12.0.7 build 68974 只有 `Blizzard_HouseEditorStorageFrame.lua` 的 saved-state key 變更，AuroraClassic 沒有 HouseEditor caller，因此不改變既有 migration finding。
+- 12.1 addon Interface 預定目標是 `120100`；WoWUI 內建 TOC 不提供可直接核對的 MAINLINE Interface 靜態值，修改 AuroraClassic TOC 前仍須以正式服 `/dump select(4, GetBuildInfo())` 確認，之後以關閉「載入過期插件」測試。
+- oUF_Ruri 記憶中的 12.1 結論仍只作案例；findings 均由 AuroraClassic caller 與上述 WoWUI live source 重新核對。
+
+## PTR → 正式 live 差異
+
+- `b883b4d1`（PTR 69189）→ `b3733541`（live 69273）共 16 個 tracked 檔有差異（14 個 code/API，另含 `.gitignore` 與 `No code changes.txt`）；六個 Aurora release blocker 所在檔案沒有在這段被撤回。
+- SocialUI 搜尋改為 `OnTextChanged` 即時 refresh，隱藏時清除文字；filter dropdown mixin 改為 `SocialUISearchFilterDropdownMixin`。新增 skin 只能處理外觀，不可覆寫這些 lifecycle。
+- HousingBlueprint 新增 `C_HousingBlueprint.UpdateBlueprintStringFromInput`，並調整 loading／error／empty content visibility、fixed/minimum height 與兩個 GearDropdown 的 enabled 狀態。此 addon 是獨立 LoD，應有自己的 theme key，不依附 HousingDashboard theme。
+- `C_BattleNet.SearchFriends` 在 live 文件新增 `HasRestrictions=true` 且 `SecretArguments=AllowedWhenUntainted`；Aurora 目前沒有 caller，未來 SocialUI skin 不應解析或重送搜尋 payload。
+- QueueStatus 新增 `LE_LFG_CATEGORY_LAIR` 顯示名稱，但 Aurora 只把 `QueueStatusFrame` 納入 tooltip backdrop 清單，沒有讀 category，故靜態上不需 migration。
 
 ## 查證路線
 
