@@ -33,7 +33,7 @@
 - 12.1 確定硬斷點：`ChatFrame.lua` 的 `BattleTagInviteFrame` 已移除；`Fonts.lua` 的固定 RaidWarning slots／`RaidBossEmoteFrame` 已改成動態 pool。
 - 確定既有問題：`AlertFrames.lua` 的 `hooked`／`hookded` marker typo 令 pooled alerts 重複掛 hook。
 - 確定覆蓋缺口：12.1 SocialUI、Chat Config Additional Colors，以及既有 `InitiativeTasksObjectiveTracker`。
-- Voice notification GUID/class 是 chat messaging lockdown secret 風險；動態 HookScript 另受 12.1 ScriptBindings 新契約影響。
+- 全量審查時確認 Voice notification GUID/class 是 chat messaging lockdown secret 風險；本輪 blocker 修正已加靜態 guard，正式服驗證仍待完成。動態 HookScript 另受 12.1 ScriptBindings 新契約影響。
 - ColorPicker、Splash、UIWidgets 的搬移目前保留 Aurora 所用結構；EquipmentFlyout width 疑點已由原生 lifecycle 排除，ObjectiveTracker 則確認 `Bar.Icon` 是 optional 且 Aurora guard 正確。
 - 尚未進行正式服遊戲內全模組測試；完整矩陣見總報告。
 
@@ -44,7 +44,15 @@
 - 12.1 的好友邀請替代物件是 `Blizzard_AddFriend/AddFriendTemplates.xml` 的 `BattleNetInviteFrame`；既有 `AddFriendFrame` global 仍保留，且 Aurora `FriendsFrame.lua:149-160` 已有 skin。migration 應新增 BattleNetInvite skin、回歸既有 AddFriend，不把兩者都誤寫成全新功能。
 - SocialUI 正式版在 `Blizzard_SocialUIShared/SocialUISharedTemplates.xml`／`.lua` 改為搜尋文字每次 `OnTextChanged` 即時 refresh、`OnHide` 清除文字，filter mixin 為 `SocialUISearchFilterDropdownMixin`。`SocialUIFrame` 的 tabs/content 又由 pool 動態 ReleaseAll/Acquire；新增 skin 必須冪等處理 pool，且不得覆寫 `OnTextChanged`、`OnHide`、`InitializeFilterBar` 或 `GenerateFilterMenu`。需測逐字輸入、filter、BN 斷線、header collapse 與關閉重開。
 - ChatConfig Additional Colors 的現有 swatches 已會進 Aurora 通用 swatch hook；缺口精確是 `ChatConfigOtherSettingsAdditionalColors` 外層原生 backdrop box art。
-- `InitiativeTasksObjectiveTracker` 與 voice GUID secret 註記在 12.0.7 已存在，分別屬既有覆蓋缺口與既有 12.x secret 風險，不是 12.1 新增。現行 Initiative tracker 只顯示文字 objective，當前可見缺口主要是 header；progress/timer hook 屬完整 lifecycle／未來相容。
+- `InitiativeTasksObjectiveTracker` 與 voice GUID secret 註記在 12.0.7 已存在，分別屬既有覆蓋缺口與既有 12.x secret 契約，不是 12.1 新增。voice 消費路徑已於下方 blocker 修正加 guard；現行 Initiative tracker 只顯示文字 objective，當前可見缺口主要是 header，progress/timer hook 屬完整 lifecycle／未來相容。
 - ObjectiveTracker 原生 `GetProgressBar` 保證的是 `progressBar.Bar`；`Bar.Icon` 仍是 optional，Aurora 現有 `if icon` 防護正確。舊文件中「保證 `bar.Icon`」的描述已更正。
 - 12.1 `HookScript` 雖回傳 success bool，但 `RequiresAssignableScript` 的 failure mode 是 Error；實作不能只靠檢查回傳值，仍須在正式服對精確 frame／forbidden aspect 驗證。
 - QueueStatus 正式版新增 `LE_LFG_CATEGORY_LAIR` 名稱路徑；Aurora `GameTooltip.lua` 只把 `QueueStatusFrame` 納入外框處理，沒有讀 category，靜態上不受影響。
+
+## 2026-08-12 blocker 修正
+
+- `ChatFrame.lua` 已移除 `BattleTagInviteFrame`，改用 live `BattleNetInviteFrame.Border`、`.SendButton`、`.CancelButton`；`Blizzard_AddFriend` 是主載入 addon，未以 nil guard 掩蓋載入契約。
+- ChatFrame theme 後段重新可達後，voice notification hook 會先檢查 chat messaging lockdown、GUID 與 class 的可存取性；restricted 時不解析 secret data，沿用 Blizzard 已恢復的原生 channel color。
+- `Fonts.lua` 已移除固定 RaidWarning slots 與 `RaidBossEmoteFrame` global，改在 `RaidWarningFrame` 與 `CinematicFrame.BossEmoteFrame` 的 `AcquireString` 後枚舉 active `fontStringPool`。
+- 每個 pool FontString 只初始化一次 Aurora font／outline／shadow，FontScale 使用 live 公開 `FontString:SetTextScale()`；不讀寫 FadingFrame 的 `textScaling*`、message order 或其他內部欄位。pool reset 不清 marker 或 text scale，因此 reuse 不會累乘。
+- `FrameXML.xml` 無需修改；舊符號精確搜尋無殘留且 `git diff --check` 通過。尚待正式服驗證 ChatFrame theme 後半、Battle.net 邀請、`/rw`、一般／cinematic boss emote、pool reuse 與 `FontScale != 1`。

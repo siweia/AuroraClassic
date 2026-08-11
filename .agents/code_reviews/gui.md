@@ -38,4 +38,4 @@
 - `ChatBubbles` 在 Config、GUI、Locales 都存在，但沒有任何 `AuroraClassicDB.ChatBubbles` runtime 讀取；此選項即使 reload 也無效。
 - `DB.isNewPatch` 只有 `Config.lua:25` 的定義，沒有 caller，屬 dead compatibility state。
 - Alpha 的即時更新與 Cancel／Default 回復路徑成立；其他外觀選項依現行 GUI 文案預期 reload，不列為即時 refresh bug。
-- 工作樹仍為 `Interface: 120005`；升到 12.1 時需在完成硬斷點修正後同步 TOC。
+- 工作樹已更新為 `Interface: 120100`；六個 12.1 結構性硬斷點已完成靜態修正，正式服 UI 與冷登入驗證仍待完成。

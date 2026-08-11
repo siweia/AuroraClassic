@@ -51,3 +51,11 @@
 - `B.SetCurrenciesHook` 藏在 Runeforge 模組仍是架構耦合，但不是「只有現行 XML 執行順序才會存在」的 runtime bug：所有 Script 在 theme closure 執行前已載入。移動／刪除 Runeforge 模組時仍必須同步處理 Azerite caller。
 - CooldownViewer restricted-aura、Communities roster、GMChat deprecated alias、ExpansionLandingPage no-op、MajorFaction dead target 與 delayed theme 清錯 key 都在最後 12.0.7 已存在；12.1 migration 需一併修／驗證，但不能標成 12.1 新增。
 - 12.1 Communities 新增 Discord stream／`discordInfo`／`SendTitleFriendRequest` 等 surface；補 skin 時仍只使用公開 frame/region state，不把新 coverage 變成另一條 member payload 解析路徑。
+
+## 2026-08-12 blocker 修正
+
+- `Blizzard_AchievementUI.lua` 已改用 `AchievementFrame.HeaderDetails.Filters` 下的 FilterDropdown／SearchBox 與 `SearchBox.SearchPreviewContainer`；刪除舊 anchor 覆寫，保留 HorizontalLayout 與 comparison mode 的原生定位。
+- `Blizzard_Delves.lua` 已改走 `CompanionSlots`，涵蓋 Role／Flavor／Combat／Utility 四個 slot；每個 ScrollBox 同時處理現存與之後更新的 active frame。atlas branch 以公開 `ResetTexCoord()` 清除 pooled texture row 的 Aurora crop，texture branch 再套回 `DB.TexCoord`；Aurora backdrop 可在 reuse 時隱藏／恢復而不重建。
+- `Blizzard_HousingDashboard.lua` 已改用 `HousingDashboardFrame.HouseDropdown.Dropdown`；root `HouseDropdown` 是 lifecycle 容器，內層 `.Dropdown` 才是 `WowStyle1DropdownTemplate`。Collection／Initiatives／Blueprint 完整覆蓋仍留在後續工作。
+- `Blizzard_WeeklyRewards.lua` 已枚舉 `ConcessionsFrame.Rewards:GetChildren()` 並冪等處理每個 `RewardsFrame.Text`；不存在的 `WeeklyRewardsFrameNameFrame` 已改為 `confirmFrame.ItemFrame.NameFrame`。
+- `AddOns.xml`、theme key 與 Blizzard TOC 載入契約無需修改；舊路徑精確搜尋無殘留且 `git diff --check` 通過。尚待正式服驗證 Achievement normal／comparison、Brann 四 slot 與 pool reuse、Housing dashboard、Great Vault concession 與選獎確認框。

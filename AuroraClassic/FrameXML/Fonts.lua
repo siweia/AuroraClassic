@@ -9,6 +9,27 @@ local function ReskinFont(font, size)
 	font:SetShadowColor(0, 0, 0, 0)
 end
 
+local function ReskinRaidWarningFont(font)
+	if font.__auroraFontStyled then return end
+
+	local size = select(2, font:GetFont())
+	B.SetFontSize(font, size)
+	font:SetTextScale(AuroraClassicDB.FontScale)
+	font:SetShadowColor(0, 0, 0, 0)
+	font.__auroraFontStyled = true
+end
+
+local function ReskinRaidWarningFonts(frame)
+	for font in frame.fontStringPool:EnumerateActive() do
+		ReskinRaidWarningFont(font)
+	end
+end
+
+local function SetupRaidWarningFonts(frame)
+	ReskinRaidWarningFonts(frame)
+	hooksecurefunc(frame, "AcquireString", ReskinRaidWarningFonts)
+end
+
 tinsert(C.defaultThemes, function()
 	-- Text color
 	GameFontBlack:SetTextColor(1, 1, 1)
@@ -17,10 +38,8 @@ tinsert(C.defaultThemes, function()
 
 	if not AuroraClassicDB.FontOutline then return end
 
-	ReskinFont(RaidWarningFrame.slot1)
-	ReskinFont(RaidWarningFrame.slot2)
-	ReskinFont(RaidBossEmoteFrame.slot1)
-	ReskinFont(RaidBossEmoteFrame.slot2)
+	SetupRaidWarningFonts(RaidWarningFrame)
+	SetupRaidWarningFonts(CinematicFrame.BossEmoteFrame)
 	ReskinFont(AchievementFont_Small)
 	ReskinFont(AchievementCriteriaFont)
 	ReskinFont(AchievementDescriptionFont)

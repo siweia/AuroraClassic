@@ -47,7 +47,7 @@
 
 - 讀目標 frame／Mixin 的建立、初始化、refresh、pool reset、Layout 與 show／hide 全流程，不以舊全域名稱加 nil guard 結案。
 - API、模板、addon key 與載入順序以相符 build 的 Blizzard UI 原始碼為準；第三方插件只能提供搜尋線索。
-- 不同 build 的結構不能混搭。Ruri 文件中的 12.1 結論在 AuroraClassic `Interface: 120005` 上一律標成待重新查證。
+- 不同 build 的結構不能混搭。Ruri 文件中的結論一律只作線索，必須依 AuroraClassic 當前 Interface 與相符的 Blizzard live build 重新查證。
 
 ## 不移植的內容
 

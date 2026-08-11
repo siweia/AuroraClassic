@@ -2,33 +2,46 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 local function reskinButton(button)
-	if button.styled then return end
+	local icon = button.Icon
+	if not icon then return end
+
+	if icon:GetAtlas() then
+		icon:ResetTexCoord()
+		if button.iconBG then button.iconBG:Hide() end
+		return
+	end
+
 	if button.Border then button.Border:SetAlpha(0) end
-	if button.Icon then B.ReskinIcon(button.Icon) end
-	button.styled = true
+	if button.iconBG then
+		icon:SetTexCoord(unpack(DB.TexCoord))
+		button.iconBG:Show()
+	else
+		button.iconBG = B.ReskinIcon(icon)
+	end
 end
 
 local function updateButton(self)
 	self:ForEachFrame(reskinButton)
 end
 
-local function reskinOptionSlot(frame, skip)
+local function reskinOptionSlot(frame)
 	local option = frame.OptionsList
 	B.StripTextures(option)
 	local bg = B.SetBD(option, nil, -5, 5, 5, -5)
 	bg:SetFrameLevel(3)
-	if not skip then
-		hooksecurefunc(option.ScrollBox, "Update", updateButton)
-	end
+	hooksecurefunc(option.ScrollBox, "Update", updateButton)
+	updateButton(option.ScrollBox)
 end
 
 C.themes["Blizzard_DelvesCompanionConfiguration"] = function()
 	B.ReskinPortraitFrame(DelvesCompanionConfigurationFrame)
 	B.Reskin(DelvesCompanionConfigurationFrame.CompanionConfigShowAbilitiesButton)
 
-	reskinOptionSlot(DelvesCompanionConfigurationFrame.CompanionCombatRoleSlot, true)
-	reskinOptionSlot(DelvesCompanionConfigurationFrame.CompanionUtilityTrinketSlot)
-	reskinOptionSlot(DelvesCompanionConfigurationFrame.CompanionCombatTrinketSlot)
+	local companionSlots = DelvesCompanionConfigurationFrame.CompanionSlots
+	reskinOptionSlot(companionSlots.CompanionCombatRoleSlot)
+	reskinOptionSlot(companionSlots.CompanionFlavorSlot)
+	reskinOptionSlot(companionSlots.CompanionCombatTrinketSlot)
+	reskinOptionSlot(companionSlots.CompanionUtilityTrinketSlot)
 
 	B.ReskinPortraitFrame(DelvesCompanionAbilityListFrame)
 	B.ReskinDropDown(DelvesCompanionAbilityListFrame.DelvesCompanionRoleDropdown)
