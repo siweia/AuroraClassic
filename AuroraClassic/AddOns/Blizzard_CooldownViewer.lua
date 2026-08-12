@@ -72,10 +72,10 @@ local function reskinAlertDialog(frame, ...)
 end
 
 local function reskinDraggedItem(frame)
-	if frame.styled then return end
+	if frame.__auroraDraggedItemSkinned then return end
 
 	frame.Icon.bg = B.ReskinIcon(frame.Icon, true)
-	frame.styled = true
+	frame.__auroraDraggedItemSkinned = true
 end
 
 C.themes["Blizzard_CooldownViewer"] = function()

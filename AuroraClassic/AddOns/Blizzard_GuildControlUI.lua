@@ -120,5 +120,9 @@ C.themes["Blizzard_GuildControlUI"] = function()
 	B.Reskin(discordFrame.channelButton)
 
 	hooksecurefunc("GuildControlUI_Discord_Update", reskinDiscordFrames)
+	if GuildControlUI.selectedTab == 4 and not GuildControlUI.__auroraDiscordUpdateHooked then
+		hooksecurefunc(GuildControlUI, "rankUpdate", reskinDiscordFrames)
+		GuildControlUI.__auroraDiscordUpdateHooked = true
+	end
 	reskinDiscordFrames()
 end

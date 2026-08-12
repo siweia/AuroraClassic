@@ -116,6 +116,43 @@ local function reskinSocialContent(frame)
 	frame.__auroraSocialSkinned = true
 end
 
+local function reskinSocialRaidContent(frame)
+	if frame.__auroraRaidSkinned then return end
+
+	B.ReskinCheck(frame.AllAssistCheckButton)
+	B.Reskin(frame.RaidInfoButton)
+	B.Reskin(frame.ConvertToRaidButton)
+	frame.__auroraRaidSkinned = true
+end
+
+local function reskinSocialRaidInfoElement(element)
+	if element.__auroraRaidInfoSkinned then return end
+
+	B.StripTextures(element)
+	local highlight = element:GetHighlightTexture()
+	if highlight then
+		highlight:SetColorTexture(.24, .56, 1, .2)
+	end
+
+	element.__auroraRaidInfoSkinned = true
+end
+
+local function reskinSocialRaidInfo(frame)
+	if frame.__auroraRaidInfoSkinned then return end
+
+	B.StripTextures(frame)
+	B.SetBD(frame)
+	B.ReskinClose(frame.CloseButton)
+	B.ReskinTrimScroll(frame.ScrollBar)
+	B.Reskin(frame.ExtendButton)
+
+	frame.ScrollBox:RegisterCallback(ScrollBoxListMixin.Event.OnInitializedFrame, function(_, element)
+		reskinSocialRaidInfoElement(element)
+	end, frame.ScrollBox)
+	frame.ScrollBox:ForEachFrame(reskinSocialRaidInfoElement)
+	frame.__auroraRaidInfoSkinned = true
+end
+
 local function reskinSocialTab(tab)
 	if tab.__auroraSocialSkinned then return end
 
@@ -154,11 +191,13 @@ C.themes["Blizzard_SocialUI"] = function()
 
 	local unavailable = frame.BattleNetUnavailableNoticeFrame
 	B.StripTextures(unavailable.Border)
-	B.SetBD(unavailable)
+	local unavailableBG = B.SetBD(unavailable)
+	unavailableBG.ignoreInLayout = true
 
 	local broadcast = frame.BattleNetBroadcastFrame
 	B.StripTextures(broadcast.Border)
-	B.SetBD(broadcast)
+	local broadcastBG = B.SetBD(broadcast)
+	broadcastBG.ignoreInLayout = true
 	B.ReskinInput(broadcast.EditBox)
 	B.Reskin(broadcast.UpdateButton)
 	B.Reskin(broadcast.CancelButton)
@@ -174,7 +213,13 @@ C.themes["Blizzard_SocialUI"] = function()
 	for _, tabData in pairs(frame.tabDefinitions) do
 		if tabData.contentFrame then
 			reskinSocialContent(tabData.contentFrame)
+			if tabData.contentFrame.AllAssistCheckButton then
+				reskinSocialRaidContent(tabData.contentFrame)
+			end
 		end
+	end
+	if frame.RaidInfoFrame then
+		reskinSocialRaidInfo(frame.RaidInfoFrame)
 	end
 
 	hooksecurefunc(frame, "RefreshTabs", reskinSocialTabs)

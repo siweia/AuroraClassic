@@ -71,7 +71,7 @@
 
 ## 2026-08-12 SocialUI／Chat Config 靜態覆蓋
 
-- `FriendsFrame.lua` 新增真實 `Blizzard_SocialUI` theme；主框、Battle.net bar／controls、broadcast／unavailable／ignore side windows、動態 tabs，以及各 content ScrollBox 都按 live lifecycle 處理。tab pool 走 `RefreshTabs` post-hook＋immediate enumerate，card pool 走 `OnInitializedFrame` callback＋immediate `ForEachFrame`。
+- `FriendsFrame.lua` 新增真實 `Blizzard_SocialUI` theme；主框、Battle.net bar／controls、broadcast／unavailable／ignore／RaidInfo side windows、動態 tabs、Raid content 固定 controls，以及各 content ScrollBox 都按 live lifecycle 處理。tab pool 走 `RefreshTabs` post-hook＋immediate enumerate，card／RaidInfo row pool 走 `OnInitializedFrame` callback＋immediate `ForEachFrame`。self-review 後將兩個 ResizeLayout side-window backdrop 標為 `ignoreInLayout`，避免 Aurora child 進入原生 extents。
 - Friends／Recent Allies／Friend Requests／Quick Join／RAF card 只按 frame 結構處理背景、hover／selected 與固定 action buttons；RAF RewardClaiming 與 Friend Requests warning/buttons 也已涵蓋。callback 明確丟棄 `elementData`，不讀 SearchFriends、account、invite 或其他 restricted payload。
 - SocialUI 搜尋／filter 的原生 `OnTextChanged`、`OnHide`、`InitializeFilterBar`、`GenerateFilterMenu` 完全未覆寫；system disabled 時既有 legacy FriendsFrame skin 仍保留。
 - `ChatConfigOtherSettingsAdditionalColors` 已加入既有 outer backdrop strip 清單；內部 swatches 繼續由原生 `ChatConfig_UpdateSwatches` 完成後的 Aurora hook 處理。

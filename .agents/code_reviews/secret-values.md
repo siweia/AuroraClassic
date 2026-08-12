@@ -48,9 +48,10 @@
 - CooldownViewer 已停止解析 aura payload／RGB並保留 Blizzard trusted code 管理的原生 border；Communities 已使用原生完成的 class texture／widget state，不再自行重算 `classID`。完整修正記錄見 `2026-08-12-secret-safe-cooldownviewer-communities.md`。
 - Voice GUID 的 secret 註記在 12.0.7 已存在，不是 12.1 新限制。Blizzard `VoiceActivityNotification` 在 Aurora hook 前已先恢復原生 channel color，因此 restricted 時略過 Aurora class recolor 可使用原生狀態作 fallback，不必保留 pooled 舊 class 色。
 - `C_BattleNet.SearchFriends` 在 live 文件新增 `HasRestrictions=true`、`SecretArguments=AllowedWhenUntainted`。新增的 SocialUI skin 沒有 caller，不 hook 搜尋資料，也不讀或轉送 ScrollBox `elementData`／`AuroraFriendsSearchInfo`；只處理 frame／region。
-- `C_HousingBlueprint.UpdateBlueprintStringFromInput` 是 live 69273 新增 API；若 `inputShareCode` 是 secret，只有未 taint 的呼叫可傳入。新增的 HousingBlueprint theme 不讀、不 trim、不驗證、不保存 share code，也不讀 budget data；只處理固定 widget 與 pooled icon 外觀，原生 ContentSummary 繼續管理 visibility／Layout。
+- `C_HousingBlueprint.UpdateBlueprintStringFromInput` 是 live 69273 新增 API；若 `inputShareCode` 是 secret，只有未 taint 的呼叫可傳入。新增的 HousingBlueprint theme 不讀、不 trim、不驗證、不保存 share code，也不讀 budget data；只在兩個具體 BudgetsContainer instance 的原生 `SetInfo` 完成後枚舉 active frame pool，ContentSummary 繼續管理 visibility／Layout。
 - GuildControl Discord 與 Communities 12.1 diff 也未新增 Aurora gameplay-data consumer；Discord controls 依固定 frame 結構 skin，Communities 則沿用既有 chat／stream frame，沒有讀 `discordInfo`。
-- 上述三項已完成靜態資料流邊界檢查，不表示已在正式服 restricted／secure 場景完成安全認證。
+- Cooldown drag preview 的匿名 singleton 沒有公開 instance accessor；若它在 Aurora theme 前已建立，不能用 `GetChildren()`／`GetNumChildren()` 廣域補抓，因 live 69273 對兩者標記 `SecretReturnsForAspect = Hierarchy`，任意 widget 還可能受 script-object access restriction。現行只 hook 已知 Mixin 的正常延後建立路徑，罕見既有 singleton 外觀由 `/reload` 恢復。
+- 上述新增 UI 項目已完成靜態資料流邊界檢查，不表示已在正式服 restricted／secure 場景完成安全認證。
 
 ## 特別風險
 

@@ -22,6 +22,24 @@ local function reskinBlueprintSummary(summary)
 	summary.__auroraStyled = true
 end
 
+local function reskinBudgetEntries(self)
+	for entry in self.budgetEntryPool:EnumerateActive() do
+		if not entry.__auroraStyled then
+			entry.Icon.bg = B.CreateBDFrame(entry.Icon, .25)
+			entry.__auroraStyled = true
+		end
+	end
+end
+
+local function hookBudgetEntries(container)
+	if not container.__auroraSetInfoHooked then
+		hooksecurefunc(container, "SetInfo", reskinBudgetEntries)
+		container.__auroraSetInfoHooked = true
+	end
+
+	reskinBudgetEntries(container)
+end
+
 C.themes["Blizzard_HousingDashboard"] = function()
 	B.ReskinPortraitFrame(HousingDashboardFrame)
 	B.Reskin(HousingDashboardFrame.HouseInfoContent.HouseFinderButton)
@@ -38,6 +56,7 @@ C.themes["Blizzard_HousingDashboard"] = function()
 	B.ReskinTrimScroll(collection.BlueprintCollection.ScrollBar)
 	B.Reskin(collection.BlueprintDetails.GearDropdown, true)
 	reskinBlueprintSummary(collection.BlueprintDetails.ContentSummary)
+	hookBudgetEntries(collection.BlueprintDetails.ContentSummary.BudgetsContainer)
 
 	local contentFrame = HousingDashboardFrame.HouseInfoContent.ContentFrame
 	local initiatives = contentFrame.InitiativesFrame.InitiativeSetFrame

@@ -27,6 +27,15 @@ local function reskinBudgetEntries(self)
 	end
 end
 
+local function hookBudgetEntries(container)
+	if not container.__auroraSetInfoHooked then
+		hooksecurefunc(container, "SetInfo", reskinBudgetEntries)
+		container.__auroraSetInfoHooked = true
+	end
+
+	reskinBudgetEntries(container)
+end
+
 C.themes["Blizzard_HousingBlueprint"] = function()
 	local frame = HousingBlueprintImportFrame
 	B.StripTextures(frame)
@@ -43,12 +52,5 @@ C.themes["Blizzard_HousingBlueprint"] = function()
 	B.Reskin(validation.ImportButton)
 	reskinGearDropdown(validation.GearDropdown)
 	reskinContentSummary(validation.ContentSummary)
-
-	hooksecurefunc(HousingBlueprintBudgetsContainerMixin, "SetInfo", reskinBudgetEntries)
-	reskinBudgetEntries(validation.ContentSummary.BudgetsContainer)
-
-	if HousingDashboardFrame then
-		local dashboardBudgets = HousingDashboardFrame.CollectionContent.BlueprintDetails.ContentSummary.BudgetsContainer
-		reskinBudgetEntries(dashboardBudgets)
-	end
+	hookBudgetEntries(validation.ContentSummary.BudgetsContainer)
 end

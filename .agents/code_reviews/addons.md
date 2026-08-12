@@ -94,8 +94,8 @@
 ## 2026-08-12 12.1 新 UI 靜態覆蓋
 
 - `Blizzard_HousingDashboard.lua` 已補 Collection scrollbar／details GearDropdown／ContentSummary，以及 Initiatives 兩個 scrollbar、切換按鈕與動態 HouseInfo tabs。tab skin 在 `UpdateTabs` 後冪等執行，保留原生 available／enabled／selected lifecycle。
-- 新增 `Blizzard_HousingBlueprint.lua` 與 AddOns XML Script，使用真實 `Blizzard_HousingBlueprint` LoD key。Import／Validation buttons、兩個 GearDropdown、share-code input 外觀、ContentSummary 與 pooled budget icons 均已涵蓋；不讀 share code／budget data、不 force-show children，也不改 `fixedHeight`、`minimumHeight` 或 MarkDirty。Import root 的 Aurora backdrop 標為 `ignoreInLayout`，不進入 ResizeLayout extents。
-- `Blizzard_CooldownViewer.lua` 已補 GroupBuffFilter scrollbar／section item pools、兩個 alert editor 與 shared dragged-item preview。Group header 在 strip 前保存初始 atlas，避免首次顯示遺失展開箭頭；不讀 aura／alert gameplay payload，正式服 secure drag 待驗證。
+- 新增 `Blizzard_HousingBlueprint.lua` 與 AddOns XML Script，使用真實 `Blizzard_HousingBlueprint` LoD key。Import／Validation buttons、兩個 GearDropdown、share-code input 外觀、ContentSummary 與 pooled budget icons 均已涵蓋；self-review 已將 budget lifecycle 從 mixin table hook 改為 Validation／Dashboard 兩個具體 `BudgetsContainer:SetInfo` instance hook＋immediate scan。不讀 share code／budget data、不 force-show children，也不改 `fixedHeight`、`minimumHeight` 或 MarkDirty。Import root 的 Aurora backdrop 標為 `ignoreInLayout`，不進入 ResizeLayout extents。
+- `Blizzard_CooldownViewer.lua` 已補 GroupBuffFilter scrollbar／section item pools、兩個 alert editor 與 shared dragged-item preview。Group header 在 strip 前保存初始 atlas，避免首次顯示遺失展開箭頭；不讀 aura／alert gameplay payload。drag singleton 正常延後建立時由 Mixin post-hook處理；若它在 Aurora theme 前已存在，Blizzard 沒有公開安全 lookup，刻意不遍歷帶 Hierarchy secret aspect 的 UI tree，需 `/reload` 恢復此外觀 edge case。正式服 secure drag 待驗證。
 - `Blizzard_PVPUI.lua` 已枚舉 live `BonusTrainingGroundButtons` parent array，因此普通與 Arena Training Ground button 共用同一 skin。
-- `Blizzard_GuildControlUI.lua` 已處理固定 Discord server／channel controls，並在 `GuildControlUI_Discord_Update` 後冪等處理動態 linked／unlinked frames；不呼叫或解析 Discord API/data。
+- `Blizzard_GuildControlUI.lua` 已處理固定 Discord server／channel controls，並在全域 `GuildControlUI_Discord_Update` 與非會長載入時已快取的 `GuildControlUI.rankUpdate` 後冪等處理動態 linked／unlinked frames；不呼叫或解析 Discord API/data。
 - Communities live source 沒有對上述 Discord／friend-request diff 新增可獨立 skin 的 frame。此項不新增 runtime code，避免把資料層變更誤當 UI 結構。
