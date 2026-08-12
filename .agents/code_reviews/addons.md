@@ -49,7 +49,7 @@
 - WoWUI live `Blizzard_HousingDashboardInitiatives.lua:177` 本身仍呼叫已移除的 `HousingDashboardFrame.HouseInfoContent.HouseDropdown`，而 XML 只建立 root `HousingDashboardFrame.HouseDropdown`。這是上游 source 的 stale HelpTip anchor，不應複製進 Aurora；正式服測 Initiatives 首次顯示時需把原生錯誤與 Aurora theme 錯誤分開記錄。
 - `Blizzard_Tutorial` key 確實不存在，但其舊 skin 目標屬於仍有效的 `Blizzard_BoostTutorial`。若保留 boosted-character 教學皮膚，需改用真實 key 並按現行 `PortraitFrameTemplate` 重寫；不能把它與 `Blizzard_TalentUI`、`Blizzard_VoidStorageUI` 一起直接退休，也不能只 re-key，因舊 `TitleBg`／root `.portrait` 路徑已失效。
 - `B.SetCurrenciesHook` 藏在 Runeforge 模組仍是架構耦合，但不是「只有現行 XML 執行順序才會存在」的 runtime bug：所有 Script 在 theme closure 執行前已載入。移動／刪除 Runeforge 模組時仍必須同步處理 Azerite caller。
-- CooldownViewer restricted-aura、Communities roster、GMChat deprecated alias、ExpansionLandingPage no-op、MajorFaction dead target 與 delayed theme 清錯 key 都在最後 12.0.7 已存在，不能標成 12.1 新增；其中前兩條 secret data-flow 已完成靜態修正。
+- CooldownViewer restricted-aura、Communities roster、GMChat deprecated alias、ExpansionLandingPage no-op、MajorFaction dead target 與 delayed theme 清錯 key 都在最後 12.0.7 已存在，不能標成 12.1 新增；前兩條 secret data-flow、GMChat hook 與 delayed theme cleanup 現已完成靜態修正。
 - 12.1 Communities 新增 Discord stream／`discordInfo`／`SendTitleFriendRequest` 等 surface；補 skin 時仍只使用公開 frame/region state，不把新 coverage 變成另一條 member payload 解析路徑。
 
 ## 2026-08-12 blocker 修正
@@ -66,3 +66,11 @@
 - `Blizzard_Communities.lua` roster 已移除 `GetMemberInfo()`／`classID`／class table lookup，只同步 Blizzard 原生 `Class` widget；`IsShown()` 先經 `B:NotSecretValue`，secret shown state 時隱藏可選 Aurora 外框。
 - ApplicantList 的 classID post-hook 雖非目前已確認 secret source，但原生 initializer 已設定 texcoord，因此一併刪除重複資料解析，只在 pooled button 首次 skin 時建立外框。
 - 詳細資料流、版本邊界、實作取捨與正式服測試矩陣見 `2026-08-12-secret-safe-cooldownviewer-communities.md`。
+
+## 2026-08-12 GMChat lifecycle 修正
+
+- `Blizzard_GMChatUI.lua` 已停止 hook 只有 deprecated alias 的 `ChatEdit_ActivateChat`／`ChatEdit_DeactivateChat`，改為 live canonical `ChatFrameUtil.ActivateChat`／`DeactivateChat` table hooks。
+- 兩個 callback 都精確比對 `editBox == GMChatFrameEditBox`，不再依一般 chat editbox 也可能具有的資料欄位判斷。
+- hook 安裝後會立即比對 `ChatFrameUtil.GetActiveWindow()`，同步 Blizzard addon 已載入且 GM editbox 已 active 的時序；不必等下一次 focus 切換才修正背景。
+- WoWUI live 12.1.0.69273 的兩個方法都是單一 `editBox` 參數；GM OnLoad、focus gained／lost 與切換 active chat 都走 canonical table method。完整 `Blizzard_GMChatUI` ADDON_LOADED 時 ChatFrameUtil 已存在，不需 nil guard 或 XML 變更。
+- 尚待正式服以 GM 對話實際驗證 editbox focus、失焦、切換其他 chat 與關閉重開時 Aurora 背景 show／hide。

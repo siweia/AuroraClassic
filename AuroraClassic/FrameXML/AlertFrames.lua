@@ -25,7 +25,7 @@ local function fixParentbg(anim)
 end
 
 local function fixAnim(frame)
-	if frame.hooked then return end
+	if frame.__auroraAnimHooked then return end
 
 	frame:HookScript("OnEnter", fixBg)
 	frame:HookScript("OnShow", fixBg)
@@ -40,7 +40,7 @@ local function fixAnim(frame)
 		frame.Arrows.ArrowsAnim:HookScript("OnFinished", fixParentbg)
 	end
 
-	frame.hookded = true
+	frame.__auroraAnimHooked = true
 end
 
 tinsert(C.defaultThemes, function()

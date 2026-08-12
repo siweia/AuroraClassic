@@ -36,8 +36,15 @@
 ## 2026-08-11 全量審查結論
 
 - 已讀完整 `Core.lua`、`Init.lua` 與全部 caller；詳見 `2026-08-11-full-review-12.1-migration.md`。
-- `Init.lua:67-70` 的 delayed `ADDON_LOADED` 路徑執行 `C.themes[addon]` 後誤清 `C.themes[addonName]`，theme registration 會殘留。
-- `Core.lua:162-174` 的 `B:CreateSD()` 遺失 `size, override` 參數；Garrison/VenturePlan caller 在 `Shadow=false` 時可解參考 nil shadow。
+- 全量審查時確認 `Init.lua:67-70` 的 delayed `ADDON_LOADED` 路徑誤清 theme registration；已於下方 2026-08-12 修正。
+- 全量審查時確認 `Core.lua:162-174` 的 `B:CreateSD()` 遺失 `size, override` 參數；已於下方 2026-08-12 恢復契約。
 - `B.ReplaceIconString` 與 `B.SetCurrenciesHook` 分別藏在 AnimaDiversion、Runeforge 模組，形成跨模組與 XML 載入順序耦合。
 - 12.1 對 ScriptBindings、EventRegistrations、parent change、layout inheritance 與 texture parent 加入新限制；共用 helper 必須依具體 protected frame 正式服驗證，不把所有 caller預判為失效。
 - `BackdropTemplateMixin:SetupTextureCoordinates` 的 secret-width early return 與 icon border RGB 比較仍列為待驗證安全資料流。
+
+## 2026-08-12 核心缺陷修正
+
+- `Init.lua` 的 delayed `ADDON_LOADED` 路徑已在執行 `C.themes[addon]` 後清除同一個 `C.themes[addon]`；不再誤清固定的 AuroraClassic addon key。initial scan 的 loaded／finished 雙回傳判斷維持不變。
+- `B:CreateSD(size, override)` 已恢復原契約。重複呼叫會回傳既有 `self.__shadow`；沒有既有 shadow 時，只有 `AuroraClassicDB.Shadow` 開啟或 `override=true` 才建立。
+- 全專案 caller 已核對：`B.SetBD` 與 `B.ReskinIcon` 沿用預設設定；VenturePlan 路徑的 `(portrait, 5, true)` 可在 `Shadow=false` 時建立並回傳 shadow，不再讓下一行解參考 nil。
+- 尚待正式服驗證 delayed LoD theme 兩種時序、重複 helper 呼叫，以及 `Shadow=false` 的 VenturePlan follower／troop 顯示。

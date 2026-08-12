@@ -35,7 +35,13 @@
 ## 2026-08-11 全量審查結論
 
 - 已逐項搜尋所有 `C.options` runtime caller、GUI 控制項、locale 與 SavedVariables 清理路徑。
-- `ChatBubbles` 在 Config、GUI、Locales 都存在，但沒有任何 `AuroraClassicDB.ChatBubbles` runtime 讀取；此選項即使 reload 也無效。
+- 全量審查時確認 `ChatBubbles` 在 Config、GUI、Locales 都存在但沒有 runtime 讀取；已於下方 2026-08-12 接上 reload-based gate。
 - `DB.isNewPatch` 只有 `Config.lua:25` 的定義，沒有 caller，屬 dead compatibility state。
 - Alpha 的即時更新與 Cancel／Default 回復路徑成立；其他外觀選項依現行 GUI 文案預期 reload，不列為即時 refresh bug。
 - 工作樹已更新為 `Interface: 120100`；六個 12.1 結構性硬斷點已完成靜態修正，正式服 UI 與冷登入驗證仍待完成。
+
+## 2026-08-12 ChatBubbles 選項修正
+
+- `AuroraClassicDB.ChatBubbles` 已有 runtime caller：`FrameXML/ChatBubbles.lua` 的 default theme callback 會在建立監聽 frame前檢查設定。
+- 本選項採與既有非即時外觀設定相同的 reload-based 行為。false＋reload 後保留 Blizzard 原生 bubble；true＋reload 後才註冊 say／yell／party 事件並套 Aurora skin。
+- SavedVariables 預設合併發生在 default themes 執行前，因此新安裝與既有設定都能在正確時機生效。正式服 false／true 兩向切換仍待驗證。

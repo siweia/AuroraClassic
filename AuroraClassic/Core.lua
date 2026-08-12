@@ -159,9 +159,9 @@ do
 	end
 
 	local shadowBackdrop = {edgeFile = DB.glowTex}
-	function B:CreateSD()
-		if not AuroraClassicDB.Shadow then return end
-		if self.__shadow then return end
+	function B:CreateSD(size, override)
+		if self.__shadow then return self.__shadow end
+		if not override and not AuroraClassicDB.Shadow then return end
 
 		local frame = self
 		if self:IsObjectType("Texture") then frame = self:GetParent() end

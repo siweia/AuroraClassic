@@ -31,7 +31,7 @@
 
 - 已逐檔閱讀 58/58 Lua；`FrameXML.xml` 的 58 個 Script 與實際檔案完全相符。
 - 12.1 確定硬斷點：`ChatFrame.lua` 的 `BattleTagInviteFrame` 已移除；`Fonts.lua` 的固定 RaidWarning slots／`RaidBossEmoteFrame` 已改成動態 pool。
-- 確定既有問題：`AlertFrames.lua` 的 `hooked`／`hookded` marker typo 令 pooled alerts 重複掛 hook。
+- 全量審查時確認 `AlertFrames.lua` 的 `hooked`／`hookded` marker typo 令 pooled alerts 重複掛 hook；已於下方 2026-08-12 修正。
 - 確定覆蓋缺口：12.1 SocialUI、Chat Config Additional Colors，以及既有 `InitiativeTasksObjectiveTracker`。
 - 全量審查時確認 Voice notification GUID/class 是 chat messaging lockdown secret 風險；本輪 blocker 修正已加靜態 guard，正式服驗證仍待完成。動態 HookScript 另受 12.1 ScriptBindings 新契約影響。
 - ColorPicker、Splash、UIWidgets 的搬移目前保留 Aurora 所用結構；EquipmentFlyout width 疑點已由原生 lifecycle 排除，ObjectiveTracker 則確認 `Bar.Icon` 是 optional 且 Aurora guard 正確。
@@ -56,3 +56,9 @@
 - `Fonts.lua` 已移除固定 RaidWarning slots 與 `RaidBossEmoteFrame` global，改在 `RaidWarningFrame` 與 `CinematicFrame.BossEmoteFrame` 的 `AcquireString` 後枚舉 active `fontStringPool`。
 - 每個 pool FontString 只初始化一次 Aurora font／outline／shadow，FontScale 使用 live 公開 `FontString:SetTextScale()`；不讀寫 FadingFrame 的 `textScaling*`、message order 或其他內部欄位。pool reset 不清 marker 或 text scale，因此 reuse 不會累乘。
 - `FrameXML.xml` 無需修改；舊符號精確搜尋無殘留且 `git diff --check` 通過。尚待正式服驗證 ChatFrame theme 後半、Battle.net 邀請、`/rw`、一般／cinematic boss emote、pool reuse 與 `FontScale != 1`。
+
+## 2026-08-12 核心缺陷修正
+
+- `AlertFrames.lua` 的 `hooked`／`hookded` typo 已改成一致且專用的 `frame.__auroraAnimHooked`。LootWon／MoneyWon setup、`AddAlertFrame` 與 frame pool reuse 都會共用同一 marker，不再重複掛 OnEnter／OnShow／animation hooks。
+- `ChatBubbles.lua` 已在 default theme callback 最前面讀取 `AuroraClassicDB.ChatBubbles`。設定為 false 並 reload 時，不會建立 bubbleHook、註冊聊天事件或安裝 OnEvent／OnUpdate；true 時維持原 skin lifecycle。
+- 兩檔仍由既有 `FrameXML.xml` 載入，不需修改 XML。尚待正式服驗證 alert release／reacquire，以及 ChatBubbles false／true 各一次 reload 後的 say／yell／party bubble。

@@ -20,12 +20,13 @@ C.themes["Blizzard_GMChatUI"] = function()
 
 	local bg = B.SetBD(eb)
 	bg:Hide()
-	hooksecurefunc("ChatEdit_DeactivateChat", function(editBox)
-		if editBox.isGM then bg:Hide() end
+	hooksecurefunc(ChatFrameUtil, "DeactivateChat", function(editBox)
+		if editBox == GMChatFrameEditBox then bg:Hide() end
 	end)
-	hooksecurefunc("ChatEdit_ActivateChat", function(editBox)
-		if editBox.isGM then bg:Show() end
+	hooksecurefunc(ChatFrameUtil, "ActivateChat", function(editBox)
+		if editBox == GMChatFrameEditBox then bg:Show() end
 	end)
+	bg:SetShown(ChatFrameUtil.GetActiveWindow() == GMChatFrameEditBox)
 
 	local lang = _G["GMChatFrameEditBoxLanguage"]
 	lang:GetRegions():SetAlpha(0)
