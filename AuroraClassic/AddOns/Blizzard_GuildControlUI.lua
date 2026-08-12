@@ -19,6 +19,21 @@ local function updateGuildRanks()
 	end
 end
 
+local function reskinDiscordFrames()
+	local linkedFrame = DiscordLinkFrame
+	if linkedFrame and not linkedFrame.__auroraStyled then
+		B.ReskinCheck(linkedFrame.SeparateStream.Button)
+		B.Reskin(linkedFrame.button)
+		linkedFrame.__auroraStyled = true
+	end
+
+	local unlinkedFrame = DiscordUnlinkFrame
+	if unlinkedFrame and not unlinkedFrame.__auroraStyled then
+		B.Reskin(unlinkedFrame.button)
+		unlinkedFrame.__auroraStyled = true
+	end
+end
+
 C.themes["Blizzard_GuildControlUI"] = function()
 	local r, g, b = DB.r, DB.g, DB.b
 
@@ -97,4 +112,13 @@ C.themes["Blizzard_GuildControlUI"] = function()
 	B.ReskinDropDown(GuildControlUIRankSettingsFrameRankDropdown)
 	B.ReskinDropDown(GuildControlUIRankBankFrameRankDropdown)
 	B.ReskinInput(GuildControlUIRankSettingsFrameGoldBox, 20)
+
+	-- Discord settings
+	local discordFrame = GuildControlUI.discordFrame
+	B.ReskinDropDown(discordFrame.serverDropdown)
+	B.ReskinDropDown(discordFrame.channelDropdown)
+	B.Reskin(discordFrame.channelButton)
+
+	hooksecurefunc("GuildControlUI_Discord_Update", reskinDiscordFrames)
+	reskinDiscordFrames()
 end

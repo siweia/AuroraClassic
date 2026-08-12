@@ -32,7 +32,7 @@
 - 已逐檔閱讀 58/58 Lua；`FrameXML.xml` 的 58 個 Script 與實際檔案完全相符。
 - 12.1 確定硬斷點：`ChatFrame.lua` 的 `BattleTagInviteFrame` 已移除；`Fonts.lua` 的固定 RaidWarning slots／`RaidBossEmoteFrame` 已改成動態 pool。
 - 全量審查時確認 `AlertFrames.lua` 的 `hooked`／`hookded` marker typo 令 pooled alerts 重複掛 hook；已於下方 2026-08-12 修正。
-- 全量審查當時確認的覆蓋缺口：12.1 SocialUI、Chat Config Additional Colors，以及既有 `InitiativeTasksObjectiveTracker`；Initiative tracker 已於 2026-08-12 完成下述靜態修正。
+- 全量審查當時確認的覆蓋缺口：12.1 SocialUI、Chat Config Additional Colors，以及既有 `InitiativeTasksObjectiveTracker`；三者已於 2026-08-12 完成下述靜態修正。
 - 全量審查時確認 Voice notification GUID/class 是 chat messaging lockdown secret 風險；本輪 blocker 修正已加靜態 guard，正式服驗證仍待完成。動態 HookScript 另受 12.1 ScriptBindings 新契約影響。
 - ColorPicker、Splash、UIWidgets 的搬移目前保留 Aurora 所用結構；EquipmentFlyout width 疑點已由原生 lifecycle 排除，ObjectiveTracker 則確認 `Bar.Icon` 是 optional 且 Aurora guard 正確。
 - 尚未進行正式服遊戲內全模組測試；完整矩陣見總報告。
@@ -41,9 +41,9 @@
 
 - 以 WoWUI live `b3733541`（12.1.0.69273）重核後，`BattleTagInviteFrame` 移除及 RaidWarning 動態 `fontStringPool` 兩個 P1 均仍成立；`RaidBossEmoteFrame` 公開 global 仍不存在。
 - 最後 PTR → live 沒有修改上述兩個 blocker 的 source，故沒有撤回或降級。
-- 12.1 的好友邀請替代物件是 `Blizzard_AddFriend/AddFriendTemplates.xml` 的 `BattleNetInviteFrame`；既有 `AddFriendFrame` global 仍保留，且 Aurora `FriendsFrame.lua:149-160` 已有 skin。migration 應新增 BattleNetInvite skin、回歸既有 AddFriend，不把兩者都誤寫成全新功能。
-- SocialUI 正式版在 `Blizzard_SocialUIShared/SocialUISharedTemplates.xml`／`.lua` 改為搜尋文字每次 `OnTextChanged` 即時 refresh、`OnHide` 清除文字，filter mixin 為 `SocialUISearchFilterDropdownMixin`。`SocialUIFrame` 的 tabs/content 又由 pool 動態 ReleaseAll/Acquire；新增 skin 必須冪等處理 pool，且不得覆寫 `OnTextChanged`、`OnHide`、`InitializeFilterBar` 或 `GenerateFilterMenu`。需測逐字輸入、filter、BN 斷線、header collapse 與關閉重開。
-- ChatConfig Additional Colors 的現有 swatches 已會進 Aurora 通用 swatch hook；缺口精確是 `ChatConfigOtherSettingsAdditionalColors` 外層原生 backdrop box art。
+- 12.1 的好友邀請替代物件是 `Blizzard_AddFriend/AddFriendTemplates.xml` 的 `BattleNetInviteFrame`；既有 `AddFriendFrame` global 仍保留且 Aurora 已有 skin。BattleNetInvite 與獨立 SocialUI skin 都已新增；既有 AddFriend 正式服回歸仍待完成，不能把三者誤寫成同一個全新功能。
+- SocialUI 正式版在 `Blizzard_SocialUIShared/SocialUISharedTemplates.xml`／`.lua` 改為搜尋文字每次 `OnTextChanged` 即時 refresh、`OnHide` 清除文字，filter mixin 為 `SocialUISearchFilterDropdownMixin`。`SocialUIFrame` 的 tabs/content 又由 pool 動態 ReleaseAll/Acquire；現行 skin 已冪等處理 pool，且未覆寫 `OnTextChanged`、`OnHide`、`InitializeFilterBar` 或 `GenerateFilterMenu`。逐字輸入、filter、BN 斷線、header collapse 與關閉重開仍待正式服驗證。
+- ChatConfig Additional Colors 的現有 swatches 已會進 Aurora 通用 swatch hook；`ChatConfigOtherSettingsAdditionalColors` 外層原生 backdrop box art 也已納入 strip。
 - `InitiativeTasksObjectiveTracker` 與 voice GUID secret 註記在 12.0.7 已存在，分別屬既有覆蓋缺口與既有 12.x secret 契約，不是 12.1 新增。兩項現均已完成靜態修正；Initiative tracker 目前只顯示文字 objective，progress/timer hook 是沿用 base mixin 的完整 lifecycle／未來相容。
 - ObjectiveTracker 原生 `GetProgressBar` 保證的是 `progressBar.Bar`；`Bar.Icon` 仍是 optional，Aurora 現有 `if icon` 防護正確。舊文件中「保證 `bar.Icon`」的描述已更正。
 - 12.1 `HookScript` 雖回傳 success bool，但 `RequiresAssignableScript` 的 failure mode 是 Error；實作不能只靠檢查回傳值，仍須在正式服對精確 frame／forbidden aspect 驗證。
@@ -68,3 +68,11 @@
 - `ObjectiveTracker.lua` 已將 live 固定 global `InitiativeTasksObjectiveTracker` 加入既有 module list，沿用 header、`AddBlock`、`GetProgressBar` 與 `GetTimerBar` 的共用 skin lifecycle。
 - live `InitiativeTasksObjectiveTracker` 繼承 `ObjectiveTrackerModuleTemplate`；`AddTask()` 最終會由 base `LayoutBlock()` 走到 `AddBlock()`。目前模組只建立文字 objective，但 progress／timer 仍是同一 base mixin 的有效方法。
 - 新增程式不讀 task info、requirements 或 Neighborhood Initiative gameplay data，也不新增 `HookScript`／protected layout 操作。`FrameXML.xml` 無需修改；尚待正式服測 tracker 建立、刷新、收合與 block reuse。
+
+## 2026-08-12 SocialUI／Chat Config 靜態覆蓋
+
+- `FriendsFrame.lua` 新增真實 `Blizzard_SocialUI` theme；主框、Battle.net bar／controls、broadcast／unavailable／ignore side windows、動態 tabs，以及各 content ScrollBox 都按 live lifecycle 處理。tab pool 走 `RefreshTabs` post-hook＋immediate enumerate，card pool 走 `OnInitializedFrame` callback＋immediate `ForEachFrame`。
+- Friends／Recent Allies／Friend Requests／Quick Join／RAF card 只按 frame 結構處理背景、hover／selected 與固定 action buttons；RAF RewardClaiming 與 Friend Requests warning/buttons 也已涵蓋。callback 明確丟棄 `elementData`，不讀 SearchFriends、account、invite 或其他 restricted payload。
+- SocialUI 搜尋／filter 的原生 `OnTextChanged`、`OnHide`、`InitializeFilterBar`、`GenerateFilterMenu` 完全未覆寫；system disabled 時既有 legacy FriendsFrame skin 仍保留。
+- `ChatConfigOtherSettingsAdditionalColors` 已加入既有 outer backdrop strip 清單；內部 swatches 繼續由原生 `ChatConfig_UpdateSwatches` 完成後的 Aurora hook 處理。
+- 靜態載入、callback signature 與 pool reuse 已核對；SocialUI enabled／disabled、逐字搜尋、filter、BN disconnect、header collapse、關閉重開與 legacy AddFriend 回歸仍待正式服驗證。

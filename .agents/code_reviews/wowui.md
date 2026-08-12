@@ -26,7 +26,7 @@ API、Mixin、模板、全域名稱、LoadOnDemand addon 名稱與載入順序�
 - `b883b4d1`（PTR 69189）→ `b3733541`（live 69273）共 16 個 tracked 檔有差異（14 個 code/API，另含 `.gitignore` 與 `No code changes.txt`）；六個 Aurora release blocker 所在檔案沒有在這段被撤回。
 - SocialUI 搜尋改為 `OnTextChanged` 即時 refresh，隱藏時清除文字；filter dropdown mixin 改為 `SocialUISearchFilterDropdownMixin`。新增 skin 只能處理外觀，不可覆寫這些 lifecycle。
 - HousingBlueprint 新增 `C_HousingBlueprint.UpdateBlueprintStringFromInput`，並調整 loading／error／empty content visibility、fixed/minimum height 與兩個 GearDropdown 的 enabled 狀態。此 addon 是獨立 LoD，應有自己的 theme key，不依附 HousingDashboard theme。
-- `C_BattleNet.SearchFriends` 在 live 文件新增 `HasRestrictions=true` 且 `SecretArguments=AllowedWhenUntainted`；Aurora 目前沒有 caller，未來 SocialUI skin 不應解析或重送搜尋 payload。
+- `C_BattleNet.SearchFriends` 在 live 文件新增 `HasRestrictions=true` 且 `SecretArguments=AllowedWhenUntainted`；Aurora 沒有 caller，現行 SocialUI skin 也不解析或重送搜尋 payload。
 - QueueStatus 新增 `LE_LFG_CATEGORY_LAIR` 顯示名稱，但 Aurora 只把 `QueueStatusFrame` 納入 tooltip backdrop 清單，沒有讀 category，故靜態上不需 migration。
 
 ## 查證路線

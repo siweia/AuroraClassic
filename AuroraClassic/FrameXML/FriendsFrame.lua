@@ -13,6 +13,174 @@ local function replaceInviteTex(self, atlas)
 	end
 end
 
+local function keepSocialCardBackground(texture)
+	texture:SetColorTexture(0, 0, 0, .25)
+end
+
+local function reskinSocialScrollElement(element)
+	if element.__auroraSocialSkinned then return end
+
+	local background = element.Background
+	if background then
+		keepSocialCardBackground(background)
+		hooksecurefunc(background, "SetAtlas", keepSocialCardBackground)
+	end
+
+	local normal = element.GetNormalTexture and element:GetNormalTexture()
+	if normal then
+		normal:SetColorTexture(0, 0, 0, .25)
+	end
+
+	local highlight = element.GetHighlightTexture and element:GetHighlightTexture()
+	if highlight then
+		highlight:SetColorTexture(.24, .56, 1, .2)
+	end
+	if element.Highlight then
+		element.Highlight:SetColorTexture(.24, .56, 1, .2)
+	end
+	if element.Selected then
+		element.Selected:SetColorTexture(.24, .56, 1, .35)
+	end
+
+	if element.AcceptButton then
+		B.Reskin(element.AcceptButton)
+	end
+	if element.DeclineButton then
+		local decline = element.DeclineButton
+		decline:SetNormalTexture(DB.closeTex)
+		decline:GetNormalTexture():SetVertexColor(1, 0, 0)
+		decline:SetHighlightTexture(DB.closeTex)
+		decline:GetHighlightTexture():SetVertexColor(1, .2, .2)
+	end
+
+	local partyButton = element.PartyButton
+	if partyButton and partyButton.ActionIcon then
+		B.Reskin(partyButton, true)
+	end
+	local summonButton = element.RAFSummonButton
+	if summonButton and summonButton.ActionIcon then
+		B.Reskin(summonButton, true)
+	end
+
+	element.__auroraSocialSkinned = true
+end
+
+local function reskinSocialScrollBox(scrollBox)
+	if scrollBox.__auroraSocialSkinCallback then return end
+
+	scrollBox:RegisterCallback(ScrollBoxListMixin.Event.OnInitializedFrame, function(_, element)
+		reskinSocialScrollElement(element)
+	end, scrollBox)
+	scrollBox:ForEachFrame(reskinSocialScrollElement)
+	scrollBox.__auroraSocialSkinCallback = true
+end
+
+local function reskinSocialContent(frame)
+	if frame.__auroraSocialSkinned then return end
+
+	local filterBar = frame.FilterBar
+	if filterBar then
+		B.ReskinInput(filterBar.SearchBar)
+		B.ReskinDropDown(filterBar.SearchFilterDropdown)
+	end
+
+	if frame.TopDivider then
+		frame.TopDivider:SetColorTexture(1, 1, 1, .25)
+	end
+	if frame.BottomDivider then
+		frame.BottomDivider:SetColorTexture(1, 1, 1, .25)
+	end
+	if frame.ActionButton then
+		B.Reskin(frame.ActionButton)
+	end
+	if frame.ScrollBar then
+		B.ReskinTrimScroll(frame.ScrollBar)
+	end
+	if frame.ScrollBox then
+		reskinSocialScrollBox(frame.ScrollBox)
+	end
+
+	local warning = frame.RealIDWarning
+	if warning then
+		B.Reskin(warning.ContinueButton)
+		B.ReskinTrimScroll(warning.ScrollBar)
+	end
+	if frame.NoRecruitsScrollBar then
+		B.ReskinTrimScroll(frame.NoRecruitsScrollBar)
+	end
+	if frame.RewardClaiming then
+		B.StripTextures(frame.RewardClaiming)
+		B.Reskin(frame.RewardClaiming.ClaimOrViewRewardButton)
+	end
+
+	frame.__auroraSocialSkinned = true
+end
+
+local function reskinSocialTab(tab)
+	if tab.__auroraSocialSkinned then return end
+
+	tab.Background:SetColorTexture(0, 0, 0, .5)
+	tab.Background:SetAllPoints()
+	tab.SelectedTexture:SetColorTexture(.24, .56, 1, .35)
+	tab.SelectedTexture:SetAllPoints()
+	tab.HighlightTexture:SetColorTexture(.24, .56, 1, .2)
+	tab.HighlightTexture:SetAllPoints()
+	tab.TabGlow:SetColorTexture(.24, .56, 1, .5)
+	tab.TabGlow:SetAllPoints()
+
+	tab.__auroraSocialSkinned = true
+end
+
+local function reskinSocialTabs(frame)
+	for tab in frame:EnumerateTabs() do
+		reskinSocialTab(tab)
+	end
+end
+
+C.themes["Blizzard_SocialUI"] = function()
+	local frame = SocialUIFrame
+	B.ReskinPortraitFrame(frame)
+
+	local battleNetBar = frame.BattleNetBar
+	battleNetBar.Background:SetAlpha(0)
+	local barBG = B.CreateBDFrame(battleNetBar, .25)
+	barBG:SetPoint("TOPLEFT", 2, -4)
+	barBG:SetPoint("BOTTOMRIGHT", -2, 4)
+
+	local controls = battleNetBar.ControlsContainer
+	controls.BattleNetBackground:SetAlpha(0)
+	B.ReskinDropDown(controls.OnlineStatusDropdown)
+	B.Reskin(controls.BattleNetMenuButton)
+
+	local unavailable = frame.BattleNetUnavailableNoticeFrame
+	B.StripTextures(unavailable.Border)
+	B.SetBD(unavailable)
+
+	local broadcast = frame.BattleNetBroadcastFrame
+	B.StripTextures(broadcast.Border)
+	B.SetBD(broadcast)
+	B.ReskinInput(broadcast.EditBox)
+	B.Reskin(broadcast.UpdateButton)
+	B.Reskin(broadcast.CancelButton)
+
+	local ignoreList = frame.IgnoreListFrame
+	B.ReskinPortraitFrame(ignoreList)
+	B.StripTextures(ignoreList.Inset)
+	B.Reskin(ignoreList.BlockButton)
+	B.Reskin(ignoreList.UnblockButton)
+	B.ReskinTrimScroll(ignoreList.ScrollBar)
+	reskinSocialScrollBox(ignoreList.ScrollBox)
+
+	for _, tabData in pairs(frame.tabDefinitions) do
+		if tabData.contentFrame then
+			reskinSocialContent(tabData.contentFrame)
+		end
+	end
+
+	hooksecurefunc(frame, "RefreshTabs", reskinSocialTabs)
+	reskinSocialTabs(frame)
+end
+
 local function reskinFriendButton(button)
 	if not button.styled then
 		local gameIcon = button.gameIcon

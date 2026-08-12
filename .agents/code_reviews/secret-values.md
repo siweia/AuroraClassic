@@ -47,9 +47,10 @@
 - Communities `GetMemberInfo` 的 chat-lockdown secret 契約及 CooldownViewer `GetAuraDispelTypeColor` 的 restricted-aura／curve secret 契約在 12.0.7 已存在，因此兩者不是 12.1 才出現的資料流；12.1 對 dispel color API 另新增 failure mode 為 error 的 `RequiresUnitAuraAccess` 前置條件，新增的是呼叫資格風險，仍須以 live restricted aura 場景重測。
 - CooldownViewer 已停止解析 aura payload／RGB並保留 Blizzard trusted code 管理的原生 border；Communities 已使用原生完成的 class texture／widget state，不再自行重算 `classID`。完整修正記錄見 `2026-08-12-secret-safe-cooldownviewer-communities.md`。
 - Voice GUID 的 secret 註記在 12.0.7 已存在，不是 12.1 新限制。Blizzard `VoiceActivityNotification` 在 Aurora hook 前已先恢復原生 channel color，因此 restricted 時略過 Aurora class recolor 可使用原生狀態作 fallback，不必保留 pooled 舊 class 色。
-- `C_BattleNet.SearchFriends` 在 live 文件新增 `HasRestrictions=true`、`SecretArguments=AllowedWhenUntainted`。Aurora 目前沒有 caller；未來 SocialUI skin 只處理 frame/region，不 hook 搜尋資料、不自行呼叫或轉送 `AuroraFriendsSearchInfo`。
-- `C_HousingBlueprint.UpdateBlueprintStringFromInput` 是 live 69273 新增 API；若 `inputShareCode` 是 secret，只有未 taint 的呼叫可傳入。Aurora 目前沒有 HousingBlueprint runtime 模組；新增 skin 不讀、不 trim、不驗證、不保存 share code，只處理公開 widget 外觀與 enabled/shown state。
-- 上述兩項是未來實作邊界，不表示目前 Aurora 已存在新的 secret data-flow bug。
+- `C_BattleNet.SearchFriends` 在 live 文件新增 `HasRestrictions=true`、`SecretArguments=AllowedWhenUntainted`。新增的 SocialUI skin 沒有 caller，不 hook 搜尋資料，也不讀或轉送 ScrollBox `elementData`／`AuroraFriendsSearchInfo`；只處理 frame／region。
+- `C_HousingBlueprint.UpdateBlueprintStringFromInput` 是 live 69273 新增 API；若 `inputShareCode` 是 secret，只有未 taint 的呼叫可傳入。新增的 HousingBlueprint theme 不讀、不 trim、不驗證、不保存 share code，也不讀 budget data；只處理固定 widget 與 pooled icon 外觀，原生 ContentSummary 繼續管理 visibility／Layout。
+- GuildControl Discord 與 Communities 12.1 diff 也未新增 Aurora gameplay-data consumer；Discord controls 依固定 frame 結構 skin，Communities 則沿用既有 chat／stream frame，沒有讀 `discordInfo`。
+- 上述三項已完成靜態資料流邊界檢查，不表示已在正式服 restricted／secure 場景完成安全認證。
 
 ## 特別風險
 

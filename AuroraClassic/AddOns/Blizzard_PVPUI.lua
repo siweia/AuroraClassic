@@ -248,22 +248,18 @@ C.themes["Blizzard_PVPUI"] = function()
 		B.StripTextures(TrainingGroundsFrame.BonusTrainingGroundList)
 		TrainingGroundsFrame.BonusTrainingGroundList.ShadowOverlay:Hide()
 
-		local names = {"RandomTrainingGroundButton"}
-		for _, name in pairs(names) do
-			local bu = TrainingGroundsFrame.BonusTrainingGroundList[name]
-			if bu then
-				B.Reskin(bu, true)
-				local reward = bu.Reward
-				if reward then
-					reward.Border:Hide()
-					reward.CircleMask:Hide()
-					reward.Icon.bg = B.ReskinIcon(reward.Icon)
-				end
-
-				bu.SelectedTexture:SetDrawLayer("BACKGROUND")
-				bu.SelectedTexture:SetColorTexture(r, g, b, .25)
-				bu.SelectedTexture:SetInside(bu.__bg)
+		for _, bu in ipairs(TrainingGroundsFrame.BonusTrainingGroundList.BonusTrainingGroundButtons) do
+			B.Reskin(bu, true)
+			local reward = bu.Reward
+			if reward then
+				reward.Border:Hide()
+				reward.CircleMask:Hide()
+				reward.Icon.bg = B.ReskinIcon(reward.Icon)
 			end
+
+			bu.SelectedTexture:SetDrawLayer("BACKGROUND")
+			bu.SelectedTexture:SetColorTexture(r, g, b, .25)
+			bu.SelectedTexture:SetInside(bu.__bg)
 		end
 	end
 end
