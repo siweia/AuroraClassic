@@ -29,11 +29,10 @@
 
 ## 2026-08-11 全量審查結論
 
-- 已逐檔閱讀 63/63 Lua；`AddOns.xml` 的 63 個 Script 與實際檔案完全相符。
-- 79 個 AddOns theme key 已逐項核對。MAINLINE 不存在：`Blizzard_DelvesDashboardUI`、`Blizzard_TalentUI`、`Blizzard_Tutorial`、`Blizzard_VoidStorageUI`。
+- 初次全量 review 已閱讀當時的 63/63 Lua 與 79 個 theme key。2026-08-12 退休三個 dead module 後，當前 `AddOns.xml` 為 60 個 Script／60 個 Lua、75 個 theme key；唯一仍以不存在 MAINLINE addon key 註冊的是待決策的 `Blizzard_Tutorial`。
 - 12.1 確定硬斷點：Achievement HeaderDetails/Filters、Delves CompanionSlots、Housing root HouseDropdown、Weekly Rewards ConcessionsFrame。
 - Weekly Rewards 的 `WeeklyRewardsFrameNameFrame` 是另一個既有確定錯誤。
-- 全量審查當時確認的覆蓋缺口／失效：PVP 新 Arena button 與 CategoryButton5、PlayerChoice BorderOverlay、NewPlayer 舊 global、Transmog PreviewedWeaponToggle、ExpansionLandingPage Dragonriding target、MajorFactionRenown dead target。截至 2026-08-12，除 Arena button 與 MajorFaction dead module 外，其餘項目已完成下述靜態修正。
+- 全量審查當時確認的覆蓋缺口／失效：PVP 新 Arena button 與 CategoryButton5、PlayerChoice BorderOverlay、NewPlayer 舊 global、Transmog PreviewedWeaponToggle、ExpansionLandingPage Dragonriding target、MajorFactionRenown dead target。截至 2026-08-12，除 Arena button 外，其餘項目均已修正或退休。
 - Communities roster 與 CooldownViewer dispel border 的兩條 secret data-flow 已完成靜態修正；正式服 restricted 場景仍待驗證，Achievement／Auction／Raid 等 secure 路徑與大量 Bootstrap addon 也仍需兩種載入順序及戰鬥內實測。
 - 主要 pool／ScrollBox lifecycle 已逐檔核對；除已列項外，未確認另一個必然的 reuse error。
 
@@ -47,9 +46,9 @@
 - 正式版 HousingBlueprint 的 import input／validation 各有一個 `GearDropdown`，ContentSummary 會在 loading／error／empty/content 狀態間改 `fixedHeight`、`minimumHeight` 與 child visibility。skin 必須保留原生 Layout/MarkDirty lifecycle，測兩個 dropdown 的 enabled/disabled 與所有內容狀態。
 - HousingBlueprint `ContentBudgets` 內部使用 pool；live 已移除 `SetInfo()` 自行 Show，統一由 `ContentSummary:UpdateContentVisibility()` 控制。future skin 不可 force-show budgets 或 content children，並須對 pooled budget entries 做冪等處理。
 - WoWUI live `Blizzard_HousingDashboardInitiatives.lua:177` 本身仍呼叫已移除的 `HousingDashboardFrame.HouseInfoContent.HouseDropdown`，而 XML 只建立 root `HousingDashboardFrame.HouseDropdown`。這是上游 source 的 stale HelpTip anchor，不應複製進 Aurora；正式服測 Initiatives 首次顯示時需把原生錯誤與 Aurora theme 錯誤分開記錄。
-- `Blizzard_Tutorial` key 確實不存在，但其舊 skin 目標屬於仍有效的 `Blizzard_BoostTutorial`。若保留 boosted-character 教學皮膚，需改用真實 key 並按現行 `PortraitFrameTemplate` 重寫；不能把它與 `Blizzard_TalentUI`、`Blizzard_VoidStorageUI` 一起直接退休，也不能只 re-key，因舊 `TitleBg`／root `.portrait` 路徑已失效。
+- `Blizzard_TalentUI` 與 `Blizzard_VoidStorageUI` 已退休；`Blizzard_Tutorial` key 仍不存在，但其舊 skin 目標屬於有效的 `Blizzard_BoostTutorial`。若保留 boosted-character 教學皮膚，需改用真實 key 並按現行 `PortraitFrameTemplate` 重寫；不能只 re-key，因舊 `TitleBg`／root `.portrait` 路徑已失效。
 - `B.SetCurrenciesHook` 藏在 Runeforge 模組仍是架構耦合，但不是「只有現行 XML 執行順序才會存在」的 runtime bug：所有 Script 在 theme closure 執行前已載入。移動／刪除 Runeforge 模組時仍必須同步處理 Azerite caller。
-- CooldownViewer restricted-aura、Communities roster、GMChat deprecated alias、ExpansionLandingPage no-op、MajorFaction dead target 與 delayed theme 清錯 key 都在最後 12.0.7 已存在，不能標成 12.1 新增；除仍待退休的 MajorFaction dead target 外，其餘項目現已完成靜態修正。
+- CooldownViewer restricted-aura、Communities roster、GMChat deprecated alias、ExpansionLandingPage no-op、MajorFaction dead target 與 delayed theme 清錯 key 都在最後 12.0.7 已存在，不能標成 12.1 新增；這些項目現均已完成靜態修正或 dead module 退休。
 - 12.1 Communities 新增 Discord stream／`discordInfo`／`SendTitleFriendRequest` 等 surface；補 skin 時仍只使用公開 frame/region state，不把新 coverage 變成另一條 member payload 解析路徑。
 
 ## 2026-08-12 blocker 修正
@@ -84,3 +83,10 @@
 - `Blizzard_ExpansionLandingPage.lua` 已停止掃描不存在的 Dragonriding child，改在 `RefreshExpansionOverlay` 後使用 `self.overlayFrame`，並以 Midnight template 固定的 `RunesOfPowerFrame` 辨識目標。immediate call 覆蓋 already-created overlay，post-hook 覆蓋之後建立；只處理外層 Background／Border／backdrop／CloseButton，不碰 trait tree 或 gameplay data。
 - `Blizzard_EncounterJournal.lua` 的 Journeys 已移除固定 `QuestLogBorderFrameTemplate` 裝飾材質，並在異質 `JourneysList` pool 中只依 `WatchedFactionToggleFrame` 結構冪等 skin `WatchFactionCheckbox`。immediate `ForEachFrame` 補既有 active rows，`Update` post-hook 處理後續 acquire／reuse。
 - AddOns XML、theme key 與 TOC 無需修改。尚待正式服測 PVP 第五 category、PlayerChoice texture-kit 切換、新手教學、Transmog toggle、Midnight overlay 首次／重開，以及 Journeys 捲動、hover checkbox 與 pool reuse。
+
+## 2026-08-12 dead theme／target 清理
+
+- `Blizzard_Delves.lua` 只移除不存在的 `C.themes["Blizzard_DelvesDashboardUI"]` closure；保留同檔有效的 Companion Configuration／Difficulty Picker themes 與 `AddOns.xml` Script。
+- `Blizzard_TalentUI.lua` 與 `Blizzard_VoidStorageUI.lua` 已整檔刪除並同步移除 XML Script。WoWUI live 69273 沒有 MAINLINE `Blizzard_TalentUI`（只有 Mists/Cata source，MAINLINE 使用 PlayerSpells），也沒有 VoidStorageUI；兩檔未輸出跨檔 helper。
+- `Blizzard_MajorFactions` addon key 本身仍有效，但 Aurora 唯一目標 `MajorFactionRenownFrame` 已不存在，因此 `Blizzard_MajorFactions.lua` 與 XML Script 已刪除。MajorFaction interaction 現由 Blizzard Bootstrap 導向 EncounterJournal Journeys；Aurora 的 EncounterJournal root、Journeys Border／scroll／buttons／pooled watch checkbox 已承接原外觀責任。
+- 清理後 AddOns 載入契約為 60 個 Script／60 個 Lua、75 個 theme key；Lua、XML、被移除 key／global 與跨檔 helper 搜尋均已核對。這不表示所有 Journey card／reward track 細節都已全面換皮，只有確認刪除舊 module 不會造成外觀責任回歸。

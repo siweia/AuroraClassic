@@ -59,11 +59,6 @@ C.themes["Blizzard_DelvesCompanionConfiguration"] = function()
 	end)
 end
 
-C.themes["Blizzard_DelvesDashboardUI"] = function()
-	DelvesDashboardFrame.DashboardBackground:SetAlpha(0)
-	B.Reskin(DelvesDashboardFrame.ButtonPanelLayoutFrame.CompanionConfigButtonPanel.CompanionConfigButton)
-end
-
 local function handleReward(rewardFrame)
 	if not rewardFrame.bg then
 		B.CreateBDFrame(rewardFrame, .25)
