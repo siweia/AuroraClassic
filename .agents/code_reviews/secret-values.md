@@ -33,19 +33,19 @@
 | 位置 | 現況 | 狀態 |
 | --- | --- | --- |
 | `Core.lua` 開頭 | 定義四個 `B` secret 存取性 helper | 靜態確認；修改契約前須搜尋全部 caller |
-| `Core.lua` 的 `WatchPixelSnap`／`DisablePixelSnap` | 先以 `B:NotSecretTable(frame)` 避免對 secret table 執行 frame／texture 操作 | 待以 12.0.5 Blizzard 契約確認；此 guard 只適用可略過的外觀處理 |
+| `Core.lua` 的 `WatchPixelSnap`／`DisablePixelSnap` | 先以 `B:NotSecretTable(frame)` 避免對 secret table 執行 frame／texture 操作 | 待以 12.1 Blizzard 契約確認；此 guard 只適用可略過的外觀處理 |
 | `Core.lua` 覆寫 `BackdropTemplateMixin:SetupTextureCoordinates` | `GetWidth()` 為 secret 時直接返回，原碼已有 `needs review` 註記 | 待驗證；需核對覆寫契約、secret width 的觸發場景與略過後的 backdrop 狀態 |
 | `AddOns/Blizzard_Communities.lua` 的 selection 顯示 hook | 以 `B:NotSecretValue(show)` 後才做 boolean test | 待核對 `SetShown` hook 的參數契約、texture reuse 與未讀取時的外觀 fallback |
 | `AddOns/Blizzard_Communities.lua` 的 icon ring 狀態 | 以 `B:NotSecretValue(borderShown)` 後決定自訂 border 顯示 | 待核對 `IsShown()` 在目標 build 的 secret 條件與 pooled child refresh |
-| `AddOns/Blizzard_Communities.lua` 的 roster class icon | post-hook 讀 `memberInfo.classID` 並查 class table | chat messaging lockdown 下屬已確認 secret-unsafe 資料流；實際觸發需正式服驗證 |
+| `AddOns/Blizzard_Communities.lua` 的 roster class icon | 已移除 `GetMemberInfo()`／`classID` 資料消費；沿用原生 class texture，Aurora 外框只在 `IsShown()` 非 secret 時同步 | 已完成靜態修正；chat messaging lockdown 與 pool reuse 待正式服驗證 |
 | `FrameXML/ChatFrame.lua` 的 voice notification | hook 在讀 GUID／class 前檢查 chat messaging lockdown 與 `B:NotSecretValue` | 已完成靜態修正；restricted 時保留 Blizzard hook 前已恢復的原生 channel color，仍須正式服實測 |
-| `AddOns/Blizzard_CooldownViewer.lua` 的 dispel border | tainted post-hook 讀 aura instance，呼叫可回 secret color 的 API | 12.x restricted aura 高風險；12.1 另加 unit-aura-access 前置條件，需重新設計 fallback 與 pool reset，不能只 early return |
+| `AddOns/Blizzard_CooldownViewer.lua` 的 dispel border | 已刪除 aura instance／secret color post-hook，保留 Blizzard 原生 DebuffBorder 管理 dispel atlas | 已完成靜態修正；restricted aura、combat 與 pool reuse 待正式服驗證 |
 
 ## 12.1 live 補充契約
 
-- CooldownViewer 與 Communities roster 兩條高風險資料流在 live 69273 仍成立；voice GUID 的 secret 契約也仍存在，但當前工作樹已在資料消費前加 guard，狀態改為待正式服驗證。
+- CooldownViewer、Communities roster 與 voice GUID 三條高風險資料流的 API 契約在 live 69273 仍成立；當前工作樹已分別移除不必要資料 consumer 或在消費前加 guard，三者狀態均為「靜態修正完成、正式服待驗證」。
 - Communities `GetMemberInfo` 的 chat-lockdown secret 契約及 CooldownViewer `GetAuraDispelTypeColor` 的 restricted-aura／curve secret 契約在 12.0.7 已存在，因此兩者不是 12.1 才出現的資料流；12.1 對 dispel color API 另新增 failure mode 為 error 的 `RequiresUnitAuraAccess` 前置條件，新增的是呼叫資格風險，仍須以 live restricted aura 場景重測。
-- CooldownViewer 的安全方向是停止解析 aura payload/RGB，保留 Blizzard trusted code 已更新的原生 border，再只做不依賴 gameplay data 的 cosmetic；Communities 則使用原生已完成的 class texture/widget state，不自行重算 `classID`。
+- CooldownViewer 已停止解析 aura payload／RGB並保留 Blizzard trusted code 管理的原生 border；Communities 已使用原生完成的 class texture／widget state，不再自行重算 `classID`。完整修正記錄見 `2026-08-12-secret-safe-cooldownviewer-communities.md`。
 - Voice GUID 的 secret 註記在 12.0.7 已存在，不是 12.1 新限制。Blizzard `VoiceActivityNotification` 在 Aurora hook 前已先恢復原生 channel color，因此 restricted 時略過 Aurora class recolor 可使用原生狀態作 fallback，不必保留 pooled 舊 class 色。
 - `C_BattleNet.SearchFriends` 在 live 文件新增 `HasRestrictions=true`、`SecretArguments=AllowedWhenUntainted`。Aurora 目前沒有 caller；未來 SocialUI skin 只處理 frame/region，不 hook 搜尋資料、不自行呼叫或轉送 `AuroraFriendsSearchInfo`。
 - `C_HousingBlueprint.UpdateBlueprintStringFromInput` 是 live 69273 新增 API；若 `inputShareCode` 是 secret，只有未 taint 的呼叫可傳入。Aurora 目前沒有 HousingBlueprint runtime 模組；新增 skin 不讀、不 trim、不驗證、不保存 share code，只處理公開 widget 外觀與 enabled/shown state。
@@ -68,7 +68,7 @@
 
 ## 2026-08-11 全量審查結論
 
-- 已對照 WoWUI 12.0.7／12.1 API documentation 與 Blizzard caller，建立三條具體高風險資料流。
+- 已對照 WoWUI 12.0.7／12.1 API documentation 與 Blizzard caller，建立三條具體高風險資料流；voice、CooldownViewer 與 Communities 均已完成靜態修正。
 - Blizzard trusted code 能操作 secret 不代表 Aurora post-hook 可做同樣分支、索引或字串處理。
 - 12.1 另新增 ScriptBindings、EventRegistrations、parent/layout forbidden-aspect 契約；這些是 migration 實測項，不等於所有現有 caller 已確認失效。
-- 尚未完成正式服 restricted aura、chat messaging lockdown、voice 與 combat 測試；不得宣稱上述路徑已安全或已實際報錯。
+- 尚未完成正式服 restricted aura、chat messaging lockdown、voice 與 combat 測試；不得把靜態修正宣稱為 runtime 已安全認證，也不得宣稱修正前風險已在正式服實際報錯。

@@ -60,17 +60,12 @@ local function updateCommunitiesSelection(texture, show)
 end
 
 local function updateNameFrame(self)
-	if not self.expanded then return end
 	if not self.bg then
 		self.bg = B.CreateBDFrame(self.Class)
 	end
-	local memberInfo = self:GetMemberInfo()
-	if memberInfo and memberInfo.classID then
-		local classInfo = C_CreatureInfo.GetClassInfo(memberInfo.classID)
-		if classInfo then
-			B.ClassIconTexCoord(self.Class, classInfo.classFile)
-		end
-	end
+
+	local shown = self.Class:IsShown()
+	self.bg:SetShown(B:NotSecretValue(shown) and shown)
 end
 
 local function replacedRoleTex(icon, x1, x2, y1, y2)
@@ -87,20 +82,6 @@ local function UpdateRoleTexture(icon)
 	if not icon then return end
 	replacedRoleTex(icon, icon:GetTexCoord())
 	hooksecurefunc(icon, "SetTexCoord", replacedRoleTex)
-end
-
-local function updateMemberName(self, info)
-	if not info then return end
-
-	local class = self.Class
-	if not class.bg then
-		class.bg = B.CreateBDFrame(class)
-	end
-
-	local classTag = select(2, GetClassInfo(info.classID))
-	if classTag then
-		B.ClassIconTexCoord(class, classTag)
-	end
 end
 
 C.themes["Blizzard_Communities"] = function()
@@ -329,13 +310,14 @@ C.themes["Blizzard_Communities"] = function()
 	CommunitiesFrame.MemberList.ScrollBar:GetChildren():Hide()
 	B.ReskinTrimScroll(CommunitiesFrame.MemberList.ScrollBar)
 
-	hooksecurefunc(CommunitiesFrame.MemberList.ScrollBox, "Update", function(self)
-		for i = 1, self.ScrollTarget:GetNumChildren() do
-			local child = select(i, self.ScrollTarget:GetChildren())
+	local function reskinMemberList(scrollBox)
+		for i = 1, scrollBox.ScrollTarget:GetNumChildren() do
+			local child = select(i, scrollBox.ScrollTarget:GetChildren())
 			if not child.styled then
 				hooksecurefunc(child, "RefreshExpandedColumns", updateNameFrame)
 				child.styled = true
 			end
+			updateNameFrame(child)
 
 			local header = child.ProfessionHeader
 			if header and not header.styled then
@@ -350,12 +332,11 @@ C.themes["Blizzard_Communities"] = function()
 				B.CreateBDFrame(header.Icon)
 				header.styled = true
 			end
-
-			if child and child.bg then
-				child.bg:SetShown(child.Class:IsShown())
-			end
 		end
-	end)
+	end
+	local memberListScrollBox = CommunitiesFrame.MemberList.ScrollBox
+	hooksecurefunc(memberListScrollBox, "Update", reskinMemberList)
+	reskinMemberList(memberListScrollBox)
 
 	B.ReskinCheck(CommunitiesFrame.MemberList.ShowOfflineButton)
 	CommunitiesFrame.MemberList.ShowOfflineButton:SetSize(25, 25)
@@ -553,13 +534,12 @@ C.themes["Blizzard_Communities"] = function()
 		button:SetPoint("RIGHT", listBG, -C.mult, 0)
 		button:SetHighlightTexture(DB.bdTex)
 		button:GetHighlightTexture():SetVertexColor(r, g, b, .25)
+		button.Class.bg = B.CreateBDFrame(button.Class)
 		button.InviteButton:SetSize(66, 18)
 		button.CancelInvitationButton:SetSize(20, 18)
 
 		B.Reskin(button.InviteButton)
 		B.Reskin(button.CancelInvitationButton)
-		hooksecurefunc(button, "UpdateMemberInfo", updateMemberName)
-
 		UpdateRoleTexture(button.RoleIcon1)
 		UpdateRoleTexture(button.RoleIcon2)
 		UpdateRoleTexture(button.RoleIcon3)
@@ -590,10 +570,13 @@ C.themes["Blizzard_Communities"] = function()
 	applicantList.ScrollBar:GetChildren():Hide()
 	B.ReskinTrimScroll(applicantList.ScrollBar)
 
-	hooksecurefunc(applicantList.ScrollBox, "Update", function(self)
-		for i = 1, self.ScrollTarget:GetNumChildren() do
-			local button = select(i, self.ScrollTarget:GetChildren())
+	local function reskinApplicantList(scrollBox)
+		for i = 1, scrollBox.ScrollTarget:GetNumChildren() do
+			local button = select(i, scrollBox.ScrollTarget:GetChildren())
 			reskinApplicant(button)
 		end
-	end)
+	end
+	local applicantListScrollBox = applicantList.ScrollBox
+	hooksecurefunc(applicantListScrollBox, "Update", reskinApplicantList)
+	reskinApplicantList(applicantListScrollBox)
 end

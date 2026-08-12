@@ -34,7 +34,7 @@
 - 12.1 確定硬斷點：Achievement HeaderDetails/Filters、Delves CompanionSlots、Housing root HouseDropdown、Weekly Rewards ConcessionsFrame。
 - Weekly Rewards 的 `WeeklyRewardsFrameNameFrame` 是另一個既有確定錯誤。
 - 確定覆蓋缺口／失效：PVP 新 Arena button 與 CategoryButton5、PlayerChoice BorderOverlay、NewPlayer 舊 global、Transmog PreviewedWeaponToggle、ExpansionLandingPage Dragonriding target、MajorFactionRenown dead target。
-- Communities、CooldownViewer 具有 secret data-flow 風險；Achievement／Auction／Raid 等 secure 路徑與大量 Bootstrap addon 仍需兩種載入順序及戰鬥內實測。
+- Communities roster 與 CooldownViewer dispel border 的兩條 secret data-flow 已完成靜態修正；正式服 restricted 場景仍待驗證，Achievement／Auction／Raid 等 secure 路徑與大量 Bootstrap addon 也仍需兩種載入順序及戰鬥內實測。
 - 主要 pool／ScrollBox lifecycle 已逐檔核對；除已列項外，未確認另一個必然的 reuse error。
 
 ## 2026-08-12 12.1 live 重核
@@ -49,7 +49,7 @@
 - WoWUI live `Blizzard_HousingDashboardInitiatives.lua:177` 本身仍呼叫已移除的 `HousingDashboardFrame.HouseInfoContent.HouseDropdown`，而 XML 只建立 root `HousingDashboardFrame.HouseDropdown`。這是上游 source 的 stale HelpTip anchor，不應複製進 Aurora；正式服測 Initiatives 首次顯示時需把原生錯誤與 Aurora theme 錯誤分開記錄。
 - `Blizzard_Tutorial` key 確實不存在，但其舊 skin 目標屬於仍有效的 `Blizzard_BoostTutorial`。若保留 boosted-character 教學皮膚，需改用真實 key 並按現行 `PortraitFrameTemplate` 重寫；不能把它與 `Blizzard_TalentUI`、`Blizzard_VoidStorageUI` 一起直接退休，也不能只 re-key，因舊 `TitleBg`／root `.portrait` 路徑已失效。
 - `B.SetCurrenciesHook` 藏在 Runeforge 模組仍是架構耦合，但不是「只有現行 XML 執行順序才會存在」的 runtime bug：所有 Script 在 theme closure 執行前已載入。移動／刪除 Runeforge 模組時仍必須同步處理 Azerite caller。
-- CooldownViewer restricted-aura、Communities roster、GMChat deprecated alias、ExpansionLandingPage no-op、MajorFaction dead target 與 delayed theme 清錯 key 都在最後 12.0.7 已存在；12.1 migration 需一併修／驗證，但不能標成 12.1 新增。
+- CooldownViewer restricted-aura、Communities roster、GMChat deprecated alias、ExpansionLandingPage no-op、MajorFaction dead target 與 delayed theme 清錯 key 都在最後 12.0.7 已存在，不能標成 12.1 新增；其中前兩條 secret data-flow 已完成靜態修正。
 - 12.1 Communities 新增 Discord stream／`discordInfo`／`SendTitleFriendRequest` 等 surface；補 skin 時仍只使用公開 frame/region state，不把新 coverage 變成另一條 member payload 解析路徑。
 
 ## 2026-08-12 blocker 修正
@@ -59,3 +59,10 @@
 - `Blizzard_HousingDashboard.lua` 已改用 `HousingDashboardFrame.HouseDropdown.Dropdown`；root `HouseDropdown` 是 lifecycle 容器，內層 `.Dropdown` 才是 `WowStyle1DropdownTemplate`。Collection／Initiatives／Blueprint 完整覆蓋仍留在後續工作。
 - `Blizzard_WeeklyRewards.lua` 已枚舉 `ConcessionsFrame.Rewards:GetChildren()` 並冪等處理每個 `RewardsFrame.Text`；不存在的 `WeeklyRewardsFrameNameFrame` 已改為 `confirmFrame.ItemFrame.NameFrame`。
 - `AddOns.xml`、theme key 與 Blizzard TOC 載入契約無需修改；舊路徑精確搜尋無殘留且 `git diff --check` 通過。尚待正式服驗證 Achievement normal／comparison、Brann 四 slot 與 pool reuse、Housing dashboard、Great Vault concession 與選獎確認框。
+
+## 2026-08-12 SECRET SAFE 修正
+
+- `Blizzard_CooldownViewer.lua` 已移除 `GetAuraDispelTypeColor`、color curve 與自訂 per-aura border hook；Aurora 固定黑邊仍在，dispellable／harmful 外圈交回 Blizzard 原生 `DebuffBorder`。
+- `Blizzard_Communities.lua` roster 已移除 `GetMemberInfo()`／`classID`／class table lookup，只同步 Blizzard 原生 `Class` widget；`IsShown()` 先經 `B:NotSecretValue`，secret shown state 時隱藏可選 Aurora 外框。
+- ApplicantList 的 classID post-hook 雖非目前已確認 secret source，但原生 initializer 已設定 texcoord，因此一併刪除重複資料解析，只在 pooled button 首次 skin 時建立外框。
+- 詳細資料流、版本邊界、實作取捨與正式服測試矩陣見 `2026-08-12-secret-safe-cooldownviewer-communities.md`。
