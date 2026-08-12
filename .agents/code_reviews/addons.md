@@ -99,3 +99,10 @@
 - `Blizzard_PVPUI.lua` 已枚舉 live `BonusTrainingGroundButtons` parent array，因此普通與 Arena Training Ground button 共用同一 skin。
 - `Blizzard_GuildControlUI.lua` 已處理固定 Discord server／channel controls，並在全域 `GuildControlUI_Discord_Update` 與非會長載入時已快取的 `GuildControlUI.rankUpdate` 後冪等處理動態 linked／unlinked frames；不呼叫或解析 Discord API/data。
 - Communities live source 沒有對上述 Discord／friend-request diff 新增可獨立 skin 的 frame。此項不新增 runtime code，避免把資料層變更誤當 UI 結構。
+
+## 2026-08-12 正式服 O 鍵／Guild rank lifecycle 修正
+
+- 正式服實測 `C_AddOns.LoadAddOn("Blizzard_SocialUI")` 成功，但 `C_SocialUI.IsSystemEnabled()`／`SocialUIControl.IsEnabled()` 為 false；live source 並未移除新版 UI，目前是 runtime feature gate 關閉，因此 `O` 走 legacy `FriendsFrame`。新版 SocialUI skin 保留為 dormant 路徑，可見 UI、動態分頁與 side-window 正式服測試待 Blizzard 重新啟用。
+- legacy `FriendsFrame_OnShow()` 會呼叫 `C_GuildInfo.GuildRoster()`。GuildControl addon 一旦已載入，Aurora 原本自建的 `GUILD_RANKS_UPDATE` frame 便會跨分頁執行 `updateGuildRanks()`；Blizzard XML 只靜態建立 Rank1，Rank2+ 僅由 `GuildControlUI_RankOrder_Update()` 動態建立，因此舊 helper 對不存在 row 的 `rank.styled` 索引造成正式服 hard error。
+- 修正後不再監聽 guild-data event，也不再用 `GuildControlGetNumRanks()` 推定 frame lifecycle；只 post-hook 原生 RankOrder updater，依 `orderFrame` 的固定命名掃描已建立的連續 rows，遇第一個 nil 即停止，並在 theme 安裝後 immediate 掃一次以涵蓋 already-loaded rows。Rank rows 非 pool／secure template，使用專用 marker 冪等處理；不讀 rank payload，也不使用帶 Hierarchy secret aspect 的 child traversal。
+- 正式服待重測：非會長／一般成員冷登入與 `/reload` 後反覆按 `O`、先開 Communities 再按 `O`；會長開 Guild Control 的 Rank Order，新增／刪除／上下移 rank並切換 Permissions／Bank／Discord；確認無 Lua error且既有／新建 rows 均套皮。
