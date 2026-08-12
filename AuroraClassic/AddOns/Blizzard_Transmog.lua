@@ -17,6 +17,7 @@ C.themes["Blizzard_Transmog"] = function()
 	TransmogFrame.CharacterPreview.Gradients:Hide()
 	B.ReskinCheck(TransmogFrame.CharacterPreview.ToggleOptions.HideIgnoredToggle.Checkbox)
 	B.ReskinCheck(TransmogFrame.CharacterPreview.ToggleOptions.SheatheWeaponToggle.Checkbox)
+	B.ReskinCheck(TransmogFrame.CharacterPreview.ToggleOptions.PreviewedWeaponToggle.Checkbox)
 	B.Reskin(TransmogFrame.CharacterPreview.ClearAllPendingButton)
 
 	B.StripTextures(TransmogFrame.WardrobeCollection)

@@ -173,6 +173,7 @@ tinsert(C.defaultThemes, function()
 		AdventureObjectiveTracker,
 		AchievementObjectiveTracker,
 		MonthlyActivitiesObjectiveTracker,
+		InitiativeTasksObjectiveTracker,
 		ProfessionsRecipeTracker,
 		BonusObjectiveTracker,
 		WorldQuestObjectiveTracker,
