@@ -418,9 +418,23 @@ C.themes["Blizzard_EncounterJournal"] = function()
 	-- Journeys
 	local frame = EncounterJournal.JourneysFrame
 	if frame then
+		local function reskinJourneyCard(button)
+			local toggle = button.WatchedFactionToggleFrame
+			if toggle and not toggle.styled then
+				B.ReskinCheck(toggle.WatchFactionCheckbox)
+				toggle.styled = true
+			end
+		end
+		local function reskinJourneyCards(scrollBox)
+			scrollBox:ForEachFrame(reskinJourneyCard)
+		end
+
+		B.StripTextures(frame.BorderFrame)
 		B.ReskinTrimScroll(frame.ScrollBar)
 		B.Reskin(frame.JourneyProgress.OverviewBtn)
 		B.Reskin(frame.JourneyProgress.LevelSkipButton)
 		B.Reskin(frame.JourneyOverview.OverviewBtn)
+		hooksecurefunc(frame.JourneysList, "Update", reskinJourneyCards)
+		reskinJourneyCards(frame.JourneysList)
 	end
 end

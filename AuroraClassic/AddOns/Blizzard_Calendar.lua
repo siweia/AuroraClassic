@@ -156,12 +156,7 @@ C.themes["Blizzard_Calendar"] = function()
 		"CalendarMassInviteAcceptButton"
 	}
 	for i = 1, #cbuttons do
-		local cbutton = _G[cbuttons[i]]
-		if not cbutton then
-			print(cbuttons[i])
-		else
-			B.Reskin(cbutton)
-		end
+		B.Reskin(_G[cbuttons[i]])
 	end
 
 	CalendarViewEventAcceptButton.flashTexture:SetTexture("")

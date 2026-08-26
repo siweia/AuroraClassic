@@ -38,31 +38,28 @@ C.themes["Blizzard_PVPUI"] = function()
 	-- Category buttons
 
 	local iconSize = 60-2*C.mult
-	for i = 1, 4 do
-		local bu = PVPQueueFrame["CategoryButton"..i]
-		if bu then
-			local icon = bu.Icon
-			local cu = bu.CurrencyDisplay
+	for _, bu in ipairs(PVPQueueFrame.CategoryButtons) do
+		local icon = bu.Icon
+		local cu = bu.CurrencyDisplay
 	
-			bu.Ring:Hide()
-			if bu.CircleMask then bu.CircleMask:Hide() end
-			B.Reskin(bu, true)
-			bu.Background:SetInside(bu.__bg)
-			bu.Background:SetColorTexture(r, g, b, .25)
-			bu.Background:SetAlpha(1)
+		bu.Ring:Hide()
+		if bu.CircleMask then bu.CircleMask:Hide() end
+		B.Reskin(bu, true)
+		bu.Background:SetInside(bu.__bg)
+		bu.Background:SetColorTexture(r, g, b, .25)
+		bu.Background:SetAlpha(1)
 	
-			icon:SetPoint("LEFT", bu, "LEFT")
-			icon:SetSize(iconSize, iconSize)
-			B.ReskinIcon(icon)
+		icon:SetPoint("LEFT", bu, "LEFT")
+		icon:SetSize(iconSize, iconSize)
+		B.ReskinIcon(icon)
 	
-			if cu then
-				local ic = cu.Icon
+		if cu then
+			local ic = cu.Icon
 	
-				ic:SetSize(16, 16)
-				ic:SetPoint("TOPLEFT", bu.Name, "BOTTOMLEFT", 0, -8)
-				cu.Amount:SetPoint("LEFT", ic, "RIGHT", 4, 0)
-				B.ReskinIcon(ic)
-			end
+			ic:SetSize(16, 16)
+			ic:SetPoint("TOPLEFT", bu.Name, "BOTTOMLEFT", 0, -8)
+			cu.Amount:SetPoint("LEFT", ic, "RIGHT", 4, 0)
+			B.ReskinIcon(ic)
 		end
 	end
 
@@ -71,8 +68,7 @@ C.themes["Blizzard_PVPUI"] = function()
 	PVPQueueFrame.CategoryButton3.Icon:SetTexture("Interface\\Icons\\ability_warrior_offensivestance")
 
 	hooksecurefunc("PVPQueueFrame_SelectButton", function(index)
-		for i = 1, 4 do
-			local bu = PVPQueueFrame["CategoryButton"..i]
+		for i, bu in ipairs(PVPQueueFrame.CategoryButtons) do
 			if i == index then
 				bu.Background:Show()
 			else
@@ -252,22 +248,18 @@ C.themes["Blizzard_PVPUI"] = function()
 		B.StripTextures(TrainingGroundsFrame.BonusTrainingGroundList)
 		TrainingGroundsFrame.BonusTrainingGroundList.ShadowOverlay:Hide()
 
-		local names = {"RandomTrainingGroundButton"}
-		for _, name in pairs(names) do
-			local bu = TrainingGroundsFrame.BonusTrainingGroundList[name]
-			if bu then
-				B.Reskin(bu, true)
-				local reward = bu.Reward
-				if reward then
-					reward.Border:Hide()
-					reward.CircleMask:Hide()
-					reward.Icon.bg = B.ReskinIcon(reward.Icon)
-				end
-
-				bu.SelectedTexture:SetDrawLayer("BACKGROUND")
-				bu.SelectedTexture:SetColorTexture(r, g, b, .25)
-				bu.SelectedTexture:SetInside(bu.__bg)
+		for _, bu in ipairs(TrainingGroundsFrame.BonusTrainingGroundList.BonusTrainingGroundButtons) do
+			B.Reskin(bu, true)
+			local reward = bu.Reward
+			if reward then
+				reward.Border:Hide()
+				reward.CircleMask:Hide()
+				reward.Icon.bg = B.ReskinIcon(reward.Icon)
 			end
+
+			bu.SelectedTexture:SetDrawLayer("BACKGROUND")
+			bu.SelectedTexture:SetColorTexture(r, g, b, .25)
+			bu.SelectedTexture:SetInside(bu.__bg)
 		end
 	end
 end

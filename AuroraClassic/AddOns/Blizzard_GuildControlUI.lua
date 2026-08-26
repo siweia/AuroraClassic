@@ -1,10 +1,15 @@
 local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
-local function updateGuildRanks()
-	for i = 1, GuildControlGetNumRanks() do
-		local rank = _G["GuildControlUIRankOrderFrameRank"..i]
-		if not rank.styled then
+local function updateGuildRanks(orderFrame)
+	local prefix = orderFrame:GetName().."Rank"
+	for i = 1, MAX_GUILDRANKS do
+		local rank = _G[prefix..i]
+		if not rank then
+			break
+		end
+
+		if not rank.__auroraRankStyled then
 			rank.upButton.icon:Hide()
 			rank.downButton.icon:Hide()
 			rank.deleteButton.icon:Hide()
@@ -14,8 +19,23 @@ local function updateGuildRanks()
 			B.ReskinClose(rank.deleteButton)
 			B.ReskinInput(rank.nameBox, 20)
 
-			rank.styled = true
+			rank.__auroraRankStyled = true
 		end
+	end
+end
+
+local function reskinDiscordFrames()
+	local linkedFrame = DiscordLinkFrame
+	if linkedFrame and not linkedFrame.__auroraStyled then
+		B.ReskinCheck(linkedFrame.SeparateStream.Button)
+		B.Reskin(linkedFrame.button)
+		linkedFrame.__auroraStyled = true
+	end
+
+	local unlinkedFrame = DiscordUnlinkFrame
+	if unlinkedFrame and not unlinkedFrame.__auroraStyled then
+		B.Reskin(unlinkedFrame.button)
+		unlinkedFrame.__auroraStyled = true
 	end
 end
 
@@ -39,10 +59,8 @@ C.themes["Blizzard_GuildControlUI"] = function()
 	GuildControlUIHbar:Hide()
 
 	-- Guild ranks
-	local f = CreateFrame("Frame")
-	f:RegisterEvent("GUILD_RANKS_UPDATE")
-	f:SetScript("OnEvent", updateGuildRanks)
 	hooksecurefunc("GuildControlUI_RankOrder_Update", updateGuildRanks)
+	updateGuildRanks(GuildControlUIRankOrderFrame)
 
 	-- Guild tabs
 	local checkboxes = {"viewCB", "depositCB"}
@@ -83,10 +101,10 @@ C.themes["Blizzard_GuildControlUI"] = function()
 	end)
 
 	B.ReskinCheck(GuildControlUIRankSettingsFrameOfficerCheckbox)
-	for i = 1, 20 do
-		local checbox = _G["GuildControlUIRankSettingsFrameCheckbox"..i]
-		if checbox then
-			B.ReskinCheck(checbox)
+	for i = 1, NUM_RANK_FLAGS do
+		local checkbox = _G["GuildControlUIRankSettingsFrameCheckbox"..i]
+		if checkbox then
+			B.ReskinCheck(checkbox)
 		end
 	end
 
@@ -97,4 +115,17 @@ C.themes["Blizzard_GuildControlUI"] = function()
 	B.ReskinDropDown(GuildControlUIRankSettingsFrameRankDropdown)
 	B.ReskinDropDown(GuildControlUIRankBankFrameRankDropdown)
 	B.ReskinInput(GuildControlUIRankSettingsFrameGoldBox, 20)
+
+	-- Discord settings
+	local discordFrame = GuildControlUI.discordFrame
+	B.ReskinDropDown(discordFrame.serverDropdown)
+	B.ReskinDropDown(discordFrame.channelDropdown)
+	B.Reskin(discordFrame.channelButton)
+
+	hooksecurefunc("GuildControlUI_Discord_Update", reskinDiscordFrames)
+	if GuildControlUI.selectedTab == 4 and not GuildControlUI.__auroraDiscordUpdateHooked then
+		hooksecurefunc(GuildControlUI, "rankUpdate", reskinDiscordFrames)
+		GuildControlUI.__auroraDiscordUpdateHooked = true
+	end
+	reskinDiscordFrames()
 end

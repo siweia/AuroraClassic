@@ -11,10 +11,16 @@ end
 
 -- Needs review, still buggy on blizz
 local function ReskinOptionButton(self)
-	if not self or self.__bg then return end
+	if self.__bg then return end
 
 	B.StripTextures(self, true)
 	B.Reskin(self)
+end
+
+local function ReskinOptionButtons(container)
+	for frame in container.buttonFramePool:EnumerateActive() do
+		ReskinOptionButton(frame.Button)
+	end
 end
 
 local function ReskinSpellWidget(spell)
@@ -38,11 +44,16 @@ local uglyBackground = {
 }
 
 C.themes["Blizzard_PlayerChoice"] = function()
+	local rootOptionsContainer = PlayerChoiceFrame.OptionButtonsContainer
+	hooksecurefunc(rootOptionsContainer, "Setup", ReskinOptionButtons)
+	ReskinOptionButtons(rootOptionsContainer)
+
 	hooksecurefunc(PlayerChoiceFrame, "TryShow", function(self)
 		if not self.bg then
 			self.BlackBackground:SetAlpha(0)
 			self.Background:SetAlpha(0)
 			self.NineSlice:SetAlpha(0)
+			self.BorderOverlay:SetAlpha(0)
 			self.Title:DisableDrawLayer("BACKGROUND")
 			self.Title.Text:SetTextColor(1, .8, 0)
 			self.Title.Text:SetFontObject(SystemFont_Huge1)
@@ -68,8 +79,11 @@ C.themes["Blizzard_PlayerChoice"] = function()
 				ReskinOptionText(header.Text, 1, .8, 0)
 				if header.Contents then ReskinOptionText(header.Contents.Text, 1, .8, 0) end
 			end
-			ReskinOptionText(optionFrame.OptionText, 1, 1, 1)
-			B.ReplaceIconString(optionFrame.OptionText.String)
+			local optionText = optionFrame.OptionText
+			if optionText then
+				ReskinOptionText(optionText, 1, 1, 1)
+				B.ReplaceIconString(optionText.String)
+			end
 
 			if optionFrame.Artwork and isIgnored then optionFrame.Artwork:SetSize(64, 64) end -- fix high resolution icons
 
@@ -85,10 +99,8 @@ C.themes["Blizzard_PlayerChoice"] = function()
 			end
 
 			local optionButtonsContainer = optionFrame.OptionButtonsContainer
-			if optionButtonsContainer and optionButtonsContainer.buttonFramePool then
-				for frame in optionButtonsContainer.buttonFramePool:EnumerateActive() do
-					ReskinOptionButton(frame.Button)
-				end
+			if optionButtonsContainer then
+				ReskinOptionButtons(optionButtonsContainer)
 			end
 
 			local rewards = optionFrame.Rewards

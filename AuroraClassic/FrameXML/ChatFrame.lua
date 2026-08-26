@@ -20,12 +20,11 @@ tinsert(C.defaultThemes, function()
 	TimeAlertFrame:SetBackdrop(nil)
 	B.SetBD(TimeAlertFrame)
 
-	-- Battletag invite frame
-	local border, send, cancel = BattleTagInviteFrame:GetChildren()
-	border:Hide()
-	B.Reskin(send)
-	B.Reskin(cancel)
-	B.SetBD(BattleTagInviteFrame)
+	-- Battle.net invite frame
+	BattleNetInviteFrame.Border:Hide()
+	B.Reskin(BattleNetInviteFrame.SendButton)
+	B.Reskin(BattleNetInviteFrame.CancelButton)
+	B.SetBD(BattleNetInviteFrame)
 
 	local friendTex = "Interface\\HELPFRAME\\ReportLagIcon-Chat"
 	local queueTex = "Interface\\HELPFRAME\\HelpIcon-ItemRestoration"
@@ -108,10 +107,12 @@ tinsert(C.defaultThemes, function()
 
 	-- VoiceActivityManager
 	hooksecurefunc(VoiceActivityManager, "LinkFrameNotificationAndGuid", function(_, _, notification, guid)
+		if C_ChatInfo.InChatMessagingLockdown() or not B:NotSecretValue(guid) then return end
+
 		local class = select(2, GetPlayerInfoByGUID(guid))
-		if class then
+		if B:NotSecretValue(class) and class then
 			local color = DB.ClassColors[class]
-			if notification.Name then
+			if color and notification.Name then
 				notification.Name:SetTextColor(color.r, color.g, color.b)
 			end
 		end

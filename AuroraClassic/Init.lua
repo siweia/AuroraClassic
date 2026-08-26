@@ -67,7 +67,7 @@ function B:LoadSkins(event, addon)
 			local func = C.themes[addon]
 			if func then
 				xpcall(func, geterrorhandler())
-				C.themes[addonName] = nil
+				C.themes[addon] = nil
 			end
 		end
 	end
