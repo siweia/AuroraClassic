@@ -1,3 +1,0 @@
-*.md
-!.agents/releases/
-!.agents/releases/**/*.md
