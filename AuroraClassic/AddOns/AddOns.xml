@@ -5,6 +5,7 @@
 	<Script file="Blizzard_AnimaDiversionUI.lua"/>
 	<Script file="Blizzard_ArchaeologyUI.lua"/>
 	<Script file="Blizzard_ArtifactUI.lua"/>
+	<Script file="Blizzard_AuraContainer.lua"/>
 	<Script file="Blizzard_AuctionHouseUI.lua"/>
 	<Script file="Blizzard_AzeriteUI.lua"/>
 	<Script file="Blizzard_BarbershopUI.lua"/>
@@ -32,13 +33,13 @@
 	<Script file="Blizzard_GMChatUI.lua"/>
 	<Script file="Blizzard_GuildBankUI.lua"/>
 	<Script file="Blizzard_GuildControlUI.lua"/>
+	<Script file="Blizzard_HousingBlueprint.lua"/>
 	<Script file="Blizzard_HousingDashboard.lua"/>
 	<Script file="Blizzard_InspectUI.lua"/>
 	<Script file="Blizzard_IslandsQueueUI.lua"/>
 	<Script file="Blizzard_ItemSocketingUI.lua"/>
 	<Script file="Blizzard_ItemUpgradeUI.lua"/>
 	<Script file="Blizzard_MacroUI.lua"/>
-	<Script file="Blizzard_MajorFactions.lua"/>
 	<Script file="Blizzard_NewPlayerExperienceGuide.lua"/>
 	<Script file="Blizzard_ObliterumUI.lua"/>
 	<Script file="Blizzard_PartyPoseUI.lua"/>
@@ -55,11 +56,9 @@
 	<Script file="Blizzard_Soulbinds.lua"/>
 	<Script file="Blizzard_StableUI.lua"/>
 	<Script file="Blizzard_SubscriptionInterstitialUI.lua"/>
-	<Script file="Blizzard_TalentUI.lua"/>
 	<Script file="Blizzard_Transmog.lua"/>
 	<Script file="Blizzard_TorghastLevelPicker.lua"/>
 	<Script file="Blizzard_TrainerUI.lua"/>
 	<Script file="Blizzard_Tutorial.lua"/>
-	<Script file="Blizzard_VoidStorageUI.lua"/>
 	<Script file="Blizzard_WeeklyRewards.lua"/>
 </Ui>

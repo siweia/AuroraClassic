@@ -42,50 +42,40 @@ local function updateButtons(frame)
 
 	local header = frame.Header
 	if header and not header.styled then
+		local rightAtlas = header.Right and header.Right:GetAtlas()
+		local highlightRightAtlas = header.HighlightRight and header.HighlightRight:GetAtlas()
 		B.StripTextures(header)
 
 		if header.Right then
-			B.StripTextures(header)
 			hooksecurefunc(header.Right, "SetAtlas", updateCollapse)
 			hooksecurefunc(header.HighlightRight, "SetAtlas", updateCollapse)
-			updateCollapse(header.Right)
-			updateCollapse(header.HighlightRight)
+			updateCollapse(header.Right, rightAtlas)
+			updateCollapse(header.HighlightRight, highlightRightAtlas)
 			B.CreateBDFrame(header, .25):SetInside(nil, 2, 2)
 		end
 		header.styled = true
 	end
 end
 
--- Dispel type border colors
-local dispelIndex = {
-	[0] = CreateColor(0, 0, 0),
-	[1] = DEBUFF_TYPE_MAGIC_COLOR,
-	[2] = DEBUFF_TYPE_CURSE_COLOR,
-	[3] = DEBUFF_TYPE_DISEASE_COLOR,
-	[4] = DEBUFF_TYPE_POISON_COLOR,
-	[9] = CreateColor(243, 95, 245),
-	[11] = DEBUFF_TYPE_BLEED_COLOR,
-};
-local borderCurve = C_CurveUtil.CreateColorCurve()
-borderCurve:SetType(Enum.LuaCurveType.Step)
-for index, color in next, dispelIndex do
-	borderCurve:AddPoint(index, color)
-end
-local function updateBorderColor(self, data)
-	local color = data and C_UnitAuras.GetAuraDispelTypeColor(self.__owner.auraDataUnit, data.auraInstanceID, borderCurve)
-	if color then
-		self.__owner.Icon.bg:SetBackdropBorderColor(color:GetRGB())
-	else
-		self.__owner.Icon.bg:SetBackdropBorderColor(0, 0, 0)
+local function reskinAlertDialog(frame, ...)
+	B.StripTextures(frame.BG)
+	frame.bg = B.SetBD(frame)
+	frame.bg:SetAllPoints(frame)
+
+	B.ReskinIcon(frame.Icon)
+	B.ReskinClose(frame.CloseButton)
+	B.Reskin(frame.AddButton)
+
+	for i = 1, select("#", ...) do
+		B.ReskinDropDown(select(i, ...))
 	end
 end
 
-local function handleDebuffBorder(frame)
-	if frame.DebuffBorder then
-		frame.DebuffBorder:SetAlpha(0) -- hide the original border, and update ours
-		frame.DebuffBorder.__owner = frame
-		hooksecurefunc(frame.DebuffBorder, "UpdateFromAuraData", updateBorderColor)
-	end
+local function reskinDraggedItem(frame)
+	if frame.__auroraDraggedItemSkinned then return end
+
+	frame.Icon.bg = B.ReskinIcon(frame.Icon, true)
+	frame.__auroraDraggedItemSkinned = true
 end
 
 C.themes["Blizzard_CooldownViewer"] = function()
@@ -102,6 +92,14 @@ C.themes["Blizzard_CooldownViewer"] = function()
 			reskinSideTab(tab)
 		end
 
+		-- Group buff filter
+		local filter = frame.GroupBuffFilter
+		B.ReskinTrimScroll(filter.Scroll.ScrollBar)
+		for _, section in ipairs({filter.shownSection, filter.hiddenSection}) do
+			updateButtons(section)
+			hooksecurefunc(section, "RefreshLayout", updateButtons)
+		end
+
 		hooksecurefunc(frame, "RefreshLayout", function(self)
 			for categoryDisplay in self.categoryPool:EnumerateActive() do
 				if not categoryDisplay.styled then
@@ -111,10 +109,16 @@ C.themes["Blizzard_CooldownViewer"] = function()
 				end
 			end
 		end)
+
+		-- Alert editors and the shared cursor-drag preview
+		reskinAlertDialog(CooldownViewerSettingsEditAlert, CooldownViewerSettingsEditAlert.TypeDropdown, CooldownViewerSettingsEditAlert.EventDropdown, CooldownViewerSettingsEditAlert.PayloadDropdown)
+		reskinAlertDialog(GroupBuffFilterEditVisualAlert, GroupBuffFilterEditVisualAlert.VisualDropdown)
+		hooksecurefunc(CooldownViewerDraggedItemBaseMixin, "SetToCursor", reskinDraggedItem)
 	end
 
 	if not AuroraClassicDB.CooldownMgr then return end
 
+	-- Keep DebuffBorder Blizzard-owned; its aura/dispel state may be restricted.
 	local function reskinCooldownItem(self)
 		for itemFrame in self.itemFramePool:EnumerateActive() do
 			if itemFrame.Bar then
@@ -136,8 +140,6 @@ C.themes["Blizzard_CooldownViewer"] = function()
 						B.SetBD(barFrame)
 						barFrame:GetStatusBarTexture():ClearTextureSlice()
 					end
-
-					handleDebuffBorder(itemFrame)
 
 					itemFrame.styled = true
 				end
@@ -163,15 +165,13 @@ C.themes["Blizzard_CooldownViewer"] = function()
 						outOfRange:SetColorTexture(.8, .1, .1, .25)
 					end
 
-					handleDebuffBorder(itemFrame)
-
 					itemFrame.styled = true
 				end
 			end
 		end
 	end
-	hooksecurefunc(UtilityCooldownViewer, "RefreshLayout", reskinCooldownItem)
-	hooksecurefunc(EssentialCooldownViewer, "RefreshLayout", reskinCooldownItem)
-	hooksecurefunc(BuffIconCooldownViewer, "RefreshLayout", reskinCooldownItem)
-	hooksecurefunc(BuffBarCooldownViewer, "RefreshLayout", reskinCooldownItem)
+	for _, viewer in ipairs({UtilityCooldownViewer, EssentialCooldownViewer, BuffIconCooldownViewer, BuffBarCooldownViewer}) do
+		hooksecurefunc(viewer, "RefreshLayout", reskinCooldownItem)
+		reskinCooldownItem(viewer)
+	end
 end

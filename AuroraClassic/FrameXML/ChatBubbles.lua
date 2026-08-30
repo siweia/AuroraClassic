@@ -21,6 +21,8 @@ local function reskinChatBubble(chatbubble)
 end
 
 tinsert(C.defaultThemes, function()
+	if not AuroraClassicDB.ChatBubbles then return end
+
 	local events = {
 		CHAT_MSG_SAY = "chatBubbles",
 		CHAT_MSG_YELL = "chatBubbles",

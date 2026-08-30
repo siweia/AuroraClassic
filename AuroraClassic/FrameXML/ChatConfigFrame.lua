@@ -82,6 +82,7 @@ tinsert(C.defaultThemes, function()
 		ChatConfigOtherSettingsPVP,
 		ChatConfigOtherSettingsSystem,
 		ChatConfigOtherSettingsCreature,
+		ChatConfigOtherSettingsAdditionalColors,
 		ChatConfigChannelSettingsLeft,
 		CombatConfigMessageSourcesDoneBy,
 		CombatConfigColorsUnitColors,
