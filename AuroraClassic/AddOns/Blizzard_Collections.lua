@@ -40,6 +40,13 @@ local function reskinFrameButton(self)
 end
 
 C.themes["Blizzard_Collections"] = function()
+	if AuroraClassicDB.Tooltips then
+		B.ReskinTooltip(PetJournalPrimaryAbilityTooltip, true)
+		B.ReskinTooltip(PetJournalSecondaryAbilityTooltip, true)
+		PetJournalPrimaryAbilityTooltip.Delimiter1:SetColorTexture(0, 0, 0)
+		PetJournalPrimaryAbilityTooltip.Delimiter2:SetColorTexture(0, 0, 0)
+	end
+
 	-- [[ General ]]
 
 	CollectionsJournal.bg = B.ReskinPortraitFrame(CollectionsJournal) -- need this for Rematch skin

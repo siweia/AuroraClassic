@@ -42,6 +42,15 @@ end
 
 C.themes["Blizzard_HousingDashboard"] = function()
 	B.ReskinPortraitFrame(HousingDashboardFrame)
+	for _, tab in ipairs(HousingDashboardFrame.TabButtons) do
+		tab.Background:SetAlpha(0)
+		B.SetBD(tab)
+		tab.SelectedTexture:SetDrawLayer("BACKGROUND")
+		tab.SelectedTexture:SetColorTexture(DB.r, DB.g, DB.b, .35)
+		tab.HighlightTexture:SetColorTexture(1, 1, 1, .25)
+		tab.TabGlow:SetColorTexture(DB.r, DB.g, DB.b, .35)
+	end
+
 	B.Reskin(HousingDashboardFrame.HouseInfoContent.HouseFinderButton)
 	B.ReskinDropDown(HousingDashboardFrame.HouseDropdown.Dropdown)
 	B.ReskinCheck(HousingDashboardFrame.HouseInfoContent.ContentFrame.HouseUpgradeFrame.WatchFavorButton)

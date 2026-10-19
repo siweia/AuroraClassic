@@ -79,6 +79,9 @@ end
 C.themes["Blizzard_PerksProgram"] = function()
 	local frame = PerksProgramFrame
 	if not frame then return end
+	if AuroraClassicDB.Tooltips then
+		B.ReskinTooltip(frame.PerksProgramTooltip, true)
+	end
 
 	local footerFrame = frame.FooterFrame
 	if footerFrame then

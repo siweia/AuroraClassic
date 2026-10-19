@@ -45,6 +45,7 @@ local function ReskinProfessionsFlyout(_, parent)
 			B.ReskinTrimScroll(flyoutFrame.ScrollBar)
 			reskinFlyoutButton(flyoutFrame.UndoItem)
 			hooksecurefunc(flyoutFrame.ScrollBox, "Update", refreshFlyoutButtons)
+			refreshFlyoutButtons(flyoutFrame.ScrollBox)
 
 			break
 		end

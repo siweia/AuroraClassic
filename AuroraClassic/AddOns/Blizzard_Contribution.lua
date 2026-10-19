@@ -2,6 +2,12 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 C.themes["Blizzard_Contribution"] = function()
+	if AuroraClassicDB.Tooltips then
+		B.ReskinTooltip(ContributionBuffTooltip, true)
+		B.ReskinIcon(ContributionBuffTooltip.Icon)
+		ContributionBuffTooltip.Border:SetAlpha(0)
+	end
+
 	local frame = ContributionCollectionFrame
 	B.SetBD(frame)
 	B.ReskinClose(frame.CloseButton)

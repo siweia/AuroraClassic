@@ -390,6 +390,21 @@ local function ReskinMissionBoards(self)
 end
 
 C.themes["Blizzard_GarrisonUI"] = function()
+	if AuroraClassicDB.Tooltips then
+		local tooltips = {
+			GarrisonMissionMechanicTooltip,
+			GarrisonMissionMechanicFollowerCounterTooltip,
+			GarrisonShipyardMapMissionTooltip,
+			GarrisonBonusAreaTooltip,
+			GarrisonBuildingFrame.BuildingLevelTooltip,
+			GarrisonFollowerAbilityWithoutCountersTooltip,
+			GarrisonFollowerMissionAbilityWithoutCountersTooltip,
+		}
+		for _, tooltip in ipairs(tooltips) do
+			B.ReskinTooltip(tooltip, true)
+		end
+	end
+
 	-- Tooltips
 	B.ReskinGarrisonTooltip(GarrisonFollowerAbilityWithoutCountersTooltip)
 	B.ReskinGarrisonTooltip(GarrisonFollowerMissionAbilityWithoutCountersTooltip)

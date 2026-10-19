@@ -29,6 +29,10 @@ local function ConquestFrameButton_OnEnter(self)
 end
 
 C.themes["Blizzard_PVPUI"] = function()
+	if AuroraClassicDB.Tooltips then
+		B.ReskinTooltip(ConquestTooltip, true)
+	end
+
 	local r, g, b = DB.r, DB.g, DB.b
 
 	local PVPQueueFrame = PVPQueueFrame

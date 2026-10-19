@@ -39,6 +39,10 @@ local function ReskinEventTraceFrame(frame)
 end
 
 C.themes["Blizzard_EventTrace"] = function()
+	if AuroraClassicDB.Tooltips then
+		B.ReskinTooltip(EventTraceTooltip, true)
+	end
+
 	B.ReskinPortraitFrame(EventTrace)
 
 	local subtitleBar = EventTrace.SubtitleBar

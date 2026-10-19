@@ -50,12 +50,6 @@ local function ReskinBagSlot(bu)
 	bu.bg = B.CreateBDFrame(bu.icon, .25)
 	B.ReskinIconBorder(bu.IconBorder)
 
-	local questTexture = bu.IconQuestTexture
-	if questTexture then
-		questTexture:SetDrawLayer("BACKGROUND")
-		questTexture:SetSize(1, 1)
-	end
-
 	local hl = bu.SlotHighlightTexture
 	if hl then
 		hl:SetColorTexture(1, .8, 0, .5)
@@ -64,21 +58,12 @@ end
 
 local function updateContainer(frame)
 	local id = frame:GetID()
-	local name = frame:GetName()
 
 	if id == 0 then
 		BagItemSearchBox:ClearAllPoints()
 		BagItemSearchBox:SetPoint("TOPLEFT", frame, "TOPLEFT", 50, -35)
 		BagItemAutoSortButton:ClearAllPoints()
 		BagItemAutoSortButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -9, -31)
-	end
-
-	for i = 1, frame.size do
-		local itemButton = _G[name.."Item"..i]
-		local questTexture = _G[name.."Item"..i.."IconQuestTexture"]
-		if itemButton and questTexture:IsShown() then
-			itemButton.IconBorder:SetVertexColor(1, 1, 0)
-		end
 	end
 
 	if frame.bagIcon and id ~= 0 then
