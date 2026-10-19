@@ -4,12 +4,14 @@ local B, C, L, DB = unpack(ns)
 -- Default settings
 C.options = {
 	Alpha = .5,
+	AlertFrames = true,
 	Bags = true,
 	FlatMode = false,
 	ChatBubbles = true,
 	FontOutline = true,
 	FontScale = 1,
 	Loot = true,
+	PetBattle = true,
 	Tooltips = true,
 	Shadow = true,
 	ObjectiveTracker = true,

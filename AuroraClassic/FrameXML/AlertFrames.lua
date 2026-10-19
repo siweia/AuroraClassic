@@ -44,6 +44,8 @@ local function fixAnim(frame)
 end
 
 tinsert(C.defaultThemes, function()
+	if not AuroraClassicDB.AlertFrames then return end
+
 	-- AlertFrames
 	hooksecurefunc("AlertFrame_PauseOutAnimation", fixBg)
 

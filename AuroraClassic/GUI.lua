@@ -116,13 +116,15 @@ local featuresList = {
 	[6] = {"Tooltips", L["Tooltips"]},
 	[7] = {"CooldownMgr", COOLDOWN_VIEWER_LABEL},
 	[8] = {"DamageMeter", DAMAGE_METER_LABEL},
+	[9] = {"AlertFrames", L["AlertFrames"]},
+	[10] = {"PetBattle", L["PetBattle"]},
 }
 for index, value in ipairs(featuresList) do
 	createToggleBox(gui, value[1], value[2], features, index)
 end
 
 local appearance = addSubCategory(gui, L["Appearance"])
-appearance:SetPoint("TOPLEFT", features, "BOTTOMLEFT", 0, -130)
+appearance:SetPoint("TOPLEFT", features, "BOTTOMLEFT", 0, -162)
 
 createToggleBox(gui, "FlatMode", L["FlatMode"], appearance, 1)
 

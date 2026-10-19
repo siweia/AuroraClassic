@@ -16,6 +16,8 @@ if locale == "zhCN" then
 	L["Reload Text"] = "不带星号(*)的设置需要重载插件后生效。"
 	L["FontScale"] = "字体缩放"
 	L["ObjectiveTracker"] = "任务追踪"
+	L["AlertFrames"] = "通知窗口"
+	L["PetBattle"] = "宠物对战"
 elseif locale == "zhTW" then
 	L["Features"] = "模塊"
 	L["Bags"] = "背包"
@@ -30,6 +32,8 @@ elseif locale == "zhTW" then
 	L["Reload Text"] = "不帶星標(*)的設置需要重載插件後生效。"
 	L["FontScale"] = "字體縮放"
 	L["ObjectiveTracker"] = "任務追蹤"
+	L["AlertFrames"] = "通知視窗"
+	L["PetBattle"] = "寵物對戰"
 else
 	L["Features"] = "Features"
 	L["Bags"] = "Bags"
@@ -44,4 +48,6 @@ else
 	L["Reload Text"] = "Settings not marked with an asterisk (*) require a UI reload."
 	L["FontScale"] = "Font Scale"
 	L["ObjectiveTracker"] = "ObjectiveTracker"
+	L["AlertFrames"] = "Alert Frames"
+	L["PetBattle"] = "Pet Battles"
 end

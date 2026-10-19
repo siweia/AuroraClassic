@@ -28,6 +28,8 @@ local function reskinAuras(holder)
 end
 
 tinsert(C.defaultThemes, function()
+	if not AuroraClassicDB.PetBattle then return end
+
 	local frame = PetBattleFrame
 	local bottom = frame.BottomFrame
 
