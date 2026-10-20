@@ -73,10 +73,6 @@ local bu = CreateFrame("Button", nil, oncall, "UIPanelButtonTemplate")
 bu:SetSize(120, 25)
 bu:SetPoint("TOPLEFT", 20, -56)
 bu:SetText(SETTINGS)
-bu:SetScript("OnClick", function()
-	while CloseWindows() do end
-	SlashCmdList.AURORA()
-end)
 
 local gui = CreateFrame("Frame", "AuroraOptions", UIParent, "BackdropTemplate")
 gui.name = "AuroraClassic"
@@ -189,7 +185,13 @@ local function guiRefresh()
 end
 
 gui:RegisterEvent("ADDON_LOADED")
-gui:SetScript("OnEvent", function(self, _, addon)
+gui:RegisterEvent("PLAYER_REGEN_DISABLED")
+gui:SetScript("OnEvent", function(self, event, addon)
+	if event == "PLAYER_REGEN_DISABLED" then
+		self:Hide()
+		return
+	end
+
 	if addon ~= "AuroraClassic" then return end
 
 	-- fill 'old' table
@@ -266,9 +268,21 @@ fontSlider:SetScript("OnValueChanged", function(_, value)
 	fontValue:SetText(value)
 end)
 
--- easy slash command
+-- Settings button and slash command share the combat boundary.
 
-SlashCmdList.AURORA = function()
+local function toggleGUI(source)
+	if InCombatLockdown() then
+		DisplayInterfaceActionBlockedMessage()
+		return
+	end
+
+	if source == bu then
+		HideUIPanel(SettingsPanel)
+	end
+
 	ToggleFrame(gui)
 end
+
+bu:SetScript("OnClick", toggleGUI)
+SlashCmdList.AURORA = toggleGUI
 SLASH_AURORA1 = "/ac"
