@@ -37,6 +37,14 @@ local function reskinSectionHeader()
 end
 
 C.themes["Blizzard_EncounterJournal"] = function()
+	if AuroraClassicDB.Tooltips then
+		B.ReskinTooltip(EncounterJournalTooltip, true)
+		for _, item in ipairs({EncounterJournalTooltip.Item1, EncounterJournalTooltip.Item2}) do
+			item.bg = B.ReskinIcon(item.icon)
+			B.ReskinIconBorder(item.IconBorder, true)
+		end
+	end
+
 	-- Tabs
 	for i = 1, 7 do
 		local tab = EncounterJournal.Tabs[i]

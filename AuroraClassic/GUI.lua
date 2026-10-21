@@ -73,10 +73,6 @@ local bu = CreateFrame("Button", nil, oncall, "UIPanelButtonTemplate")
 bu:SetSize(120, 25)
 bu:SetPoint("TOPLEFT", 20, -56)
 bu:SetText(SETTINGS)
-bu:SetScript("OnClick", function()
-	while CloseWindows() do end
-	SlashCmdList.AURORA()
-end)
 
 local gui = CreateFrame("Frame", "AuroraOptions", UIParent, "BackdropTemplate")
 gui.name = "AuroraClassic"
@@ -116,13 +112,15 @@ local featuresList = {
 	[6] = {"Tooltips", L["Tooltips"]},
 	[7] = {"CooldownMgr", COOLDOWN_VIEWER_LABEL},
 	[8] = {"DamageMeter", DAMAGE_METER_LABEL},
+	[9] = {"AlertFrames", L["AlertFrames"]},
+	[10] = {"PetBattle", L["PetBattle"]},
 }
 for index, value in ipairs(featuresList) do
 	createToggleBox(gui, value[1], value[2], features, index)
 end
 
 local appearance = addSubCategory(gui, L["Appearance"])
-appearance:SetPoint("TOPLEFT", features, "BOTTOMLEFT", 0, -130)
+appearance:SetPoint("TOPLEFT", features, "BOTTOMLEFT", 0, -162)
 
 createToggleBox(gui, "FlatMode", L["FlatMode"], appearance, 1)
 
@@ -187,7 +185,13 @@ local function guiRefresh()
 end
 
 gui:RegisterEvent("ADDON_LOADED")
-gui:SetScript("OnEvent", function(self, _, addon)
+gui:RegisterEvent("PLAYER_REGEN_DISABLED")
+gui:SetScript("OnEvent", function(self, event, addon)
+	if event == "PLAYER_REGEN_DISABLED" then
+		self:Hide()
+		return
+	end
+
 	if addon ~= "AuroraClassic" then return end
 
 	-- fill 'old' table
@@ -264,9 +268,21 @@ fontSlider:SetScript("OnValueChanged", function(_, value)
 	fontValue:SetText(value)
 end)
 
--- easy slash command
+-- Settings button and slash command share the combat boundary.
 
-SlashCmdList.AURORA = function()
+local function toggleGUI(source)
+	if InCombatLockdown() then
+		DisplayInterfaceActionBlockedMessage()
+		return
+	end
+
+	if source == bu then
+		HideUIPanel(SettingsPanel)
+	end
+
 	ToggleFrame(gui)
 end
+
+bu:SetScript("OnClick", toggleGUI)
+SlashCmdList.AURORA = toggleGUI
 SLASH_AURORA1 = "/ac"

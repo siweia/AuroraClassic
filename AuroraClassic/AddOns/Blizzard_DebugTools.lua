@@ -32,6 +32,10 @@ local function reskinTableAttribute(frame)
 end
 
 C.themes["Blizzard_DebugTools"] = function()
+	if AuroraClassicDB.Tooltips then
+		B.ReskinTooltip(FrameStackTooltip, true)
+	end
+
 	-- Table Attribute Display
 	reskinTableAttribute(TableAttributeDisplay)
 	hooksecurefunc(TableInspectorMixin, "InspectTable", reskinTableAttribute)

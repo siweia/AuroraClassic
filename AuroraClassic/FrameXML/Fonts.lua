@@ -37,6 +37,11 @@ tinsert(C.defaultThemes, function()
 	CoreAbilityFont:SetTextColor(1, 1, 1)
 
 	if not AuroraClassicDB.FontOutline then return end
+	if AuroraClassicDB.Tooltips then
+		ReskinFont(GameTooltipHeaderText)
+		ReskinFont(GameTooltipText)
+		ReskinFont(GameTooltipTextSmall)
+	end
 
 	SetupRaidWarningFonts(RaidWarningFrame)
 	SetupRaidWarningFonts(CinematicFrame.BossEmoteFrame)

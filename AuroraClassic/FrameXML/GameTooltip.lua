@@ -8,12 +8,15 @@ tinsert(C.defaultThemes, function()
 		GameTooltip.StatusBar = GameTooltipStatusBar
 	end
 
-	local function ReskinStatusBar(self)
-		self.StatusBar:ClearAllPoints()
-		self.StatusBar:SetPoint("BOTTOMLEFT", self.bg, "TOPLEFT", C.mult, 3)
-		self.StatusBar:SetPoint("BOTTOMRIGHT", self.bg, "TOPRIGHT", -C.mult, 3)
+	local function ReskinStatusBar(self, preserveLayout)
+		-- Additional tooltip skins retain Blizzard's status-bar placement and height.
+		if not preserveLayout then
+			self.StatusBar:ClearAllPoints()
+			self.StatusBar:SetPoint("BOTTOMLEFT", self.bg, "TOPLEFT", C.mult, 3)
+			self.StatusBar:SetPoint("BOTTOMRIGHT", self.bg, "TOPRIGHT", -C.mult, 3)
+			self.StatusBar:SetHeight(5)
+		end
 		self.StatusBar:SetStatusBarTexture(DB.normTex)
-		self.StatusBar:SetHeight(5)
 		B.SetBD(self.StatusBar)
 	end
 
@@ -23,7 +26,7 @@ tinsert(C.defaultThemes, function()
 	local function __GetBackdropColor() return 0, 0, 0, .7 end
 	local function __GetBackdropBorderColor() return 0, 0, 0 end
 
-	function B:ReskinTooltip()
+	function B:ReskinTooltip(preserveStatusBarLayout)
 		if self:IsForbidden() then return end
 
 		if not self.auroraTip then
@@ -32,7 +35,7 @@ tinsert(C.defaultThemes, function()
 			self.bg = B.SetBD(self, .7)
 			self.bg:SetInside(self)
 			self.bg:SetFrameLevel(self:GetFrameLevel())
-			if self.StatusBar then ReskinStatusBar(self) end
+			if self.StatusBar then ReskinStatusBar(self, preserveStatusBarLayout) end
 
 			if self.GetBackdrop then
 				self.GetBackdrop = __GetBackdrop
@@ -111,6 +114,7 @@ tinsert(C.defaultThemes, function()
 	for _, tooltip in pairs(tooltips) do
 		B.ReskinTooltip(tooltip)
 	end
+	B.ReskinTooltip(GameSmallHeaderTooltip, true)
 
 	C_Timer.After(5, function()
 		-- BagSync
@@ -158,6 +162,15 @@ tinsert(C.defaultThemes, function()
 	FloatingBattlePetTooltip.Delimiter:SetColorTexture(0, 0, 0)
 	FloatingBattlePetTooltip.Delimiter:SetHeight(1)
 
+	-- Style created aura widgets without reading pet data or hiding debuff indicators.
+	hooksecurefunc("PetBattleUnitTooltip_UpdateForUnit", function(self)
+		for _, aura in ipairs(self.Debuffs.frames) do
+			if not aura.auroraIcon then
+				aura.auroraIcon = B.ReskinIcon(aura.Icon)
+			end
+		end
+	end)
+
 	-- Tooltip rewards icon
 	local function reskinRewardIcon(self)
 		self.Icon:SetTexCoord(unpack(DB.TexCoord))
@@ -169,19 +182,25 @@ tinsert(C.defaultThemes, function()
 	reskinRewardIcon(EmbeddedItemTooltip.ItemTooltip)
 
 	-- Other addons
+	C.themes["MythicDungeonTools"] = function()
+		-- MDT creates its named tooltips asynchronously, after its UI addon loads.
+		hooksecurefunc(TooltipBackdropTemplateMixin, "TooltipBackdropOnLoad", function(self)
+			if self == MDTModelTooltip or self == MDTPullTooltip then
+				B.ReskinTooltip(self)
+			end
+		end)
+		if MDTModelTooltip then
+			B.ReskinTooltip(MDTModelTooltip)
+		end
+		if MDTPullTooltip then
+			B.ReskinTooltip(MDTPullTooltip)
+		end
+	end
+
 	local listener = CreateFrame("Frame")
 	listener:RegisterEvent("ADDON_LOADED")
 	listener:SetScript("OnEvent", function(_, _, addon)
-		if addon == "MythicDungeonTools" then
-			local styledMDT
-			hooksecurefunc(MDT, "ShowInterface", function()
-				if not styledMDT then
-					B.ReskinTooltip(MDT.tooltip)
-					B.ReskinTooltip(MDT.pullTooltip)
-					styledMDT = true
-				end
-			end)
-		elseif addon == "BattlePetBreedID" then
+		if addon == "BattlePetBreedID" then
 			hooksecurefunc("BPBID_SetBreedTooltip", function(parent)
 				if parent == FloatingBattlePetTooltip then
 					B.ReskinTooltip(BPBID_BreedTooltip2)
