@@ -155,6 +155,7 @@ C.themes["Blizzard_AchievementUI"] = function()
 				child.Check:SetAlpha(0)
 
 				hooksecurefunc(child, "UpdatePlusMinusTexture", updateAccountString)
+				updateAccountString(child)
 				hooksecurefunc(child, "DisplayObjectives", updateProgressBars)
 
 				child.styled = true

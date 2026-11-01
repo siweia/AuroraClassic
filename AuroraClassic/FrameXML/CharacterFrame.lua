@@ -350,8 +350,8 @@ tinsert(C.defaultThemes, function()
 
 	local function handleCurrencyIcon(button)
 		local icon = button.CurrencyIcon
-		if icon then
-			B.ReskinIcon(icon)
+		if not icon.bg then
+			icon.bg = B.ReskinIcon(icon)
 		end
 	end
 	hooksecurefunc(CurrencyTransferLog.ScrollBox, "Update", function(self)

@@ -124,6 +124,34 @@ do
 		self:SetFont(DB.Font[1], size, DB.Font[3])
 	end
 
+	function B:ReplaceIconString(text)
+		if not text then text = self:GetText() end
+		if not text or text == "" then return end
+
+		local newText, count = gsub(text, "|T([^:]-):[%d+:]+|t", "|T%1:14:14:0:0:64:64:5:59:5:59|t")
+		if count > 0 then self:SetFormattedText("%s", newText) end
+	end
+
+	local function replaceCurrencyDisplay(self)
+		if not self.currencyID then return end
+		local text = GetCurrencyString(self.currencyID, self.amount, self.colorCode, self.abbreviate)
+		local newText, count = gsub(text, "|T([^:]-):[%d+:]+|t", "|T%1:14:14:0:0:64:64:5:59:5:59|t")
+		if count > 0 then self:SetText(newText) end
+	end
+
+	function B:SetCurrenciesHook()
+		if self.currencyFramePool then
+			for frame in self.currencyFramePool:EnumerateActive() do
+				if not frame.hooked then
+					replaceCurrencyDisplay(frame)
+					hooksecurefunc(frame, "SetCurrencyFromID", replaceCurrencyDisplay)
+
+					frame.hooked = true
+				end
+			end
+		end
+	end
+
 	-- Gradient texture
 	local orientationAbbr = {
 		["V"] = "Vertical",
@@ -1196,6 +1224,11 @@ end
 local old_SetupTextureCoordinates = BackdropTemplateMixin.SetupTextureCoordinates
 
 function BackdropTemplateMixin:SetupTextureCoordinates()
+	-- Tooltip backdrops can become inaccessible after their initial skin.
+	if B:IsSecretTable(self) then return end
+	local canAccess = self:CanBeAccessedInContext()
+	if B:IsSecretValue(canAccess) or not canAccess then return end
+
 	local width = self:GetWidth()
 	if B:IsSecretValue(width) then return end -- needs review
 	old_SetupTextureCoordinates(self)

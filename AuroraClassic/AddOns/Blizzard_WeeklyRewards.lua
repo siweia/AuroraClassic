@@ -3,16 +3,6 @@ local B, C, L, DB = unpack(ns)
 
 -- /run UIParent_OnEvent({}, "WEEKLY_REWARDS_SHOW")
 
-local function updateSelection(frame)
-	if not frame.bg then return end
-
-	if frame.SelectedTexture:IsShown() then
-		frame.bg:SetBackdropBorderColor(1, .8, 0)
-	else
-		frame.bg:SetBackdropBorderColor(0, 0, 0)
-	end
-end
-
 local iconColor = DB.QualityColors[Enum.ItemQuality.Epic or 4] -- epic color only
 local function reskinRewardIcon(itemFrame)
 	if not itemFrame.bg then
@@ -32,7 +22,6 @@ end
 local function ReskinActivityFrame(frame, isObject)
 	if frame.Border then
 		if isObject then
-			hooksecurefunc(frame, "SetSelectionState", updateSelection)
 			hooksecurefunc(frame.ItemFrame, "SetDisplayedItem", reskinRewardIcon)
 
 			if frame.SheenAnim then

@@ -171,14 +171,6 @@ local function reskinOutputButtons(self)
 				itemContainer.bg = B.CreateBDFrame(itemContainer.HighlightNameFrame, .25)
 			end
 
-			local bonus = child.CreationBonus
-			if bonus then
-				local item = bonus.Item
-				B.StripTextures(item, 1)
-				local icon = item:GetRegions()
-				B.ReskinIcon(icon)
-			end
-
 			child.styled = true
 		end
 

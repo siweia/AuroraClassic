@@ -16,7 +16,6 @@ tinsert(C.defaultThemes, function()
 		tab.Text:SetPoint("BOTTOM", 0, 4)
 	end
 	local function reskinSettingsTab(tab)
-		if not tab then return end
 		B.StripTextures(tab, 0)
 		resetTabAnchor(tab)
 		hooksecurefunc(tab, "OnSelected", resetTabAnchor)
@@ -189,31 +188,4 @@ tinsert(C.defaultThemes, function()
 			end
 		end
 	end)
-
-	local CUFPanels = {
-		"CompactUnitFrameProfiles",
-		"CompactUnitFrameProfilesGeneralOptionsFrame",
-	}
-	for _, name in pairs(CUFPanels) do
-		local frame = _G[name]
-		if frame then
-			for i = 1, frame:GetNumChildren() do
-				local child = select(i, frame:GetChildren())
-				if child:IsObjectType("CheckButton") then
-					B.ReskinCheck(child)
-				elseif child:IsObjectType("Button") then
-					B.Reskin(child)
-				elseif child:IsObjectType("Frame") and child.Left and child.Middle and child.Right then
-					B.ReskinDropDown(child)
-				end
-			end
-		end
-	end
-	if CompactUnitFrameProfilesSeparator then
-		CompactUnitFrameProfilesSeparator:SetAtlas("Options_HorizontalDivider")
-	end
-	if CompactUnitFrameProfilesGeneralOptionsFrameAutoActivateBG then
-		CompactUnitFrameProfilesGeneralOptionsFrameAutoActivateBG:Hide()
-		B.CreateBDFrame(CompactUnitFrameProfilesGeneralOptionsFrameAutoActivateBG, .25)
-	end
 end)

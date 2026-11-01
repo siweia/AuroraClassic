@@ -20,14 +20,17 @@ tinsert(C.defaultThemes, function()
 	B.Reskin(TradeFrameTradeButton)
 	B.Reskin(TradeFrameCancelButton)
 
+	-- Blizzard marks this frame forbidden during OnLoad; keep the legacy skin inactive.
+	--[[
 	if not TradePlayerInputMoneyFrame:IsForbidden() then
 		B.ReskinInput(TradePlayerInputMoneyFrameGold)
 		B.ReskinInput(TradePlayerInputMoneyFrameSilver)
 		B.ReskinInput(TradePlayerInputMoneyFrameCopper)
-	
+
 		TradePlayerInputMoneyFrameSilver:SetPoint("LEFT", TradePlayerInputMoneyFrameGold, "RIGHT", 1, 0)
 		TradePlayerInputMoneyFrameCopper:SetPoint("LEFT", TradePlayerInputMoneyFrameSilver, "RIGHT", 1, 0)
 	end
+	]]
 
 	local function reskinButton(bu)
 		bu:SetNormalTexture(0)

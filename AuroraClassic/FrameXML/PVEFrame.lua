@@ -57,8 +57,5 @@ tinsert(C.defaultThemes, function()
 		B.ReskinDropDown(ScenarioQueueFrameTypeDropdown)
 		B.Reskin(ScenarioQueueFrameFindGroupButton)
 		B.ReskinTrimScroll(ScenarioQueueFrameRandomScrollFrame.ScrollBar)
-		if ScenarioQueueFrameRandomScrollFrameScrollBar then
-			ScenarioQueueFrameRandomScrollFrameScrollBar:SetAlpha(0)
-		end
 	end
 end)

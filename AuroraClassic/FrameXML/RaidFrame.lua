@@ -17,7 +17,6 @@ tinsert(C.defaultThemes, function()
 	B.Reskin(RaidInfoCancelButton)
 	B.ReskinClose(RaidInfoCloseButton)
 	B.ReskinTrimScroll(RaidInfoFrame.ScrollBar)
-	B.ReskinClose(RaidParentFrameCloseButton)
 
 	B.ReskinPortraitFrame(RaidParentFrame)
 	RaidInfoInstanceLabel:DisableDrawLayer("BACKGROUND")

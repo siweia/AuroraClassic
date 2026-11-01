@@ -2,12 +2,16 @@ local _, ns = ...
 local B, C, L, DB = unpack(ns)
 
 local function ReskinChatScroll(self)
+	if self.chatScrollStyled then return end
+
 	B.ReskinTrimScroll(self.ScrollBar)
 
 	B.StripTextures(self.ScrollToBottomButton)
 	local flash = self.ScrollToBottomButton.Flash
 	B.SetupArrow(flash, "down")
 	flash:SetVertexColor(1, .8, 0)
+
+	self.chatScrollStyled = true
 end
 
 tinsert(C.defaultThemes, function()
@@ -71,6 +75,7 @@ tinsert(C.defaultThemes, function()
 	for i = 1, NUM_CHAT_WINDOWS do
 		ReskinChatScroll(_G["ChatFrame"..i])
 	end
+	hooksecurefunc("FCF_SetTemporaryWindowType", ReskinChatScroll)
 
 	-- ChannelFrame
 	B.ReskinPortraitFrame(ChannelFrame)

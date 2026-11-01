@@ -78,13 +78,6 @@ C.themes["Blizzard_PlayerSpells"] = function()
 	if dialog then
 		reskinTalentFrameDialog(dialog)
 
-		local editbox = dialog.LoadoutName
-		if editbox then
-			B.ReskinEditBox(editbox)
-			editbox.__bg:SetPoint("TOPLEFT", -5, -5)
-			editbox.__bg:SetPoint("BOTTOMRIGHT", 5, 5)
-		end
-
 		local check = dialog.UsesSharedActionBars
 		if check then
 			B.ReskinCheck(check.CheckButton)

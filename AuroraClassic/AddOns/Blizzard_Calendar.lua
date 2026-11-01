@@ -85,21 +85,6 @@ C.themes["Blizzard_Calendar"] = function()
 	ReskinCalendarPage(CalendarEventPickerFrame)
 	ReskinCalendarPage(CalendarViewRaidFrame)
 
-	local frames = {
-		CalendarViewEventTitleFrame,
-		CalendarViewHolidayTitleFrame,
-		CalendarViewRaidTitleFrame,
-		CalendarCreateEventTitleFrame,
-		CalendarTexturePickerTitleFrame,
-		CalendarMassInviteTitleFrame
-	}
-	for _, titleFrame in next, frames do
-		B.StripTextures(titleFrame)
-		local parent = titleFrame:GetParent()
-		B.StripTextures(parent)
-		B.SetBD(parent)
-	end
-
 	CalendarWeekdaySelectedTexture:SetDesaturated(true)
 	CalendarWeekdaySelectedTexture:SetVertexColor(r, g, b)
 

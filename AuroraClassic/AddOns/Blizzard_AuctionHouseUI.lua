@@ -91,8 +91,6 @@ local function reskinListHeader(frame)
 			header.bg:SetPoint("BOTTOMRIGHT", i < maxHeaders and -5 or 0, -2)
 		end
 	end
-
-	reskinListIcon(frame)
 end
 
 local function reskinSellList(frame, hasHeader)
@@ -104,6 +102,9 @@ local function reskinSellList(frame, hasHeader)
 	if hasHeader then
 		B.CreateBDFrame(frame.ScrollBox, .25)
 		hooksecurefunc(frame, "RefreshScrollFrame", reskinListHeader)
+		hooksecurefunc(frame.ScrollBox, "Update", function()
+			reskinListIcon(frame)
+		end)
 	else
 		hooksecurefunc(frame.ScrollBox, "Update", reskinSummaryButtons)
 	end
@@ -136,6 +137,16 @@ local function reskinItemList(frame, hasHeader)
 	end
 	if hasHeader then
 		hooksecurefunc(frame, "RefreshScrollFrame", reskinListHeader)
+		hooksecurefunc(frame.ScrollBox, "Update", function()
+			reskinListIcon(frame)
+		end)
+	end
+end
+
+local function reskinBidFrame(frame)
+	for _, box in ipairs({frame.BidAmount.gold, frame.BidAmount.silver}) do
+		box:DisableDrawLayer("BACKGROUND")
+		B.ReskinInput(box)
 	end
 end
 
@@ -174,10 +185,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 	B.Reskin(itemBuyFrame.BuyoutFrame.BuyoutButton)
 	reskinItemDisplay(itemBuyFrame.ItemDisplay)
 	reskinItemList(itemBuyFrame.ItemList, true)
-	if BidAmountGold then
-		B.ReskinInput(BidAmountGold)
-		B.ReskinInput(BidAmountSilver)
-	end
+	reskinBidFrame(itemBuyFrame.BidFrame)
 
 	local commBuyFrame = AuctionHouseFrame.CommoditiesBuyFrame
 	B.Reskin(commBuyFrame.BackButton)
@@ -226,6 +234,7 @@ C.themes["Blizzard_AuctionHouseUI"] = function()
 	B.ReskinTab(AuctionHouseFrameAuctionsFrameBidsTab)
 	B.Reskin(AuctionHouseFrameAuctionsFrame.CancelAuctionButton)
 	B.Reskin(AuctionHouseFrameAuctionsFrame.BidFrame.BidButton)
+	reskinBidFrame(AuctionHouseFrameAuctionsFrame.BidFrame)
 	B.Reskin(AuctionHouseFrameAuctionsFrame.BuyoutFrame.BuyoutButton)
 
 	local buyDialog = AuctionHouseFrame.BuyDialog
